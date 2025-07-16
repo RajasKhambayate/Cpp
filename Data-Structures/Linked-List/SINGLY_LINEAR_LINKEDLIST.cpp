@@ -172,6 +172,13 @@ SINGLY_LINEAR_LINKEDLIST::~SINGLY_LINEAR_LINKEDLIST()
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_LINEAR_LINKEDLIST::Display()
 {
+    if(pHead == NULL)
+    {
+        printf("Linkedlist is empty\n");
+        printf("NULL\n");
+        return;
+    }
+
     cout<<"Elements from linked list are : "<<endl<<endl;
     PsNODE ptemp = pHead;
 
