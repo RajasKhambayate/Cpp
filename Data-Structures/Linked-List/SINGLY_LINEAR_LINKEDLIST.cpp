@@ -264,6 +264,7 @@ void SINGLY_LINEAR_LINKEDLIST::InsertFirst(int iNo)
 //================================================================================================//
 //Local variables:                                                                                //
 //1. PsNODE : Pointer to the new node .                                                           //
+//2. PsNODE : Temporary pointer for traversal                                                     //
 //================================================================================================//
 //Algorithm:                                                                                      //
 //1. Allocate memory for the new node .                                                           //
