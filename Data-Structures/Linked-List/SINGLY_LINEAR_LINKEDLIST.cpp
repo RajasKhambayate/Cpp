@@ -158,7 +158,7 @@ SINGLY_LINEAR_LINKEDLIST::~SINGLY_LINEAR_LINKEDLIST()
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//Display() Function: Displays the entire singly linear linked list .                             //
+//Display() Function: Displays the entire singly circular linked list .                           //
 //================================================================================================//
 //Parameters: None                                                                                //
 //================================================================================================//
