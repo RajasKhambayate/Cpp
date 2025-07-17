@@ -176,7 +176,7 @@ SINGLY_CIRCULAR_LINKEDLIST::~SINGLY_CIRCULAR_LINKEDLIST()
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_CIRCULAR_LINKEDLIST::Display()
 {
-    if((pHead == NULL) && (pTail == NULL))
+    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
     {
         printf("Linkedlist is empty\n");
         printf("NULL\n");
