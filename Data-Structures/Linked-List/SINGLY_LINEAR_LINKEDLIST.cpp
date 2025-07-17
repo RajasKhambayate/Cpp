@@ -995,12 +995,12 @@ void SINGLY_LINEAR_LINKEDLIST::InsertAfter(int iNo,int iPosition)
     {
         //InsertLast(pHead,iNo); ---> Can be used
 
-        while(ptemp ->pNext != NULL)
+        while(ptemp -> pNext != NULL)
         {
-            ptemp = ptemp ->pNext;
+            ptemp = ptemp -> pNext;
         }
 
-        ptemp ->pNext = PsNewNode;
+        ptemp -> pNext = PsNewNode;
 
         ptemp = NULL;;//Freeing the temporary pointer
     }
