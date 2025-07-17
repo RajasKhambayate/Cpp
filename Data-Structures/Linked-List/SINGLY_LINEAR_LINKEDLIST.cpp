@@ -434,6 +434,8 @@ void SINGLY_LINEAR_LINKEDLIST::DeleteFirst()
     {
         cout<<"Node with data "<<(pHead) -> iData<<" deleted from the beginning of the singly linear linked list"<<endl;
 
+        free(pTail);
+        pTail = NULL:
         free(pHead);
         pHead = NULL;
     }
@@ -479,6 +481,8 @@ void SINGLY_LINEAR_LINKEDLIST::DeleteLast()
     {
         cout<<"Node with data "<<(pHead) -> iData<<" deleted from the end of the singly linear linked list"<<endl;
 
+        free(pTail);
+        pTail = NULL;
         free(pHead);
         pHead = NULL;
     }
