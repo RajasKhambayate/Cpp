@@ -678,6 +678,7 @@ bool SINGLY_LINEAR_LINKEDLIST::Search(int iSearch)
         iPosition++;
     }
 
+    cout<<"Element "<<iSearch<<" not found in singly circular linked list"<<endl;
     return false;
 }
 
