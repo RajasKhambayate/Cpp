@@ -6,7 +6,7 @@
 //the implementation of Singly Circular Linked List .                                             //
 //================================================================================================//
 //Language: C++                                                                                   //
-//Compiler : GNU GCC/G++                                                                          //
+//Compiler : GNU GCC                                                                              //
 //IDE: Visual Studio code                                                                         //
 //================================================================================================//
 //Author/Coder: Rajas Khambayate                                                                  //
@@ -119,6 +119,7 @@ class SINGLY_CIRCULAR_LINKEDLIST
 SINGLY_CIRCULAR_LINKEDLIST::SINGLY_CIRCULAR_LINKEDLIST()
 {
     pHead = NULL;
+    pTail = NULL
     iCountNode = 0;
 }
 
@@ -126,6 +127,7 @@ SINGLY_CIRCULAR_LINKEDLIST::SINGLY_CIRCULAR_LINKEDLIST()
 SINGLY_CIRCULAR_LINKEDLIST::~SINGLY_CIRCULAR_LINKEDLIST()
 {
     delete pHead;
+    delete pTail;
     iCountNode = 0;
 }
 
