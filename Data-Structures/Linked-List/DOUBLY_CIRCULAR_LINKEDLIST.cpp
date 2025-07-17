@@ -6,7 +6,7 @@
 //program demonstrates the implementation of Doubly Circular Linked List .                        //
 //================================================================================================//
 //Language: C++                                                                                   //
-//Compiler : GNU GCC/G++                                                                          //
+//Compiler : GNU GCC                                                                              //
 //IDE: Visual Studio code                                                                         //
 //================================================================================================//
 //Author/Coder: Rajas Khambayate                                                                  //
@@ -120,6 +120,7 @@ class DOUBLY_CIRCULAR_LINKEDLIST
 DOUBLY_CIRCULAR_LINKEDLIST::DOUBLY_CIRCULAR_LINKEDLIST()
 {
     pHead = NULL;
+    pTail = NULL
     iCountNode = 0;
 }
 
@@ -127,6 +128,7 @@ DOUBLY_CIRCULAR_LINKEDLIST::DOUBLY_CIRCULAR_LINKEDLIST()
 DOUBLY_CIRCULAR_LINKEDLIST::~DOUBLY_CIRCULAR_LINKEDLIST()
 {
     delete pHead;
+    delete pTail;
     iCountNode = 0;
 }
 
