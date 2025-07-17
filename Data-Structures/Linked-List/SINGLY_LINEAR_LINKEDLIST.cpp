@@ -6,7 +6,7 @@
 //the implementation of Singly Linear Linked List .                                               //
 //================================================================================================//
 //Language: C++                                                                                   //
-//Compiler : GNU GCC/G++                                                                          //
+//Compiler : GNU GCC                                                                              //
 //IDE: Visual Studio code                                                                         //
 //================================================================================================//
 //Author/Coder: Rajas Khambayate                                                                  //
