@@ -172,7 +172,7 @@ SINGLY_LINEAR_LINKEDLIST::~SINGLY_LINEAR_LINKEDLIST()
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_LINEAR_LINKEDLIST::Display()
 {
-    if(pHead == NULL)
+    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
     {
         printf("Linkedlist is empty\n");
         printf("NULL\n");
