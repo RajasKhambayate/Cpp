@@ -1721,6 +1721,8 @@ int main()
     int iPosition1 = 0;//Variable to store the position of the node
     int iExitMode = 0;//Variable to store the exit mode of the application
 
+    bool bRet = false;
+
     cout<<"Welcome to Rajas's Application of Singly-Circular-LinkedList"<<endl<<endl;
 
     while(1)
@@ -1862,7 +1864,7 @@ int main()
                         cout<<"Enter the value to be searched in the linked list : ";
                         cin>>iNo1;
 
-                        SinglyCircularLL.Search(iNo1);
+                        bRet = SinglyCircularLL.Search(iNo1);
 
                         break;
                     case 'J':
