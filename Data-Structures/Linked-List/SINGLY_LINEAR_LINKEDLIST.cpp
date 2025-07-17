@@ -1682,6 +1682,8 @@ int main()
     int iPosition1 = 0;//Variable to store the position of the node
     int iExitMode = 0;//Variable to store the exit mode of the application
 
+    bool bRet = false;
+
     cout<<"Welcome to Rajas's Application of Singly-Linear-LinkedList"<<endl<<endl;
 
     while(1)
@@ -1823,7 +1825,7 @@ int main()
                         cout<<"Enter the value to be searched in the linked list : ";
                         cin>>iNo1;
 
-                        SinglyLinearLL.Search(iNo1);
+                        bRet = SinglyLinearLL.Search(iNo1);
 
                         break;
                     case 'J':
