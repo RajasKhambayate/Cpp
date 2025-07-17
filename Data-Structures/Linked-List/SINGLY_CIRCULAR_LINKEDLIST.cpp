@@ -573,7 +573,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteAtPosition(int iPosition)
 
     if((iCountNode == 1) && (pHead == pTail))
     {
-        cout<<"Node with data "<<(pHead) -> iData<<" deleted from the singly linear linked list"<<endl;
+        cout<<"Node with data "<<(pHead) -> iData<<" deleted from the singly circular linked list"<<endl;
 
         pTail = NULL;
         free(pHead);
@@ -583,7 +583,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteAtPosition(int iPosition)
     {
         pHead = pHead -> pNext;
 
-        cout<<"Node with data "<<pTail -> pNext -> iData<<" deleted from the beginning of the singly linear linked list"<<endl;
+        cout<<"Node with data "<<pTail -> pNext -> iData<<" deleted from the beginning of the singly circular linked list"<<endl;
 
         free(pTail -> pNext);
         pTail -> pNext = pHead;
@@ -597,7 +597,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteAtPosition(int iPosition)
             ptempdelete = ptempdelete -> pNext;
         }
 
-        cout<<"Node with data "<<ptempdelete -> pNext -> iData<<" deleted from the end of the singly linear linked list"<<endl;
+        cout<<"Node with data "<<ptempdelete -> pNext -> iData<<" deleted from the end of the singly circular linked list"<<endl;
 
         free(ptempdelete -> pNext);
         pTail = ptempdelete;
@@ -616,7 +616,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteAtPosition(int iPosition)
         ptempdelete = ptemp -> pNext;
         ptemp -> pNext = ptemp -> pNext -> pNext;
 
-        cout<<"Node with data "<<ptempdelete -> iData<<" deleted from "<<iPosition<<" position from singly linear linked list"<<endl;
+        cout<<"Node with data "<<ptempdelete -> iData<<" deleted from "<<iPosition<<" position from singly circular linked list"<<endl;
 
         free(ptempdelete);
     }
