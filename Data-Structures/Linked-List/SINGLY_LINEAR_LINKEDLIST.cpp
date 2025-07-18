@@ -366,7 +366,7 @@ void SINGLY_LINEAR_LINKEDLIST::InsertAtPosition(int iNo,int iPosition)
 
         return;
     }
-    else if(iCountNode == 0)//If linkedlist is empty
+    else if((iCountNode == 0) && (pHead == NULL))//If linkedlist is empty
     {
         pHead = PsNewNode;
     }
