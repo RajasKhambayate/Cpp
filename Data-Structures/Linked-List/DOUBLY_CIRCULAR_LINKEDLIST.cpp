@@ -6,7 +6,7 @@
 //program demonstrates the implementation of Doubly Circular Linked List .                        //
 //================================================================================================//
 //Language: C++                                                                                   //
-//Compiler : GNU GCC                                                                              //
+//Compiler : GNU G++                                                                              //
 //IDE: Visual Studio code                                                                         //
 //================================================================================================//
 //Author/Coder: Rajas Khambayate                                                                  //
