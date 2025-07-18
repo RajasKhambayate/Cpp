@@ -378,7 +378,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertAtPosition(int iNo,int iPosition)
 
         return;
     }
-    else if(iCountNode == 0)//If linkedlist is empty
+    else if((iCountNode == 0) && (pHead == NULL))//If linkedlist is empty
     {
         pHead = PsNewNode;
         pTail = PsNewNode;
