@@ -1418,7 +1418,7 @@ void DOUBLY_CIRCULAR_LINKEDLIST::Reverse()
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//FindMiddleNode() Function: returns the middle node from the doubly linear linked list .         //
+//FindMiddleNode() Function: returns the middle node from the doubly circular linked list .       //
 //================================================================================================//
 //Parameters: None                                                                                //
 //================================================================================================//
