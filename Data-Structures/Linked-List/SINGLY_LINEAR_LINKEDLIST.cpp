@@ -858,7 +858,8 @@ void SINGLY_LINEAR_LINKEDLIST::Concat()
 //================================================================================================//
 //Local variables:                                                                                //
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
-//2. int : Counter variable .                                                                     //
+//2. PsNODE : Pointer to store the new node                                                       //
+//3. int : Counter variable .                                                                     //
 //================================================================================================//
 //Algorithm:                                                                                      //
 //1. If the linked list is empty, display a message that the linked list is empty.                //
