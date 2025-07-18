@@ -120,7 +120,7 @@ class DOUBLY_CIRCULAR_LINKEDLIST
 DOUBLY_CIRCULAR_LINKEDLIST::DOUBLY_CIRCULAR_LINKEDLIST()
 {
     pHead = NULL;
-    pTail = NULL
+    pTail = NULL;
     iCountNode = 0;
 }
 
