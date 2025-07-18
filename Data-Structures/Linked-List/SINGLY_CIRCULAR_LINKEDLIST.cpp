@@ -119,7 +119,7 @@ class SINGLY_CIRCULAR_LINKEDLIST
 SINGLY_CIRCULAR_LINKEDLIST::SINGLY_CIRCULAR_LINKEDLIST()
 {
     pHead = NULL;
-    pTail = NULL
+    pTail = NULL;
     iCountNode = 0;
 }
 
@@ -444,7 +444,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteFirst()
     {
         cout<<"Node with data "<<(pHead) -> iData<<" deleted from the beginning of the singly circular linked list"<<endl;
 
-        free(pTail)
+        free(pTail);
         pTail = NULL;
         free(pHead);
         pHead = NULL;
