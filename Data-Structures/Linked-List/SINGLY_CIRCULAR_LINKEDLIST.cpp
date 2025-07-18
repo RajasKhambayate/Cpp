@@ -1373,7 +1373,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::Reverse()
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//FindMiddleNode() Function: returns the middle node from the singly linear linked list .         //
+//FindMiddleNode() Function: returns the middle node from the singly circular linked list .       //
 //================================================================================================//
 //Parameters: None                                                                                //
 //================================================================================================//
