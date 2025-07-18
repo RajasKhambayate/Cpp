@@ -422,7 +422,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertAtPosition(int iNo,int iPosition)
 //================================================================================================//
 //Return: void                                                                                    //
 //================================================================================================//
-//Local variables: None                                                                               //
+//Local variables: None                                                                           //
 //================================================================================================//
 //Algorithm:                                                                                      //
 //1. If the linked list is empty, display a message that the linked list is empty and return .    //
