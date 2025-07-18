@@ -1107,7 +1107,7 @@ void DOUBLY_CIRCULAR_LINKEDLIST::InsertAfter(int iNo,int iPosition)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void DOUBLY_CIRCULAR_LINKEDLIST::DeleteBefore(int iPosition)
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == 0))
+    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
     {
         cout<<"linkedlist are empty"<<endl;
         return;
