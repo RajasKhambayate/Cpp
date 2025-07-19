@@ -180,8 +180,8 @@ void SINGLY_CIRCULAR_LINKEDLIST::Display()
 {
     if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
     {
-        printf("Linkedlist is empty\n");
-        printf("NULL\n");
+        cout<<"Linkedlist is empty"<<endl;
+        cout<<"NULL"<<endl;
         return;
     }
 
@@ -950,6 +950,8 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertBefore(int iNo,int iPosition)
     pTail -> pNext = pHead;
 
     iCountNode++;
+
+    cout<<"Node with data "<<iNo<<" inserted at the position "<<iPosition<<" of the singly circular linked list"<<endl;
 }
 
 
@@ -1040,6 +1042,8 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertAfter(int iNo,int iPosition)
     pTail -> pNext = pHead;
 
     iCountNode++;
+
+    cout<<"Node with data "<<iNo<<" inserted at the position "<<(iPosition + 1)<<" of the singly circular linked list"<<endl;
 }
 
 
@@ -1514,9 +1518,9 @@ PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindKthNodeFromMiddle()
 
     if((iKth < 1) || (iKth >= ((iCountNode + 1)/2)))
     {
-        printf("Invalid position\n");
+        cout<<"Invalid position"<<endl;
 
-        printf("Wrong input, call function again .\n");
+        cout<<"Wrong input, call function again ."<<endl;
 
         return NULL;
     }
@@ -1559,7 +1563,7 @@ PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindKthNodeFromMiddle()
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //FindKthNodeFromEnd() Function: returns the kth node from end from singly linear linkedlist .    //
 //================================================================================================//
-//Parameters: None                                                                                    //
+//Parameters: None                                                                                //
 //================================================================================================//
 //Return: PsNODE                                                                                  //
 //================================================================================================//
@@ -1641,69 +1645,69 @@ PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindKthNodeFromEnd()
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_CIRCULAR_LINKEDLIST::Manual()
 {
-    printf("::::MANUAL FOR RAJAS's SINGLY CIRCULAR LINKED LIST APPLICATION::::\n\n\n");
+    cout<<"::::MANUAL FOR RAJAS's SINGLY CIRCULAR LINKED LIST APPLICATION::::"<<endl<<endl<<endl;
 
 
 
-    printf("-----Below are functionalities provided for simple access of linked list(After entering 2 in ModeSelection stage)-----\n\n");
+    cout<<"-----Below are functionalities provided for simple access of linked list(After entering 2 in ModeSelection stage)-----"<<endl<<endl<<endl;
 
-    printf("INSERTION\n");
-    printf("For Inserting data at FIRST      position : press A\n");
-    printf("For Inserting data at LAST       position : press B\n");
-    printf("For Inserting data at SPECIFIC   position : press C\n\n");
+    cout<<"INSERTION"<<endl;
+    cout<<"For Inserting data at FIRST      position : press A"<<endl;
+    cout<<"For Inserting data at LAST       position : press B"<<endl;
+    cout<<"For Inserting data at SPECIFIC   position : press C"<<endl<<endl;
 
-    printf("DELETION\n");
-    printf("For Deleting  data at  First     position : press D\n");
-    printf("For Deleting  data at  LAST      position : press E\n");
-    printf("For Deleting  data at  SPECIFIC  position : press F\n\n");
+    cout<<"DELETION"<<endl;
+    cout<<"For Deleting  data at  First     position : press D"<<endl;
+    cout<<"For Deleting  data at  LAST      position : press E"<<endl;
+    cout<<"For Deleting  data at  SPECIFIC  position : press F"<<endl<<endl;
 
-    printf("COUNT\n");
-    printf("To Count no. of nodes in linked list      : press G\n");
+    cout<<"COUNT"<<endl;
+    cout<<"To Count no. of nodes in linked list      : press G"<<endl<<endl;
 
-    printf("DISPLAY\n");
-    printf("To View data in linked list               : press H\n\n\n");
-
-
-    printf("-----Below are functionalities provided for added features of linked list(After entering 3 in ModeSelection stage)-----\n\n");
-
-    printf("SEARCHING AND MERGING\n");
-    printf("To Search a Specific Value in linkedlist  : press I\n");
-    printf("To Reverse the linkedList                 : press J\n");
-    printf("To Concatenate two linkedlists            : press K\n");
-    printf("To Sort the linkedlist                    : press M\n\n");
-
-    printf("UPDATING\n");
-    printf("To Update value with a unique value in LL : press N\n");
-    printf("To Update value at a position in LL       : press O\n\n");
-
-    printf("INSERTION 2\n");
-    printf("To Insert a node before a specific node   : press P\n");
-    printf("To Insert a node after a specific node    : press Q\n\n");
-
-    printf("DELETION 2\n");
-    printf("To Delete a node before a specific node   : press R\n");
-    printf("To Delete a node after a specific node    : press S\n");
-    printf("To Delete the entire linkedlist           : press T\n\n");
-
-    printf("FINDING\n");
-    printf("To Find middle node of LL                 : press V\n");
-    printf("To Find kth node from start of LL         : press X\n");
-    printf("To Find kth node from middle of LL        : press Y\n");
-    printf("To Find kth node from end of LL           : press Z\n\n");
-
-    printf("COUNT\n");
-    printf("To Count no. of nodes in linked list      : press G\n\n");
-
-    printf("DISPLAY\n");
-    printf("To View data in linked list               : press H\n\n\n");
+    cout<<"DISPLAY"<<endl;
+    cout<<"To View data in linked list               : press H"<<endl<<endl;
 
 
-    printf("Below are the modes in which you can operate\n\n");
+    cout<<"-----Below are functionalities provided for added features of linked list(After entering 3 in ModeSelection stage)-----"<<endl<<endl;
 
-    printf("For Manual                      : press 1\n");
-    printf("For Simple Access of linkedlist : press 2\n");
-    printf("For use of Added features       : press 3\n");
-    printf("To exit the LinkedList App      : press 4\n\n");
+    cout<<"SEARCHING AND MERGING"<<endl;
+    cout<<"To Search a Specific Value in linkedlist  : press I"<<endl;
+    cout<<"To Reverse the linkedList                 : press J"<<endl;
+    cout<<"To Concatenate two linkedlists            : press K"<<endl;
+    cout<<"To Sort the linkedlist                    : press M"<<endl<<endl;
+
+    cout<<"UPDATING"<<endl;
+    cout<<"To Update value with a unique value in LL : press N"<<endl;
+    cout<<"To Update value at a position in LL       : press O"<<endl<<endl;
+
+    cout<<"INSERTION 2"<<endl;
+    cout<<"To Insert a node before a specific node   : press P"<<endl;
+    cout<<"To Insert a node after a specific node    : press Q"<<endl<<endl;
+
+    cout<<"DELETION 2"<<endl;
+    cout<<"To Delete a node before a specific node   : press R"<<endl;
+    cout<<"To Delete a node after a specific node    : press S"<<endl;
+    cout<<"To Delete the entire linkedlist           : press T"<<endl<<endl;
+
+    cout<<"FINDING"<<endl;
+    cout<<"To Find middle node of LL                 : press V"<<endl;
+    cout<<"To Find kth node from start of LL         : press X"<<endl;
+    cout<<"To Find kth node from middle of LL        : press Y"<<endl;
+    cout<<"To Find kth node from end of LL           : press Z"<<endl<<endl;
+
+    cout<<"COUNT"<<endl;
+    cout<<"To Count no. of nodes in linked list      : press G"<<endl<<endl;
+
+    cout<<"DISPLAY"<<endl;
+    cout<<"To View data in linked list               : press H"<<endl<<endl<<endl;
+
+
+    cout<<"Below are the modes in which you can operate"<<endl<<endl;
+
+    cout<<"For Manual                      : press 1"<<endl;
+    cout<<"For Simple Access of linkedlist : press 2"<<endl;
+    cout<<"For use of Added features       : press 3"<<endl;
+    cout<<"To exit the LinkedList App      : press 4"<<endl<<endl;
 }
 
 
