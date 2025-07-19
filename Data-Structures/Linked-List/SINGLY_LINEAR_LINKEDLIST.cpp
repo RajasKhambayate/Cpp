@@ -172,7 +172,7 @@ SINGLY_LINEAR_LINKEDLIST::~SINGLY_LINEAR_LINKEDLIST()
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_LINEAR_LINKEDLIST::Display()
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
+    if((iCountNode == 0) && (pHead == NULL))
     {
         cout<<"Linkedlist is empty"<<endl;
         cout<<"NULL"<<endl;
@@ -434,8 +434,6 @@ void SINGLY_LINEAR_LINKEDLIST::DeleteFirst()
     {
         cout<<"Node with data "<<(pHead) -> iData<<" deleted from the beginning of the singly linear linked list"<<endl;
 
-        free(pTail);
-        pTail = NULL:
         free(pHead);
         pHead = NULL;
     }
@@ -481,8 +479,6 @@ void SINGLY_LINEAR_LINKEDLIST::DeleteLast()
     {
         cout<<"Node with data "<<(pHead) -> iData<<" deleted from the end of the singly linear linked list"<<endl;
 
-        free(pTail);
-        pTail = NULL;
         free(pHead);
         pHead = NULL;
     }
