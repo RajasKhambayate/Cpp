@@ -523,9 +523,9 @@ void DOUBLY_LINEAR_LINKEDLIST::DeleteLast()
             ptemp = ptemp -> pNext;
         }
 
-        cout<<"Node with data "<<ptemp -> pNext -> pNext -> iData<<" deleted from the end of the doubly linear linked list"<<endl;
+        cout<<"Node with data "<<ptemp -> pNext -> iData<<" deleted from the end of the doubly linear linked list"<<endl;
 
-        free(ptemp -> pNext -> pNext);
+        free(ptemp -> pNext);
         ptemp -> pNext = NULL;
     }
 
