@@ -3,7 +3,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //Description: Singly Linear Linked-List is a type of linked-list where each node points to the   //
 //Next node in the sequence while keeping the ends pointing to NULL. This program demonstrates    //
-//the implementation of Singly Linear Linked List .                                               //
+//the implementation of Generic Singly Linear Linked List .                                       //
 //================================================================================================//
 //Language: C++                                                                                   //
 //Compiler : GNU G++                                                                              //
