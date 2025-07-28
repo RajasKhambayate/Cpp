@@ -284,7 +284,7 @@ void SINGLY_LINEAR_LINKEDLIST::InsertLast(int iNo)
     PsNewNode -> iData = iNo;
     PsNewNode -> pNext = NULL;
 
-    if(iCountNode == 1)//If linkedlist is empty(pHead == NULL)
+    if(iCountNode == 0)//If linkedlist is empty(pHead == NULL)
     {
         pHead = PsNewNode;
     }
