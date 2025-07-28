@@ -297,7 +297,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertLast(int iNo)
     PsNewNode -> iData = iNo;
     PsNewNode -> pNext = NULL;
 
-    if(iCountNode == 1)//If linkedlist is empty((pHead == NULL) && (pTail == NULL))
+    if(iCountNode == 0)//If linkedlist is empty((pHead == NULL) && (pTail == NULL))
     {
         pHead = PsNewNode;
         pTail = PsNewNode;
