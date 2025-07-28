@@ -319,7 +319,7 @@ void DOUBLY_CIRCULAR_LINKEDLIST::InsertLast(int iNo)
     PsNewNode -> pNext = NULL;
     PsNewNode -> pPrev = NULL;
 
-    if((iCountNode == 1) && (pHead == NULL) && (pTail == NULL))//If linkedlist is empty((pHead == NULL) && (pTail == NULL))
+    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))//If linkedlist is empty((pHead == NULL) && (pTail == NULL))
     {
         pHead = PsNewNode;
         pTail = PsNewNode;
