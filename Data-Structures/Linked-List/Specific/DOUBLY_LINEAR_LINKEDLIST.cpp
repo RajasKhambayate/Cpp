@@ -308,7 +308,7 @@ void DOUBLY_LINEAR_LINKEDLIST::InsertLast(int iNo)
     PsNewNode -> pNext = NULL;
     PsNewNode -> pPrev = NULL;
 
-    if((iCountNode == 1) && ((pHead -> pNext) = NULL))//If linkedlist is empty(pHead == NULL)
+    if(iCountNode == 0)//If linkedlist is empty(pHead == NULL)
     {
         pHead = PsNewNode;
     }
