@@ -35,7 +35,7 @@ using namespace std;
 //3================================================================================================//
 
 template<class Generic>
-struct sNode//Structure declaration for node in Singly Linear Linked List
+struct sNode//Structure declaration for node in Generic Singly Linear Linked List
 {
     Generic gData;//Data of the node
     struct sNode<Generic> *pNext;//Pointer to the next node in the linked list
@@ -243,7 +243,7 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::InsertFirst(Generic gNo)
     PsNewNode -> gData = gNo;
     PsNewNode -> pNext = NULL;
 
-    if(iCountNode == 0)//If linkedlist is empty(pHead == NULL)
+    if((iCountNode == 0) && (pHead == NULL))//If linkedlist is empty(pHead == NULL)
     {
         pHead = PsNewNode;
     }
@@ -290,7 +290,7 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::InsertLast(Generic gNo)
     PsNewNode -> gData = gNo;
     PsNewNode -> pNext = NULL;
 
-    if(iCountNode == 1)//If linkedlist is empty(pHead == NULL)
+    if(iCountNode == 1)//If linkedlist is empty((pHead -> pNext) == NULL)
     {
         pHead = PsNewNode;
     }
@@ -420,7 +420,7 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::InsertAtPosition(Generic gNo,int iPositi
 //Return: void                                                                                    //
 //================================================================================================//
 //Local variables:                                                                                //
-//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                             //
+//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
 //================================================================================================//
 //Algorithm:                                                                                      //
 //1. If the linked list is empty, display a message that the linked list is empty and return .    //
@@ -467,7 +467,7 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteFirst()
 //Return: void                                                                                    //
 //================================================================================================//
 //Local variables:                                                                                //
-//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                             //
+//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
 //================================================================================================//
 //Algorithm:                                                                                      //
 //1. If the linked list is empty, display a message that the linked list is empty and return .    //
@@ -521,8 +521,8 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteLast()
 //================================================================================================//
 //Local variables:                                                                                //
 //1. int : Counter variable .                                                                     //
-//2. struct sNode<Generic> * : temporary pointer to traverse the linked list .                             //
-//3. struct sNode<Generic> * : temporary pointer to delete the node .                                      //
+//2. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
+//3. struct sNode<Generic> * : temporary pointer to delete the node .                             //
 //================================================================================================//
 //Algorithm:                                                                                      //
 //1. If the linked list is empty, display a message that the linked list is empty and return .    //
@@ -816,7 +816,7 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::UpdateNoForPosition(Generic gUpdate,int 
 //Return: void                                                                                    //
 //================================================================================================//
 //Local variables:                                                                                //
-//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                             //
+//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
 //================================================================================================//
 //Algorithm:                                                                                      //
 //1. If both linked lists are empty, display a message that both linked lists are empty.          //
@@ -867,8 +867,8 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::Concat()
 //Return: void                                                                                    //
 //================================================================================================//
 //Local variables:                                                                                //
-//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                             //
-//2. struct sNode<Generic> * : Pointer to store the new node                                               //
+//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
+//2. struct sNode<Generic> * : Pointer to store the new node                                      //
 //3. int : Counter variable .                                                                     //
 //================================================================================================//
 //Algorithm:                                                                                      //
@@ -955,8 +955,8 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::InsertBefore(Generic gNo,int iPosition)
 //Return: void                                                                                    //
 //================================================================================================//
 //Local variables:                                                                                //
-//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                             //
-//2. struct sNode<Generic> * : Pointer to store the new node                                               //
+//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
+//2. struct sNode<Generic> * : Pointer to store the new node                                      //
 //3. int : Counter variable .                                                                     //
 //================================================================================================//
 //Algorithm:                                                                                      //
@@ -1052,8 +1052,8 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::InsertAfter(Generic gNo,int iPosition)
 //Return: void                                                                                    //
 //================================================================================================//
 //Local variables:                                                                                //
-//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                             //
-//2. struct sNode<Generic> * : temporary pointer to delete the node .                                      //
+//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
+//2. struct sNode<Generic> * : temporary pointer to delete the node .                             //
 //3. int : Counter variable .                                                                     //
 //================================================================================================//
 //Algorithm:                                                                                      //
@@ -1136,8 +1136,8 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteBefore(int iPosition)
 //Return: void                                                                                    //
 //================================================================================================//
 //Local variables:                                                                                //
-//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                             //
-//2. struct sNode<Generic> * : temporary pointer to delete the node .                                      //
+//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
+//2. struct sNode<Generic> * : temporary pointer to delete the node .                             //
 //3. int : Counter variable .                                                                     //
 //================================================================================================//
 //Algorithm:                                                                                      //
@@ -1222,7 +1222,7 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteAfter(int iPosition)
 //Return: void                                                                                    //
 //================================================================================================//
 //Local variables:                                                                                //
-//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                             //
+//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
 //================================================================================================//
 //Algorithm:                                                                                      //
 //1. If the linked list is empty, display a message that the linked list is empty.                //
@@ -1267,8 +1267,8 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteList()
 //Return: void                                                                                    //
 //================================================================================================//
 //Local variables:                                                                                //
-//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                             //
-//2. struct sNode<Generic> * : temporary pointer to traverse the linked list .                             //
+//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
+//2. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
 //3. int : temporary variable to store the data of the node .                                     //
 //================================================================================================//
 //Algorithm:                                                                                      //
@@ -1316,8 +1316,8 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::SortAscending()
 //Return: void                                                                                    //
 //================================================================================================//
 //Local variables:                                                                                //
-//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                             //
-//2. struct sNode<Generic> * : temporary pointer to traverse the linked list .                             //
+//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
+//2. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
 //================================================================================================//
 //Algorithm:                                                                                      //
 //1. If the linked list is empty, display a message that the linked list is empty.                //
@@ -1357,10 +1357,10 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::Reverse()
 //================================================================================================//
 //Parameters: None                                                                                //
 //================================================================================================//
-//Return: struct sNode<Generic> *                                                                          //
+//Return: struct sNode<Generic> *                                                                 //
 //================================================================================================//
 //Local variables:                                                                                //
-//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                             //
+//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
 //2. int : integer to store counter variable .                                                    //
 //================================================================================================//
 //Algorithm:                                                                                      //
@@ -1395,10 +1395,10 @@ struct sNode<Generic> *SINGLY_LINEAR_LINKEDLIST<Generic>::FindMiddleNode()
 //================================================================================================//
 //Parameters: None                                                                                //
 //================================================================================================//
-//Return: struct sNode<Generic> *                                                                          //
+//Return: struct sNode<Generic> *                                                                 //
 //================================================================================================//
 //Local variables:                                                                                //
-//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                             //
+//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
 //2. int : integer to store kth position from start .                                             //
 //3. int : integer to store counter variable .                                                    //
 //================================================================================================//
@@ -1459,10 +1459,10 @@ struct sNode<Generic> *SINGLY_LINEAR_LINKEDLIST<Generic>::FindKthNodeFromStart()
 //================================================================================================//
 //Parameters: None                                                                                //
 //================================================================================================//
-//Return: struct sNode<Generic> *                                                                          //
+//Return: struct sNode<Generic> *                                                                 //
 //================================================================================================//
 //Local variables:                                                                                //
-//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                             //
+//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
 //2. int : integer to store kth position from start .                                             //
 //3. int : integer to store counter variable .                                                    //
 //4. int : integer to store direction of kth position from start or end .                         //
@@ -1544,10 +1544,10 @@ struct sNode<Generic> *SINGLY_LINEAR_LINKEDLIST<Generic>::FindKthNodeFromMiddle(
 //================================================================================================//
 //Parameters: None                                                                                //
 //================================================================================================//
-//Return: struct sNode<Generic> *                                                                          //
+//Return: struct sNode<Generic> *                                                                 //
 //================================================================================================//
 //Local variables:                                                                                //
-//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                             //
+//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
 //2. int : integer to store kth position from start .                                             //
 //3. int : integer to store counter variable .                                                    //
 //================================================================================================//
@@ -2392,4 +2392,5 @@ int main()
         }
     }
 }
+
 //6===============================================================================================//
