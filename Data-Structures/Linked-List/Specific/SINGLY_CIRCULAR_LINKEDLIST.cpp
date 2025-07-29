@@ -445,8 +445,8 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteFirst()
         cout<<"Node with data "<<(pHead) -> iData<<" deleted from the beginning of the singly circular linked list"<<endl;
 
         free(pTail);
-        pTail = NULL;
         free(pHead);
+        pTail = NULL;
         pHead = NULL;
     }
     else//If linkedlist contains atleast one node
@@ -455,9 +455,9 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteFirst()
 
         cout<<"Node with data "<<pTail -> pNext -> iData<<" deleted from the beginning of the singly circular linked list"<<endl;
         free(pTail -> pNext);
-    }
 
-    pTail -> pNext = pHead;
+        pTail -> pNext = pHead;
+    }
 
     iCountNode--;
 }
@@ -488,7 +488,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteLast()
         cout<<"Linkedlist is empty"<<endl;
         return;
     }
-    else if((iCountNode == 1) && ((pHead) -> pNext == NULL))//If linkedlist contains one node
+    else if((iCountNode == 1) && (pHead == pTail))//If linkedlist contains one node
     {
         cout<<"Node with data "<<(pHead) -> iData<<" deleted from the end of the singly circular linked list"<<endl;
 
