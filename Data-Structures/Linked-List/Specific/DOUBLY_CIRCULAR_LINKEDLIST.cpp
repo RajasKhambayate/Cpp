@@ -1227,6 +1227,8 @@ void DOUBLY_CIRCULAR_LINKEDLIST::DeleteAfter(int iPosition)
     if(iPosition == (iCountNode - 1))
     {
         pTail = pTail -> pPrev;
+        cout<<"Node with data "<<pTail -> pNext -> iData<<" deleted from end of the doubly circular linked list"<<endl;
+
         free(pTail -> pNext);
     }
     else
