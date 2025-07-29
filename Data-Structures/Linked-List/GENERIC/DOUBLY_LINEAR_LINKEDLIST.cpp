@@ -313,7 +313,7 @@ void DOUBLY_LINEAR_LINKEDLIST<Generic>::InsertLast(Generic gNo)
     PsNewNode -> pNext = NULL;
     PsNewNode -> pPrev = NULL;
 
-    if(iCountNode == 0)//If linkedlist is empty(pHead == NULL)
+    if(iCountNode == 0)//If linkedlist is empty (pHead == NULL)
     {
         pHead = PsNewNode;
     }
