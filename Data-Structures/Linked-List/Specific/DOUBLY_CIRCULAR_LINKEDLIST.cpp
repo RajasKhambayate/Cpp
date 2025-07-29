@@ -199,7 +199,7 @@ void DOUBLY_CIRCULAR_LINKEDLIST::Display()
         ptemp = ptemp -> pNext;
     }while(ptemp != pHead);
 
-    cout<<endl;
+    cout<<endl<<endl;;
 
     ///////////////////////Display in reverse order//////////////////////
 
@@ -1282,44 +1282,50 @@ void DOUBLY_CIRCULAR_LINKEDLIST::DeleteList()
         return;
     }
 
-    while((pHead != NULL) && (pTail == NULL))
+    while(iCountNode != 0)
     {
-        if(pHead == pTail)
+        if((pHead != NULL) && (pHead != pTail))
         {
-            cout<<"Node with data "<<pHead -> iData<<" deleted from the doubly circular linked list"<<endl;
+            pHead = pHead -> pNext;
 
-            free(pHead);
+            cout<<"Node with data "<<pHead -> pPrev -> gData<<" deleted from doubly circular linked list"<<endl;
 
-            pHead = NULL;
+            free(pHead -> pPrev);
+            pHead -> pPrev = NULL;
+
+            pHead -> pPrev = pTail;
+            pTail -> pNext = pHead;
+
+            iCountNode--;
+        }
+
+        if((pHead == pTail) && (iCountNode == 1))
+        {
+            cout<<"Node with data "<<pHead -> gData<<" deleted from doubly circular linked list"<<endl;
+
             pTail = NULL;
+            free(pHead);
+            pHead = NULL;
 
-            cout<<"Linkedlist has been deleted"<<endl;
-
+            iCountNode--;
+            cout<<"Doubly Circular linked list has been deleted"<<endl;
             return;
         }
 
-        pHead = pHead -> pNext;
-        cout<<"Node with data "<<pHead -> pPrev -> iData<<" deleted from the doubly circular linked list"<<endl;
-        free(pHead -> pPrev);
-
-        pHead -> pPrev = pTail;
-        pTail -> pNext = pHead;
-
-        if((pTail -> pPrev) != NULL)
+        if((pTail != NULL) && (pHead != pTail))
         {
             pTail = pTail -> pPrev;
-            cout<<"Node with data "<<pTail -> pNext -> iData<<" deleted from the doubly circular linked list"<<endl;
+            cout<<"Node with data "<<pTail -> pNext -> gData<<" deleted from doubly circular linked list"<<endl;
+
             free(pTail -> pNext);
+            pTail -> pNext = NULL;
+
+            pHead -> pPrev = pTail;
+            pTail -> pNext = pHead;
+
+            iCountNode--;
         }
-
-        pHead -> pPrev = pTail;
-        pTail -> pNext = pHead;
-
-        iCountNode--;
     }
-
-
-    cout<<"Doubly Circular Linked-List has been deleted"<<endl;
 }
 
 
