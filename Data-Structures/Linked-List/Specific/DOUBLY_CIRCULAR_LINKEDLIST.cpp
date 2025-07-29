@@ -483,10 +483,10 @@ void DOUBLY_CIRCULAR_LINKEDLIST::DeleteFirst()
 
         cout<<"Node with data "<<pTail -> pNext -> iData<<" deleted from the beginning of the doubly circular linked list"<<endl;
         free(pTail -> pNext);
-    }
 
-    pHead -> pPrev = pTail;
-    pTail -> pNext = pHead;
+        pHead -> pPrev = pTail;
+        pTail -> pNext = pHead;
+    }
 
     iCountNode--;
 }
@@ -517,7 +517,7 @@ void DOUBLY_CIRCULAR_LINKEDLIST::DeleteLast()
         cout<<"Linkedlist is empty"<<endl;
         return;
     }
-    else if((iCountNode == 1) && (pHead == pTail) && (pTail == NULL))//If linkedlist contains one node
+    else if((iCountNode == 1) && (pHead == pTail))//If linkedlist contains one node
     {
         cout<<"Node with data "<<(pHead) -> iData<<" deleted from the end of the doubly circular linked list"<<endl;
 
