@@ -733,7 +733,7 @@ bool SINGLY_CIRCULAR_LINKEDLIST<Generic>::Search(Generic gSearch)
 template<class Generic>
 void SINGLY_CIRCULAR_LINKEDLIST<Generic>::UpdateNoForNo(Generic gSearch,Generic gUpdate)
 {
-    if((iCountNode == 0) && (pHead == NULL))
+    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
     {
         cout<<"Linkedlist is empty"<<endl;
         return;
@@ -1026,8 +1026,6 @@ void SINGLY_CIRCULAR_LINKEDLIST<Generic>::InsertAfter(Generic gNo,int iPosition)
     //Filling the node with data
     PsNewNode -> gData = gNo;
     PsNewNode -> pNext = NULL;
-
-    struct sNode<Generic> *ptemp = pHead;
 
     if(iPosition == iCountNode)
     {
