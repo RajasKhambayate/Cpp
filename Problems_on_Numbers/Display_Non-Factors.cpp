@@ -32,14 +32,18 @@ using namespace std;
 void Display_Non_Factors(int iValue)
 {
     cout<<"Non-Factors of "<<iValue<<" are :"<<endl;
+    int iCount = 0;
 
     for(int iCnt = 1;iCnt <= iValue;iCnt++)
     {
         if((iValue % iCnt) != 0)
         {
             cout<<iCnt<<endl;
+            iCount++;
         }
     }
+
+    cout<<"Number of factors are : "<<iCount<<endl;
 }
 
 //Starting point of application
