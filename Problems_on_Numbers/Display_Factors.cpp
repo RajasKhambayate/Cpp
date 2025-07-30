@@ -32,15 +32,19 @@ using namespace std;
 void Display_Factors(int iValue)
 {
     cout<<"Factors of "<<iValue<<" are :"<<endl;
+    int iCount = 1;
 
     for(int iCnt = 1;iCnt <= iValue/2;iCnt++)
     {
         if((iValue % iCnt) == 0)
         {
             cout<<iCnt<<endl;
+            iCount++;
         }
     }
     cout<<iValue<<endl;//Printing the number itself as it is also a factor of itself .
+
+    cout<<"Number of factors are : "<<iCount<<endl;
 }
 
 //Starting point of application
