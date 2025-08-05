@@ -10,6 +10,7 @@
 //Day: Friday                                                                                     //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #include<iostream>
+#include<limits>
 using namespace std;
 
 
@@ -56,14 +57,24 @@ int main()
         while(iNo <= 0)
         {
             cout<<"Please enter a positive integer value : ";
-            cin>>iNo;
+            while((!(cin>>iNo)) || (cin.peek() != '\n'))
+            {
+                cout<<"Invalid input. Please enter a single whole number : ";
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+            }
         }
 
         iRet = Factorial(iNo);
         cout<<"Factorial of "<<iNo<<" is : "<<iRet<<endl;
 
         cout<<"Would you like to try Factorial one more time? >Press for->YES:ANY_NUM OR NO:0 <=>Your Choice : ";
-        cin>>iNo;
+        while((!(cin>>iNo)) || (cin.peek() != '\n'))
+        {
+            cout<<"Invalid input. Please enter 0 or 1 : ";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+        }
 
         if(iNo == 0)
         {
