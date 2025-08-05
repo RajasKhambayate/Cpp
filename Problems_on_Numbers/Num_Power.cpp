@@ -10,6 +10,7 @@
 //Day: Friday                                                                                     //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #include<iostream>
+#include<limits>
 using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -65,12 +66,22 @@ int main()
     while(1)
     {
         cout<<"Enter the value to be used for power calculation : ";
-        cin>>fNo;
+        while(!(cin>>fNo))
+        {
+            cout<<"Invalid input. Please enter a single whole number : ";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+        }
 
         do
         {
             cout<<"Enter the non-negative integer power: ";
-            cin>>iPower;
+            while((!(cin>>iPower)) || (cin.peek() != '\n'))
+            {
+                cout<<"Invalid input. Please enter a single whole number : ";
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+            }
 
             if(iPower < 0)
             {
@@ -83,7 +94,12 @@ int main()
         cout<<endl<<""<<fNo<<"^"<<iPower<<" = "<<fRet<<endl;
 
         cout<<"Would you like to try Num_Power one more time? >Press for->YES:ANY_NUMBER OR NO:0 <=>Your Choice : ";
-        cin>>fRet;
+        while(!(cin>>fRet))
+        {
+            cout<<"Invalid input. Please enter 0 or 1: ";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+        }
 
         if(fRet == 0)
         {
