@@ -23,6 +23,7 @@
 //2===============================================================================================//
 
 #include<iostream>
+#include<limits>
 using namespace std;
 
 //2===============================================================================================//
@@ -1247,7 +1248,7 @@ int main()
 
     PsNODE pRet = nullptr;//Pointer to the second node of the linked list
 
-    char siChoiceMode[] = "0";//Variable to store the choice of the user for the mode of operation
+    char siChoiceMode[] = {'\0'};//Variable to store the choice of the user for the mode of operation
     char cChoiceFunction = '\0';//Variable to store the choice of the user for the function to be performed
 
     int iNo1 = 0;//Variable to store the data of the node
@@ -1292,8 +1293,12 @@ int main()
                     case 'A':
                     case 'a':
                         cout<<"Enter the data to be inserted in the linked list : ";
-                        cin>>iNo1;
-                        cout<<endl;
+                        while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                        {
+                            cout<<"Invalid input. Please enter a single integer : ";
+                            cin.clear();
+                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                        }
 
                         SinglyLinearLL.InsertFirst(iNo1);
                         cout<<"Node with data "<<iNo1<<" inserted at the beginning of the singly linear linked list"<<endl;
