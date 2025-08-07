@@ -1307,8 +1307,12 @@ int main()
                     case 'B':
                     case 'b':
                         cout<<"Enter the data to be inserted in the linked list : ";
-                        cin>>iNo1;
-                        cout<<endl;
+                        while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                        {
+                            cout<<"Invalid input. Please enter a single integer : ";
+                            cin.clear();
+                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                        }
 
                         SinglyLinearLL.InsertLast(iNo1);
                         cout<<"Node with data "<<iNo1<<" inserted at the end of the singly linear linked list"<<endl;
@@ -1317,8 +1321,12 @@ int main()
                     case 'C':
                     case 'c':
                         cout<<"Enter the data to be inserted in the linked list : ";
-                        cin>>iNo1;
-                        cout<<endl;
+                        while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                        {
+                            cout<<"Invalid input. Please enter a single integer : ";
+                            cin.clear();
+                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                        }
 
                         cout<<"Enter the position at which the data is to be inserted : ";
                         cin>>iPosition1;
@@ -1326,8 +1334,12 @@ int main()
                         while((iPosition1 < 1) || (iPosition1 > (SinglyLinearLL.iCountNode_Main + 1)))
                         {
                             cout<<"Enter the position between 1 <-> "<<(SinglyLinearLL.iCountNode_Main + 1)<<" : ";
-                            cin>>iPosition1;
-                            cout<<endl;
+                            while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
                         }
 
                         SinglyLinearLL.InsertAtPosition(iNo1,iPosition1);
@@ -1372,8 +1384,12 @@ int main()
                             while((iPosition1 < 1) || (iPosition1 > SinglyLinearLL.iCountNode_Main))
                             {
                                 cout<<"Enter the position between 1 <-> "<<SinglyLinearLL.iCountNode_Main<<" : ";
-                                cin>>iPosition1;
-                                cout<<endl;
+                                while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
                             }
 
                             iRet = SinglyLinearLL.DeleteAtPosition(iPosition1);
@@ -1463,7 +1479,12 @@ int main()
                         if(SinglyLinearLL.iCountNode_Main != 0)
                         {
                             cout<<"Enter the value to be searched in the linked list : ";
-                            cin>>iNo1;
+                            while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
 
                             bRet = SinglyLinearLL.Search(iNo1);
                             if(bRet == true)
@@ -1510,11 +1531,20 @@ int main()
                         if(SinglyLinearLL.iCountNode_Main != 0)
                         {
                             cout<<"Enter the value to be updated in the linked list : ";
-                            cin>>iNo1;
-                            cout<<endl;
+                            while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
 
                             cout<<"Enter the value to be updated with : ";
-                            cin>>iNo2;
+                            while((!(cin>>iNo2)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
 
                             bRet = SinglyLinearLL.UpdateNoForNo(iNo1,iNo2);
                             if(bRet == true)
@@ -1537,16 +1567,30 @@ int main()
                         if(SinglyLinearLL.iCountNode_Main != 0)
                         {
                             cout<<"Enter the value to be updated at a specific position in the linked list : ";
-                            cin>>iNo1;
-                            cout<<endl;
+                            while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
 
                             cout<<"Enter the position at which the data is to be updated : ";
-                            cin>>iPosition1;
+                            while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
+
                             while((iPosition1 < 1) || (iPosition1 > SinglyLinearLL.iCountNode_Main))
                             {
                                 cout<<"Enter the position between 1 <-> "<<SinglyLinearLL.iCountNode_Main<<" : ";
-                                cin>>iPosition1;
-                                cout<<endl;
+                                while((!(cin>>iPosition1) || (cin.peek() != '\n')))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
                             }
 
                             SinglyLinearLL.UpdateNoForPosition(iNo1,iPosition1);
@@ -1563,17 +1607,30 @@ int main()
                         if(SinglyLinearLL.iCountNode_Main > 0)
                         {
                             cout<<"Enter the data to be inserted in the linked list : ";
-                            cin>>iNo1;
-                            cout<<endl;
+                            while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
 
                             cout<<"Enter the position before which the data is to be inserted : ";
-                            cin>>iPosition1;
-                            cout<<SinglyLinearLL.iCountNode_Main;
+                            while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
+
                             while((iPosition1 < 1) || (iPosition1 > SinglyLinearLL.iCountNode_Main))
                             {
                                 cout<<"Enter the position between 1 <-> "<<SinglyLinearLL.iCountNode_Main<<" : ";
-                                cin>>iPosition1;
-                                cout<<endl;
+                                while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
                             }
 
                             SinglyLinearLL.InsertBefore(iNo1,iPosition1);
@@ -1590,16 +1647,29 @@ int main()
                         if(SinglyLinearLL.iCountNode_Main > 0)
                         {
                             cout<<"Enter the data to be inserted in the linked list : ";
-                            cin>>iNo1;
-                            cout<<endl;
+                            while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
 
                             cout<<"Enter the position before which the data is to be inserted : ";
-                            cin>>iPosition1;
+                            while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
                             while((iPosition1 < 1) || (iPosition1 > SinglyLinearLL.iCountNode_Main))
                             {
                                 cout<<"Enter the position between 1 <-> "<<SinglyLinearLL.iCountNode_Main<<" : ";
-                                cin>>iPosition1;
-                                cout<<endl;
+                                while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
                             }
 
                             SinglyLinearLL.InsertAfter(iNo1,iPosition1);
@@ -1616,12 +1686,22 @@ int main()
                         if(SinglyLinearLL.iCountNode_Main > 1)
                         {
                             cout<<"Enter the position before which the data is to be deleted : ";
-                            cin>>iPosition1;
+                            while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
+
                             while((iPosition1 < 2) || (iPosition1 > SinglyLinearLL.iCountNode_Main))
                             {
                                 cout<<"Enter the position between 2 <-> "<<SinglyLinearLL.iCountNode_Main<<" : ";
-                                cin>>iPosition1;
-                                cout<<endl;
+                                while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
                             }
 
                             iRet = SinglyLinearLL.DeleteBefore(iPosition1);
@@ -1638,12 +1718,22 @@ int main()
                         if(SinglyLinearLL.iCountNode_Main > 1)
                         {
                             cout<<"Enter the position before which the data is to be deleted : ";
-                            cin>>iPosition1;
+                            while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
+
                             while((iPosition1 < 1) || (iPosition1 > (SinglyLinearLL.iCountNode_Main - 1)))
                             {
                                 cout<<"Enter the position between 2 <-> "<<(SinglyLinearLL.iCountNode_Main - 1)<<" : ";
-                                cin>>iPosition1;
-                                cout<<endl;
+                                while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
                             }
 
                             iRet = SinglyLinearLL.DeleteAfter(iPosition1);
@@ -1694,13 +1784,22 @@ int main()
                         if(SinglyLinearLL.iCountNode_Main != 0)
                         {
                             cout<<"Enter the kth position from start : ";
-                            cin>>iNo1;
-                            cout<<endl;
+                            while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
+
                             while((iNo1 < 1) || (iNo1 > SinglyLinearLL.iCountNode_Main))
                             {
                                 cout<<"Enter offset between 1 <-> "<<SinglyLinearLL.iCountNode_Main<<" : "<<endl;
-                                cin>>iNo1;
-                                cout<<endl;
+                                while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
                             }
 
                             pRet = SinglyLinearLL.FindKthNodeFromStart(iNo1);
@@ -1717,18 +1816,32 @@ int main()
                         if(SinglyLinearLL.iCountNode_Main != 0)
                         {
                             cout<<"Enter the kth position from start : ";
-                            cin>>iNo1;
-                            cout<<endl;
+                            while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
+
                             while((iNo1 < 1) || (iNo1 > SinglyLinearLL.iCountNode_Main))
                             {
                                 cout<<"Enter offset between 1 <-> "<<SinglyLinearLL.iCountNode_Main<<" : "<<endl;
-                                cin>>iNo1;
-                                cout<<endl;
+                                while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
                             }
 
                             cout<<"Kth node from start or end ? >>Press 1 : FOR start [OR] >>Press 2 : FOR end ::: Your choice : ";
-                            cin>>iNo2;
-                            cout<<endl;
+                            while((!(cin>>iNo2)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
+
                             if((iNo1 == 1) || (iNo2 == 0))
                             {
                                 pRet = SinglyLinearLL.FindKthNodeFromMiddle(iNo1,iNo2);
@@ -1746,8 +1859,12 @@ int main()
                                 while((iNo2 != 1) || (iNo2 != 0))
                                 {
                                     cout<<"Kth node from start or end ? >>Press 1 : FOR start [OR] >>Press 2 : FOR end ::: Your choice : ";
-                                    cin>>iNo2;
-                                    cout<<endl;
+                                    while((!(cin>>iNo2)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
                                 }
 
                                 pRet = SinglyLinearLL.FindKthNodeFromMiddle(iNo1,iNo2);
@@ -1772,13 +1889,21 @@ int main()
                         if(SinglyLinearLL.iCountNode_Main != 0)
                         {
                             cout<<"Enter the kth position from start : ";
-                            cin>>iNo1;
-                            cout<<endl;
+                            while((!(cin>>iNo2)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
                             while((iNo1 < 1) || (iNo1 > SinglyLinearLL.iCountNode_Main))
                             {
                                 cout<<"Enter offset between 1 <-> "<<SinglyLinearLL.iCountNode_Main<<" : "<<endl;
-                                cin>>iNo1;
-                                cout<<endl;
+                                while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
                             }
 
                             pRet = SinglyLinearLL.FindKthNodeFromEnd(iNo1);
