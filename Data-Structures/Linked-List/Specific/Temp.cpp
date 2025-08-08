@@ -38,7 +38,7 @@ struct sNode//Structure declaration for node in Singly Circular Linked List
 {
     int iData;//Data of the node
     struct sNode *pNext;//Pointer to the next node in the linked list
-};//sNODE, *PsNODE;
+};//sNODE,*PsNODE;
 
 typedef struct sNode sNODE;//Structure Node
 typedef struct sNode * PsNODE;//Pointer to the structure node

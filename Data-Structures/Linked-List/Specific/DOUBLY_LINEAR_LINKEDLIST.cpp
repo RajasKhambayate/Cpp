@@ -23,6 +23,7 @@
 //2===============================================================================================//
 
 #include<iostream>
+#include<limits>
 using namespace std;
 
 //2===============================================================================================//
@@ -51,10 +52,8 @@ class DOUBLY_LINEAR_LINKEDLIST
         PsNODE pHead;//Pointer to the first node of the linked list
         int iCountNode;//Counter for the number of nodes in the linked list
 
-        PsNODE pHead1;
-        PsNODE pHead2;
-
     public:
+        int iCountNode_Main;//Counter for number of nodes in linkedlist for main function which isn't directly used for class functions .
         DOUBLY_LINEAR_LINKEDLIST();//Constructor to initialize the singly linear linked list
         ~DOUBLY_LINEAR_LINKEDLIST();//Destructor to delete the singly linear linked list
 
@@ -64,16 +63,16 @@ class DOUBLY_LINEAR_LINKEDLIST
         //Insertion functions
         void InsertFirst(int);
         void InsertLast(int);
-        void InsertAtPosition(int, int);
+        void InsertAtPosition(int,int);
 
         //Deletion functions
-        void DeleteFirst();
-        void DeleteLast();
-        void DeleteAtPosition(int);
+        int DeleteFirst();
+        int DeleteLast();
+        int DeleteAtPosition(int);
 
         //Traversal functions
-        int Count();
-        void Display();
+        int Count() const;
+        void Display() const;
 
 //~=====Simple Access Functions======//
 
@@ -82,27 +81,26 @@ class DOUBLY_LINEAR_LINKEDLIST
 //======Added Features Functions======//
 
         //Search and Update functions
-        bool Search(int);
-        void UpdateNoForNo(int,int);
+        bool Search(int) const;
+        bool UpdateNoForNo(int,int);
         void UpdateNoForPosition(int,int);
-        void Concat();
 
         //Insert and Delete functions
-        void InsertBefore(int, int);
-        void InsertAfter(int, int);
-        void DeleteBefore(int);
-        void DeleteAfter(int);
-        void DeleteList();
+        void InsertBefore(int,int);
+        void InsertAfter(int,int);
+        int DeleteBefore(int);
+        int DeleteAfter(int);
+        void DeleteList();// Helper for destructor
 
         //Sorting and Reversing functions
         void SortAscending();
         void Reverse();
 
         //Finding functions
-        PsNODE FindMiddleNode();
-        PsNODE FindKthNodeFromStart();
-        PsNODE FindKthNodeFromMiddle();
-        PsNODE FindKthNodeFromEnd();
+        PsNODE FindMiddleNode() const;
+        PsNODE FindKthNodeFromStart() const;
+        PsNODE FindKthNodeFromMiddle() const;
+        PsNODE FindKthNodeFromEnd() const;
 
 //~=====Added Features Functions======//
 
@@ -117,13 +115,13 @@ DOUBLY_LINEAR_LINKEDLIST::DOUBLY_LINEAR_LINKEDLIST()
 {
     pHead = NULL;
     iCountNode = 0;
+    iCountNode_Main = 0;
 }
 
 
 DOUBLY_LINEAR_LINKEDLIST::~DOUBLY_LINEAR_LINKEDLIST()
 {
-    delete pHead;
-    iCountNode = 0;
+    DeleteList();
 }
 
 //3===============================================================================================//
@@ -823,55 +821,6 @@ void DOUBLY_LINEAR_LINKEDLIST::UpdateNoForPosition(int iUpdate,int iPosition)
         pHead = pHead -> pNext;
         iCnt++;
     }
-}
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-//Concat() Function: Concats two doubly linear linked list .                                      //
-//================================================================================================//
-//Parameters:                                                                                     //
-//================================================================================================//
-//Return: void                                                                                    //
-//================================================================================================//
-//Local variables:                                                                                //
-//1. PsNODE : temporary pointer to traverse the linked list .                                     //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If both linked lists are empty, display a message that both linked lists are empty.          //
-//2. If the first linked list is empty, display a message that the first linked list is empty.    //
-//3. If the second linked list is empty, display a message that the second linked list is empty.  //
-//4. Traverse the first linked list till the last node and update thepNext pointer of the last    //
-//   node with the address of the first node of the second linked list and free the second linked //
-//   list.                                                                                        //
-////////////////////////////////////////////////////////////////////////////////////////////////////
-void DOUBLY_LINEAR_LINKEDLIST::Concat()
-{
-    if((pHead1 == NULL) && (pHead2 == NULL))
-    {
-        cout<<"Both linkedlist are empty"<<endl;
-        return;
-    }
-    else if(pHead1 == NULL)
-    {
-        cout<<"First linkedlist is empty"<<endl;
-        return;
-    }
-    else if(pHead2 == NULL)
-    {
-        cout<<"Second linkedlist is empty"<<endl;
-        return;
-    }
-
-    PsNODE ptemp = pHead1;
-
-    while(ptemp -> pNext != NULL)
-    {
-        ptemp = ptemp -> pNext;
-    }
-
-    ptemp -> pNext = pHead2;
-    pHead1 -> pPrev = ptemp;
-    pHead2 = NULL;//Freeing the second linked list
 }
 
 
