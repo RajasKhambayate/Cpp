@@ -172,15 +172,8 @@ SINGLY_CIRCULAR_LINKEDLIST::~SINGLY_CIRCULAR_LINKEDLIST()
 //Algorithm:                                                                                      //
 //1. Traverse the linked list till the last node and display the data of each node.               //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void SINGLY_CIRCULAR_LINKEDLIST::Display()
+void SINGLY_CIRCULAR_LINKEDLIST::Display() const
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
-    {
-        cout<<"Linkedlist is empty"<<endl;
-        cout<<"NULL"<<endl;
-        return;
-    }
-
     cout<<"Elements from linked list are : "<<endl<<endl;
     PsNODE ptemp = pHead;
 
@@ -208,7 +201,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::Display()
 //Algorithm:                                                                                      //
 //1. Return the value of iCountNode which is updated during insertion and deletion operations.    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-int SINGLY_CIRCULAR_LINKEDLIST::Count()
+int SINGLY_CIRCULAR_LINKEDLIST::Count() const
 {
     return iCountNode;
 }
@@ -237,14 +230,14 @@ int SINGLY_CIRCULAR_LINKEDLIST::Count()
 void SINGLY_CIRCULAR_LINKEDLIST::InsertFirst(int iNo)
 {
     //Initialize a new node
-    PsNODE PsNewNode = NULL;
+    PsNODE PsNewNode = nullptr;
     PsNewNode = new sNODE;
 
     //Filling the node with data
     PsNewNode -> iData = iNo;
-    PsNewNode -> pNext = NULL;
+    PsNewNode -> pNext = nullptr;
 
-    if(iCountNode == 0)//If linkedlist is empty(pHead == NULL)
+    if((pHead == nullptr) && (iCountNode == 0))//If linkedlist is empty((pHead == NULL) && (pTail == NULL))
     {
         pHead = PsNewNode;
         pTail = PsNewNode;
@@ -258,8 +251,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertFirst(int iNo)
     pTail -> pNext = pHead;
 
     iCountNode++;
-
-    cout<<"Node with data "<<iNo<<" inserted at the beginning of the singly circular linked list"<<endl;
+    iCountNode_Main++;
 }
 
 
@@ -293,7 +285,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertLast(int iNo)
     PsNewNode -> iData = iNo;
     PsNewNode -> pNext = NULL;
 
-    if(iCountNode == 0)//If linkedlist is empty((pHead == NULL) && (pTail == NULL))
+    if((pHead == nullptr) && (iCountNode == 0))//If linkedlist is empty((pHead == NULL) && (pTail == NULL))
     {
         pHead = PsNewNode;
         pTail = PsNewNode;
