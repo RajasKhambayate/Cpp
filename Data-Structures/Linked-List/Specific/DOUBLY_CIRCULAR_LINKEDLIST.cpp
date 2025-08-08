@@ -23,6 +23,7 @@
 //2===============================================================================================//
 
 #include<iostream>
+#include<limits>
 using namespace std;
 
 //2===============================================================================================//
@@ -52,13 +53,8 @@ class DOUBLY_CIRCULAR_LINKEDLIST
         PsNODE pTail;//Pointer to the last node of the linked list
         int iCountNode;//Counter for the number of nodes in the linked list
 
-        PsNODE pHead1;
-        PsNODE pTail1;
-
-        PsNODE pHead2;
-        PsNODE pTail2;
-
     public:
+        int iCountNode_Main;//Counter for number of nodes in linkedlist for main function which isn't directly used for class functions .
         DOUBLY_CIRCULAR_LINKEDLIST();//Constructor to initialize the singly linear linked list
         ~DOUBLY_CIRCULAR_LINKEDLIST();//Destructor to delete the singly linear linked list
 
@@ -68,7 +64,7 @@ class DOUBLY_CIRCULAR_LINKEDLIST
         //Insertion functions
         void InsertFirst(int);
         void InsertLast(int);
-        void InsertAtPosition(int, int);
+        void InsertAtPosition(int,int);
 
         //Deletion functions
         void DeleteFirst();
@@ -86,16 +82,15 @@ class DOUBLY_CIRCULAR_LINKEDLIST
 //======Added Features Functions======//
 
         //Search and Update functions
-        bool Search(int);
-        void UpdateNoForNo(int,int);
+        bool Search(int) const;
+        bool UpdateNoForNo(int,int);
         void UpdateNoForPosition(int,int);
-        void Concat();
 
         //Insert and Delete functions
-        void InsertBefore(int, int);
-        void InsertAfter(int, int);
-        void DeleteBefore(int);
-        void DeleteAfter(int);
+        void InsertBefore(int,int);
+        void InsertAfter(int,int);
+        int DeleteBefore(int);
+        int DeleteAfter(int);
         void DeleteList();
 
         //Sorting and Reversing functions
@@ -103,10 +98,10 @@ class DOUBLY_CIRCULAR_LINKEDLIST
         void Reverse();
 
         //Finding functions
-        PsNODE FindMiddleNode();
-        PsNODE FindKthNodeFromStart();
-        PsNODE FindKthNodeFromMiddle();
-        PsNODE FindKthNodeFromEnd();
+        PsNODE FindMiddleNode() const;
+        PsNODE FindKthNodeFromStart() const;
+        PsNODE FindKthNodeFromMiddle() const;
+        PsNODE FindKthNodeFromEnd() const;
 
 //~=====Added Features Functions======//
 
@@ -119,17 +114,16 @@ class DOUBLY_CIRCULAR_LINKEDLIST
 
 DOUBLY_CIRCULAR_LINKEDLIST::DOUBLY_CIRCULAR_LINKEDLIST()
 {
-    pHead = NULL;
-    pTail = NULL;
+    pHead = nullptr;
+    pTail = nullptr;
     iCountNode = 0;
+    iCountNode_Main = 0;
 }
 
 
 DOUBLY_CIRCULAR_LINKEDLIST::~DOUBLY_CIRCULAR_LINKEDLIST()
 {
-    delete pHead;
-    delete pTail;
-    iCountNode = 0;
+    DeleteList();
 }
 
 //3===============================================================================================//
