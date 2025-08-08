@@ -23,6 +23,7 @@
 //2===============================================================================================//
 
 #include<iostream>
+#include<limits>
 using namespace std;
 
 //2===============================================================================================//
@@ -50,10 +51,8 @@ class DOUBLY_LINEAR_LINKEDLIST
         struct sNode<Generic> *pHead;//Pointer to the first node of the linked list
         int iCountNode;//Counter for the number of nodes in the linked list
 
-        struct sNode<Generic> *pHead1;
-        struct sNode<Generic> *pHead2;
-
     public:
+        int iCountNode_Main;//Counter for number of nodes in linkedlist for main function which isn't directly used for class functions .
         DOUBLY_LINEAR_LINKEDLIST();//Constructor to initialize the doubly linear linked list
         ~DOUBLY_LINEAR_LINKEDLIST();//Destructor to delete the doubly linear linked list
 
@@ -66,13 +65,13 @@ class DOUBLY_LINEAR_LINKEDLIST
         void InsertAtPosition(Generic,int);
 
         //Deletion functions
-        void DeleteFirst();
-        void DeleteLast();
-        void DeleteAtPosition(int);
+        Generic DeleteFirst();
+        Generic DeleteLast();
+        Generic DeleteAtPosition(int);
 
         //Traversal functions
-        int Count();
-        void Display();
+        int Count() const;
+        void Display() const;
 
 //~=====Simple Access Functions======//
 
@@ -81,16 +80,15 @@ class DOUBLY_LINEAR_LINKEDLIST
 //======Added Features Functions======//
 
         //Search and Update functions
-        bool Search(Generic);
-        void UpdateNoForNo(Generic,Generic);
+        bool Search(Generic) const;
+        bool UpdateNoForNo(Generic,Generic);
         void UpdateNoForPosition(Generic,int);
-        void Concat();
 
         //Insert and Delete functions
         void InsertBefore(Generic,int);
         void InsertAfter(Generic,int);
-        void DeleteBefore(int);
-        void DeleteAfter(int);
+        Generic DeleteBefore(int);
+        Generic DeleteAfter(int);
         void DeleteList();
 
         //Sorting and Reversing functions
@@ -98,10 +96,10 @@ class DOUBLY_LINEAR_LINKEDLIST
         void Reverse();
 
         //Finding functions
-        struct sNode<Generic> * FindMiddleNode();
-        struct sNode<Generic> * FindKthNodeFromStart();
-        struct sNode<Generic> * FindKthNodeFromMiddle();
-        struct sNode<Generic> * FindKthNodeFromEnd();
+        struct sNode<Generic> * FindMiddleNode() const;
+        struct sNode<Generic> * FindKthNodeFromStart() const;
+        struct sNode<Generic> * FindKthNodeFromMiddle() const;
+        struct sNode<Generic> * FindKthNodeFromEnd() const;
 
 //~=====Added Features Functions======//
 
@@ -117,15 +115,14 @@ DOUBLY_LINEAR_LINKEDLIST<Generic>::DOUBLY_LINEAR_LINKEDLIST()
 {
     pHead = NULL;
     iCountNode = 0;
+    iCountNode_Main = 0;
 }
 
 
 template<class Generic>
 DOUBLY_LINEAR_LINKEDLIST<Generic>::~DOUBLY_LINEAR_LINKEDLIST()
 {
-    free(pHead);
-    pHead = NULL;
-    iCountNode = 0;
+    DeleteList();
 }
 
 //3===============================================================================================//
