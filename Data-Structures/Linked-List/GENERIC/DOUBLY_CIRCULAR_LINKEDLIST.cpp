@@ -23,6 +23,7 @@
 //2===============================================================================================//
 
 #include<iostream>
+#include<limits>
 using namespace std;
 
 //2===============================================================================================//
@@ -51,13 +52,8 @@ class DOUBLY_CIRCULAR_LINKEDLIST
         struct sNode<Generic> *pTail;//Pointer to the last node of the linked list
         int iCountNode;//Counter for the number of nodes in the linked list
 
-        struct sNode<Generic> *pHead1;
-        struct sNode<Generic> *pTail1;
-
-        struct sNode<Generic> *pHead2;
-        struct sNode<Generic> *pTail2;
-
-    public:
+        public:
+        int iCountNode_Main;//Counter for number of nodes in linkedlist for main function which isn't directly used for class functions .
         DOUBLY_CIRCULAR_LINKEDLIST();//Constructor to initialize the doubly circular linked list
         ~DOUBLY_CIRCULAR_LINKEDLIST();//Destructor to delete the doubly circular linked list
 
@@ -70,13 +66,13 @@ class DOUBLY_CIRCULAR_LINKEDLIST
         void InsertAtPosition(Generic,int);
 
         //Deletion functions
-        void DeleteFirst();
-        void DeleteLast();
-        void DeleteAtPosition(int);
+        Generic DeleteFirst();
+        Generic DeleteLast();
+        Generic DeleteAtPosition(int);
 
         //Traversal functions
-        int Count();
-        void Display();
+        int Count() const;
+        void Display() const;
 
 //~=====Simple Access Functions======//
 
@@ -85,16 +81,15 @@ class DOUBLY_CIRCULAR_LINKEDLIST
 //======Added Features Functions======//
 
         //Search and Update functions
-        bool Search(Generic);
-        void UpdateNoForNo(Generic,Generic);
+        bool Search(Generic) const;
+        bool UpdateNoForNo(Generic,Generic);
         void UpdateNoForPosition(Generic,int);
-        void Concat();
 
         //Insert and Delete functions
         void InsertBefore(Generic,int);
         void InsertAfter(Generic,int);
-        void DeleteBefore(int);
-        void DeleteAfter(int);
+        Generic DeleteBefore(int);
+        Generic DeleteAfter(int);
         void DeleteList();
 
         //Sorting and Reversing functions
@@ -102,10 +97,10 @@ class DOUBLY_CIRCULAR_LINKEDLIST
         void Reverse();
 
         //Finding functions
-        struct sNode<Generic> * FindMiddleNode();
-        struct sNode<Generic> * FindKthNodeFromStart();
-        struct sNode<Generic> * FindKthNodeFromMiddle();
-        struct sNode<Generic> * FindKthNodeFromEnd();
+        struct sNode<Generic> * FindMiddleNode() const;
+        struct sNode<Generic> * FindKthNodeFromStart() const;
+        struct sNode<Generic> * FindKthNodeFromMiddle() const;
+        struct sNode<Generic> * FindKthNodeFromEnd() const;
 
 //~=====Added Features Functions======//
 
@@ -119,20 +114,17 @@ class DOUBLY_CIRCULAR_LINKEDLIST
 template<class Generic>
 DOUBLY_CIRCULAR_LINKEDLIST<Generic>::DOUBLY_CIRCULAR_LINKEDLIST()
 {
-    pHead = NULL;
-    pTail = NULL;
+    pHead = nullptr;
+    pTail = nullptr;
     iCountNode = 0;
+    iCountNode_Main = 0;
 }
 
 
 template<class Generic>
 DOUBLY_CIRCULAR_LINKEDLIST<Generic>::~DOUBLY_CIRCULAR_LINKEDLIST()
 {
-    free(pHead);
-    free(pTail);
-    pHead = NULL;
-    pTail = NULL;
-    iCountNode = 0;
+    DeleteList();
 }
 
 //3===============================================================================================//
