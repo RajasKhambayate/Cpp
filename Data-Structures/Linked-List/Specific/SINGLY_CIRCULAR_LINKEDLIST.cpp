@@ -1227,12 +1227,6 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteAfter(int iPosition)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_CIRCULAR_LINKEDLIST::DeleteList()
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
-    {
-        cout<<"linkedlist is already empty"<<endl;
-        return;
-    }
-
     do
     {
         pHead = pHead -> pNext;
@@ -1248,8 +1242,6 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteList()
 
     if(pHead == pTail)
     {
-        cout<<"Node with data "<<pTail -> iData<<" deleted from the singly circular linked list"<<endl;
-
         free(pTail);
         pTail = NULL;
     }
@@ -1259,8 +1251,6 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteList()
 
     free(pTail);
     pTail = NULL;
-
-    cout<<"Singly Circular Linked-List has been deleted"<<endl;
 }
 
 
