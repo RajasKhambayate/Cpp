@@ -1233,7 +1233,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteList()
 
         cout<<"Node with data "<<pTail -> pNext -> iData<<" deleted from the singly circular linked list"<<endl;
 
-        free(pTail -> pNext);
+        delete pTail -> pNext;
         pTail -> pNext = pHead;
 
         iCountNode--;
@@ -1242,14 +1242,14 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteList()
 
     if(pHead == pTail)
     {
-        free(pTail);
+        delete pTail;
         pTail = NULL;
     }
 
-    free(pHead);
+    delete pHead;
     pHead = NULL;
 
-    free(pTail);
+    delete pTail;
     pTail = NULL;
 }
 
