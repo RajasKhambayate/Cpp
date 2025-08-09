@@ -1,17 +1,17 @@
 //1===============================================================================================//
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//Description: Singly Circular Linked-List is a type of linked-list where each node points to the //
-//Next node in the sequence while keeping the end pointing to the head. This program demonstrates //
-//the implementation of Singly Circular Linked List .                                             //
+//Description: Doubly Linear Linked-List is a type of linked-list where each node points to the   //
+//Next And Previous node in the sequence while keeping the ends pointing to NULL. This program    //
+//demonstrates the implementation of Doubly Linear Linked List .                                  //
 //================================================================================================//
 //Language: C++                                                                                   //
 //Compiler : GNU G++                                                                              //
 //IDE: Visual Studio code                                                                         //
 //================================================================================================//
 //Author/Coder: Rajas Khambayate                                                                  //
-//Date: 07th April 2025                                                                           //
-//Day: Monday                                                                                     //
+//Date: 12th April 2025                                                                           //
+//Day: Saturday                                                                                   //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //1===============================================================================================//
@@ -23,6 +23,7 @@
 //2===============================================================================================//
 
 #include<iostream>
+#include<limits>
 using namespace std;
 
 //2===============================================================================================//
@@ -34,32 +35,27 @@ using namespace std;
 
 //3================================================================================================//
 
-struct sNode//Structure declaration for node in Singly Circular Linked List
+struct sNode//Structure declaration for node in Doubly Linear Linked List
 {
     int iData;//Data of the node
     struct sNode *pNext;//Pointer to the next node in the linked list
-};//sNODE,*PsNODE;
+    struct sNode *pPrev;//Pointer to the previous node in the linked list
+};//sNODE, *PsNODE;
 
 typedef struct sNode sNODE;//Structure Node
 typedef struct sNode * PsNODE;//Pointer to the structure node
 
 
-class SINGLY_CIRCULAR_LINKEDLIST
+class DOUBLY_LINEAR_LINKEDLIST
 {
     private:
         PsNODE pHead;//Pointer to the first node of the linked list
-        PsNODE pTail;//Pointer to the last node of the linked list
         int iCountNode;//Counter for the number of nodes in the linked list
 
-        PsNODE pHead1;
-        PsNODE pTail1;
-
-        PsNODE pHead2;
-        PsNODE pTail2;
-
     public:
-        SINGLY_CIRCULAR_LINKEDLIST();//Constructor to initialize the singly linear linked list
-        ~SINGLY_CIRCULAR_LINKEDLIST();//Destructor to delete the singly linear linked list
+        int iCountNode_Main;//Counter for number of nodes in linkedlist for main function which isn't directly used for class functions .
+        DOUBLY_LINEAR_LINKEDLIST();//Constructor to initialize the singly linear linked list
+        ~DOUBLY_LINEAR_LINKEDLIST();//Destructor to delete the singly linear linked list
 
 
 //======Simple Access Functions======//
@@ -67,16 +63,16 @@ class SINGLY_CIRCULAR_LINKEDLIST
         //Insertion functions
         void InsertFirst(int);
         void InsertLast(int);
-        void InsertAtPosition(int, int);
+        void InsertAtPosition(int,int);
 
         //Deletion functions
-        void DeleteFirst();
-        void DeleteLast();
-        void DeleteAtPosition(int);
+        int DeleteFirst();
+        int DeleteLast();
+        int DeleteAtPosition(int);
 
         //Traversal functions
-        int Count();
-        void Display();
+        int Count() const;
+        void Display() const;
 
 //~=====Simple Access Functions======//
 
@@ -85,27 +81,26 @@ class SINGLY_CIRCULAR_LINKEDLIST
 //======Added Features Functions======//
 
         //Search and Update functions
-        bool Search(int);
-        void UpdateNoForNo(int,int);
+        bool Search(int) const;
+        bool UpdateNoForNo(int,int);
         void UpdateNoForPosition(int,int);
-        void Concat();
 
         //Insert and Delete functions
-        void InsertBefore(int, int);
-        void InsertAfter(int, int);
-        void DeleteBefore(int);
-        void DeleteAfter(int);
-        void DeleteList();
+        void InsertBefore(int,int);
+        void InsertAfter(int,int);
+        int DeleteBefore(int);
+        int DeleteAfter(int);
+        void DeleteList();// Helper for destructor
 
         //Sorting and Reversing functions
         void SortAscending();
         void Reverse();
 
         //Finding functions
-        PsNODE FindMiddleNode();
-        PsNODE FindKthNodeFromStart();
-        PsNODE FindKthNodeFromMiddle();
-        PsNODE FindKthNodeFromEnd();
+        PsNODE FindMiddleNode() const;
+        PsNODE FindKthNodeFromStart() const;
+        PsNODE FindKthNodeFromMiddle() const;
+        PsNODE FindKthNodeFromEnd() const;
 
 //~=====Added Features Functions======//
 
@@ -116,19 +111,17 @@ class SINGLY_CIRCULAR_LINKEDLIST
 };
 
 
-SINGLY_CIRCULAR_LINKEDLIST::SINGLY_CIRCULAR_LINKEDLIST()
+DOUBLY_LINEAR_LINKEDLIST::DOUBLY_LINEAR_LINKEDLIST()
 {
     pHead = NULL;
-    pTail = NULL;
     iCountNode = 0;
+    iCountNode_Main = 0;
 }
 
 
-SINGLY_CIRCULAR_LINKEDLIST::~SINGLY_CIRCULAR_LINKEDLIST()
+DOUBLY_LINEAR_LINKEDLIST::~DOUBLY_LINEAR_LINKEDLIST()
 {
-    delete pHead;
-    delete pTail;
-    iCountNode = 0;
+    DeleteList();
 }
 
 //3===============================================================================================//
@@ -141,7 +134,7 @@ SINGLY_CIRCULAR_LINKEDLIST::~SINGLY_CIRCULAR_LINKEDLIST()
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                   Singly Circular Linked-List                                  //
+//                                    Doubly Linear Linked-List                                   //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //Functions:                                                                                      //
@@ -164,21 +157,20 @@ SINGLY_CIRCULAR_LINKEDLIST::~SINGLY_CIRCULAR_LINKEDLIST()
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//Display() Function: Displays the entire singly circular linked list .                           //
+//Display() Function: Displays the entire doubly linear linked list .                             //
 //================================================================================================//
 //Parameters: None                                                                                //
 //================================================================================================//
 //Return: void                                                                                    //
 //================================================================================================//
-//Local variables:                                                                                //
-//1. PsNODE : Temporary pointer to traverse the linked list .                                     //
+//Local variables: None                                                                           //
 //================================================================================================//
 //Algorithm:                                                                                      //
 //1. Traverse the linked list till the last node and display the data of each node.               //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void SINGLY_CIRCULAR_LINKEDLIST::Display()
+void DOUBLY_LINEAR_LINKEDLIST::Display()
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
+    if((iCountNode == 0) && (pHead == NULL))
     {
         cout<<"Linkedlist is empty"<<endl;
         cout<<"NULL"<<endl;
@@ -186,16 +178,32 @@ void SINGLY_CIRCULAR_LINKEDLIST::Display()
     }
 
     cout<<"Elements from linked list are : "<<endl<<endl;
-    PsNODE ptemp = pHead;
 
-    cout<<"-> ";
+    ///////////////////////Display in serial order//////////////////////
 
-    do
+    cout<<"Elements from linked list in serial order are : "<<endl;
+
+    cout<<"NULL";
+    while(pHead -> pNext != NULL)
     {
-        cout<<"| "<<ptemp -> iData<<" | -> ";
-        ptemp = ptemp -> pNext;
-    }while(ptemp != pHead);
+        cout<<"<- | "<<pHead -> iData<<" | -> ";
+        pHead = pHead -> pNext;
+    }
+    cout<<"<- | "<<pHead -> iData<<" | -> ";
+    cout<<"NULL"<<endl<<endl;
 
+    ///////////////////////Display in reverse order//////////////////////
+
+    cout<<"Elements from linked list in reverse order are : "<<endl<<endl;
+
+    cout<<"NULL";
+    while(pHead -> pPrev != NULL)
+    {
+        cout<<"<- | "<<pHead -> iData<<" | -> ";
+        pHead = pHead -> pPrev;
+    };
+    cout<<"<- | "<<pHead -> iData<<" | -> ";
+    cout<<"NULL";
     cout<<endl;
 }
 
@@ -212,14 +220,14 @@ void SINGLY_CIRCULAR_LINKEDLIST::Display()
 //Algorithm:                                                                                      //
 //1. Return the value of iCountNode which is updated during insertion and deletion operations.    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-int SINGLY_CIRCULAR_LINKEDLIST::Count()
+int DOUBLY_LINEAR_LINKEDLIST::Count()
 {
     return iCountNode;
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//InsertFirst() Function: Inserts a new node at the beginning of the singly circular linked list .//
+//InsertFirst() Function: Inserts a new node at the beginning of the doubly linear linked list .  //
 //================================================================================================//
 //Parameters:                                                                                     //
 //1. int : Data to be inserted in the new node .                                                  //
@@ -238,7 +246,7 @@ int SINGLY_CIRCULAR_LINKEDLIST::Count()
 //5. Update the Next pointer of the new node to point to the head node .                          //
 //6. Increment the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void SINGLY_CIRCULAR_LINKEDLIST::InsertFirst(int iNo)
+void DOUBLY_LINEAR_LINKEDLIST::InsertFirst(int iNo)
 {
     //Initialize a new node
     PsNODE PsNewNode = NULL;
@@ -247,28 +255,27 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertFirst(int iNo)
     //Filling the node with data
     PsNewNode -> iData = iNo;
     PsNewNode -> pNext = NULL;
+    PsNewNode -> pPrev = NULL;
 
-    if(iCountNode == 0)//If linkedlist is empty(pHead == NULL)
+    if((iCountNode == 0) && (pHead == NULL))//If linkedlist is empty(pHead == NULL)
     {
         pHead = PsNewNode;
-        pTail = PsNewNode;
     }
     else//If linkedlist contains atleast one node
     {
         PsNewNode -> pNext = pHead;
+        pHead -> pPrev = PsNewNode;
         pHead = PsNewNode;
     }
 
-    pTail -> pNext = pHead;
-
     iCountNode++;
 
-    cout<<"Node with data "<<iNo<<" inserted at the beginning of the singly circular linked list"<<endl;
+    cout<<"Node with data "<<iNo<<" inserted at the beginning of the doubly linear linked list"<<endl;
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//InsertLast() Function: Inserts a new node at the end of the singly circular linked list .       //
+//InsertLast() Function: Inserts a new node at the end of the doubly linear linked list .         //
 //================================================================================================//
 //Parameters:                                                                                     //
 //1. int : Data to be inserted in the new node .                                                  //
@@ -277,6 +284,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertFirst(int iNo)
 //================================================================================================//
 //Local variables:                                                                                //
 //1. PsNODE : Pointer to the new node .                                                           //
+//2. PsNODE : Temporary Pointer for traversal                                                     //
 //================================================================================================//
 //Algorithm:                                                                                      //
 //1. Allocate memory for the new node .                                                           //
@@ -287,7 +295,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertFirst(int iNo)
 //5. Update the Next pointer of the new node to point to the head node .                          //
 //6. Increment the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void SINGLY_CIRCULAR_LINKEDLIST::InsertLast(int iNo)
+void DOUBLY_LINEAR_LINKEDLIST::InsertLast(int iNo)
 {
     //Initialize a new node
     PsNODE PsNewNode = NULL;
@@ -296,29 +304,33 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertLast(int iNo)
     //Filling the node with data
     PsNewNode -> iData = iNo;
     PsNewNode -> pNext = NULL;
+    PsNewNode -> pPrev = NULL;
 
-    if(iCountNode == 0)//If linkedlist is empty((pHead == NULL) && (pTail == NULL))
+    if(iCountNode == 0)//If linkedlist is empty(pHead == NULL)
     {
         pHead = PsNewNode;
-        pTail = PsNewNode;
     }
     else//If linkedlist contains atleast one node
     {
-        pTail -> pNext = PsNewNode;
-        PsNewNode -> pNext = pHead;
-        pTail = PsNewNode;
-    }
+        PsNODE ptemp = pHead;
 
-    pTail -> pNext = pHead;
+        while(ptemp -> pNext != NULL)
+        {
+            ptemp = ptemp -> pNext;
+        }
+
+        ptemp -> pNext = PsNewNode;
+        PsNewNode -> pPrev = ptemp;
+    }
 
     iCountNode++;
 
-    cout<<"Node with data "<<iNo<<" inserted at the end of the singly circular linked list"<<endl;
+    cout<<"Node with data "<<iNo<<" inserted at the end of the doubly linear linked list"<<endl;
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//InsertAtPosition() Function: Inserts a new node at the given position of the singly circular    //
+//InsertAtPosition() Function: Inserts a new node at the given position of the doubly linear      //
 //linked list .                                                                                   //
 //================================================================================================//
 //Parameters:                                                                                     //
@@ -344,7 +356,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertLast(int iNo)
 //7. Update the Next pointer of the new node to point to the head node .                          //
 //8. Increment the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void SINGLY_CIRCULAR_LINKEDLIST::InsertAtPosition(int iNo,int iPosition)
+void DOUBLY_LINEAR_LINKEDLIST::InsertAtPosition(int iNo,int iPosition)
 {
     //Initialize a new node
     PsNODE PsNewNode = NULL;
@@ -353,6 +365,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertAtPosition(int iNo,int iPosition)
     //Filling the node with data
     PsNewNode -> iData = iNo;
     PsNewNode -> pNext = NULL;
+    PsNewNode -> pPrev = NULL;
 
     int iCnt = 0;
 
@@ -381,18 +394,24 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertAtPosition(int iNo,int iPosition)
     else if((iCountNode == 0) && (pHead == NULL))//If linkedlist is empty
     {
         pHead = PsNewNode;
-        pTail = PsNewNode;
     }
     else if(iPosition == 1)//If position is 1
     {
         PsNewNode -> pNext = pHead;
+        pHead -> pPrev = PsNewNode;
         pHead = PsNewNode;
     }
     else if(iPosition == (iCountNode + 1))//If position last
     {
-        PsNewNode -> pNext = pHead;
-        pTail -> pNext = PsNewNode;
-        pTail = PsNewNode;
+        PsNODE ptemp = pHead;
+
+        while(ptemp -> pNext != NULL)
+        {
+            ptemp = ptemp ->pNext;
+        }
+
+        ptemp -> pNext = PsNewNode;
+        PsNewNode -> pPrev = ptemp;
     }
     else//Random position
     {
@@ -404,14 +423,14 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertAtPosition(int iNo,int iPosition)
         }
 
         PsNewNode -> pNext = ptemp -> pNext;
+        ptemp -> pNext -> pPrev = PsNewNode;
         ptemp -> pNext = PsNewNode;
+        PsNewNode -> pPrev = ptemp;
     }
-
-    pTail -> pNext = pHead;
 
     iCountNode++;
 
-    cout<<"Node with data "<<iNo<<" inserted at position "<<iPosition<<" in the singly circular linked list"<<endl;
+    cout<<"Node with data "<<iNo<<" inserted at position "<<iPosition<<" in the doubly linear linked list"<<endl;
 }
 
 
@@ -422,7 +441,8 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertAtPosition(int iNo,int iPosition)
 //================================================================================================//
 //Return: void                                                                                    //
 //================================================================================================//
-//Local variables: None                                                                           //
+//Local variables:                                                                                //
+//1. PsNODE : temporary pointer to traverse the linked list .                                     //
 //================================================================================================//
 //Algorithm:                                                                                      //
 //1. If the linked list is empty, display a message that the linked list is empty and return .    //
@@ -433,30 +453,27 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertAtPosition(int iNo,int iPosition)
 //4. Update the Next pointer of the new node to point to the head node .                          //
 //5. Decrement the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void SINGLY_CIRCULAR_LINKEDLIST::DeleteFirst()
+void DOUBLY_LINEAR_LINKEDLIST::DeleteFirst()
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))//If linkedlist is empty
+    if((iCountNode == 0) && (pHead == NULL))//If linkedlist is empty
     {
         cout<<"Linkedlist is empty"<<endl;
         return;
     }
-    else if((iCountNode == 1) && (pHead == pTail))//If linkedlist contains one node
+    else if((iCountNode == 1) && ((pHead -> pNext) == NULL))//If linkedlist contains one node
     {
-        cout<<"Node with data "<<(pHead) -> iData<<" deleted from the beginning of the singly circular linked list"<<endl;
-
-        free(pTail);
+        cout<<"Node with data "<<pHead -> iData<<" deleted from the beginning of the doubly linear linked list"<<endl;
         free(pHead);
-        pTail = NULL;
         pHead = NULL;
     }
     else//If linkedlist contains atleast one node
     {
         pHead = pHead -> pNext;
 
-        cout<<"Node with data "<<pTail -> pNext -> iData<<" deleted from the beginning of the singly circular linked list"<<endl;
-        free(pTail -> pNext);
+        cout<<"Node with data "<<pHead -> pPrev -> iData<<" deleted from the beginning of the doubly linear linked list"<<endl;
 
-        pTail -> pNext = pHead;
+        free(pHead -> pPrev);
+        pHead -> pPrev = NULL;
     }
 
     iCountNode--;
@@ -464,7 +481,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteFirst()
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//DeleteLast() Function: Deletes a node from end of the singly circular linked list .             //
+//DeleteLast() Function: Deletes a node from end of the doubly linear linked list .               //
 //================================================================================================//
 //Parameters: None                                                                                //
 //================================================================================================//
@@ -481,19 +498,17 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteFirst()
 //4. Update the Next pointer of the new node to point to the head node .                          //
 //5. Decrement the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void SINGLY_CIRCULAR_LINKEDLIST::DeleteLast()
+void DOUBLY_LINEAR_LINKEDLIST::DeleteLast()
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))//If linkedlist is empty
+    if((iCountNode == 0) && (pHead == NULL))//If linkedlist is empty
     {
         cout<<"Linkedlist is empty"<<endl;
         return;
     }
-    else if((iCountNode == 1) && (pHead == pTail))//If linkedlist contains one node
+    else if((iCountNode == 1) && ((pHead) -> pNext == NULL))//If linkedlist contains one node
     {
-        cout<<"Node with data "<<(pHead) -> iData<<" deleted from the end of the singly circular linked list"<<endl;
+        cout<<"Node with data "<<(pHead) -> iData<<" deleted from the end of the doubly circular linked list"<<endl;
 
-        free(pTail);
-        pTail = NULL;
         free(pHead);
         pHead = NULL;
     }
@@ -501,16 +516,15 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteLast()
     {
         PsNODE ptemp = pHead;
 
-        while(ptemp -> pNext != pTail)
+        while(ptemp -> pNext -> pNext != NULL)
         {
             ptemp = ptemp -> pNext;
         }
 
-        cout<<"Node with data "<<ptemp -> pNext -> iData<<" deleted from the end of the singly circular linked list"<<endl;
+        cout<<"Node with data "<<ptemp -> pNext -> iData<<" deleted from the end of the doubly linear linked list"<<endl;
 
         free(ptemp -> pNext);
-        pTail = ptemp;
-        pTail -> pNext = pHead;
+        ptemp -> pNext = NULL;
     }
 
     iCountNode--;
@@ -518,7 +532,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteLast()
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//DeleteAtPosition() Function: Deletes a new node at the given position from the singly circular  //
+//DeleteAtPosition() Function: Deletes a new node at the given position from the doubly linear    //
 // linked list .                                                                                  //
 //================================================================================================//
 //Parameters:                                                                                     //
@@ -528,8 +542,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteLast()
 //================================================================================================//
 //Local variables:                                                                                //
 //1. int : Counter variable .                                                                     //
-//2. PsNODE : temporary pointer to traverse the linked list .                                     //
-//3. PsNODE : temporary pointer to delete the node .                                              //
+//2. PsNODE : temporary pointer to delete the node .                                              //
 //================================================================================================//
 //Algorithm:                                                                                      //
 //1. If the linked list is empty, display a message that the linked list is empty and return .    //
@@ -541,9 +554,9 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteLast()
 //   and free the memory of the node to be deleted.                                               //
 //6. Decrement the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void SINGLY_CIRCULAR_LINKEDLIST::DeleteAtPosition(int iPosition)
+void DOUBLY_LINEAR_LINKEDLIST::DeleteAtPosition(int iPosition)
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))//If linkedlist is empty
+    if((iCountNode == 0) && (pHead == NULL))//If linkedlist is empty
     {
         cout<<"Linkedlist is empty"<<endl;
         return;
@@ -574,12 +587,10 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteAtPosition(int iPosition)
         return;
     }
 
-    if((iCountNode == 1) && (pHead == pTail))
+    if((iCountNode == 1) && ((pHead -> pNext) == NULL))
     {
-        cout<<"Node with data "<<(pHead) -> iData<<" deleted from the singly circular linked list"<<endl;
+        cout<<"Node with data "<<(pHead) -> iData<<" deleted from the doubly linear linked list"<<endl;
 
-        free(pTail);
-        pTail = NULL;
         free(pHead);
         pHead = NULL;
     }
@@ -587,42 +598,40 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteAtPosition(int iPosition)
     {
         pHead = pHead -> pNext;
 
-        cout<<"Node with data "<<pTail -> pNext -> iData<<" deleted from the beginning of the singly circular linked list"<<endl;
+        cout<<"Node with data "<<pHead -> pPrev -> iData<<" deleted from the beginning of the doubly linear linked list"<<endl;
 
-        free(pTail -> pNext);
-        pTail -> pNext = pHead;
+        free(pHead -> pPrev);
+        pHead -> pPrev = NULL;
     }
     else if(iPosition == iCountNode)//If position last
     {
-        PsNODE ptempdelete = pHead;
+        PsNODE ptemp = pHead;
 
-        while(ptempdelete -> pNext != pTail)
+        while(ptemp -> pNext -> pNext != NULL)
         {
-            ptempdelete = ptempdelete -> pNext;
+            ptemp = ptemp -> pNext;
         }
 
-        cout<<"Node with data "<<ptempdelete -> pNext -> iData<<" deleted from the end of the singly circular linked list"<<endl;
+        cout<<"Node with data "<<ptemp -> pNext -> iData<<" deleted from the end of the doubly linear linked list"<<endl;
 
-        free(ptempdelete -> pNext);
-        pTail = ptempdelete;
-        pTail -> pNext = pHead;
+        free(ptemp -> pNext);
+        ptemp -> pNext = pHead;
     }
     else//Random position
     {
         PsNODE ptemp = pHead;
-        PsNODE ptempdelete = NULL;
 
         for(iCnt = 1;iCnt < (iPosition - 1);iCnt++)
         {
             ptemp = ptemp -> pNext;
         }
 
-        ptempdelete = ptemp -> pNext;
         ptemp -> pNext = ptemp -> pNext -> pNext;
 
-        cout<<"Node with data "<<ptempdelete -> iData<<" deleted from "<<iPosition<<" position from singly circular linked list"<<endl;
+        cout<<"Node with data "<<ptemp -> pNext -> pPrev -> iData<<" deleted from "<<iPosition<<" position from doubly linear linked list"<<endl;
 
-        free(ptempdelete);
+        free(ptemp -> pNext -> pPrev);
+        ptemp -> pNext -> pPrev = ptemp;
     }
 
     iCountNode--;
@@ -659,7 +668,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteAtPosition(int iPosition)
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//Search() Function: Searches for a specific value from the singly circular linked list .         //
+//Search() Function: Searches for a specific value from the doubly linear linked list .           //
 //================================================================================================//
 //Parameters:                                                                                     //
 //1. int : Value to be searched in the linked list .                                              //
@@ -676,9 +685,9 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteAtPosition(int iPosition)
 //   specified value. If the value is found, display a message that the value is found and return.//
 //4. If the value is not found, return false.                                                     //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool SINGLY_CIRCULAR_LINKEDLIST::Search(int iSearch)
+bool DOUBLY_LINEAR_LINKEDLIST::Search(int iSearch)
 {
-    if((iCountNode == 0)  && (pHead == NULL) && (pTail == NULL))
+    if((iCountNode == 0)  && (pHead == NULL))
     {
         cout<<"Linkedlist is empty"<<endl;
         return false;
@@ -690,7 +699,7 @@ bool SINGLY_CIRCULAR_LINKEDLIST::Search(int iSearch)
     {
         if(pHead -> iData == iSearch)
         {
-            cout<<"Element "<<iSearch<<" is found at position "<<iPosition<<" in singly circular linked list"<<endl;
+            cout<<"Element "<<iSearch<<" is found at position "<<iPosition<<" in doubly linear linked list"<<endl;
             return true;
         }
 
@@ -698,14 +707,14 @@ bool SINGLY_CIRCULAR_LINKEDLIST::Search(int iSearch)
         iPosition++;
     }
 
-    cout<<"Element "<<iSearch<<" not found in singly circular linked list"<<endl;
+    cout<<"Element "<<iSearch<<" not found in doubly linear linked list"<<endl;
     return false;
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//UpdateNoForNo() Function: Updates the value in exchange of a specific value in the singly       //
-// circular linked list .                                                                         //
+//UpdateNoForNo() Function: Updates the value in exchange of a specific value in the doubly       //
+// linear linked list .                                                                           //
 //================================================================================================//
 //Parameters:                                                                                     //
 //1. int : Value to be searched in the linked list .                                              //
@@ -721,9 +730,9 @@ bool SINGLY_CIRCULAR_LINKEDLIST::Search(int iSearch)
 //   specified value. If the value is found, update the data of the node with the specified value.//
 //2. If the value is not found, display a message that the value is not found.                    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void SINGLY_CIRCULAR_LINKEDLIST::UpdateNoForNo(int iSearch,int iUpdate)
+void DOUBLY_LINEAR_LINKEDLIST::UpdateNoForNo(int iSearch,int iUpdate)
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
+    if((iCountNode == 0) && (pHead == NULL))
     {
         cout<<"Linkedlist is empty"<<endl;
         return;
@@ -736,7 +745,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::UpdateNoForNo(int iSearch,int iUpdate)
         if(pHead -> iData == iSearch)
         {
             pHead -> iData = iUpdate;
-            cout<<"Element "<<iSearch<<" has been updated to "<<iUpdate<<" in singly circular linked list"<<endl;
+            cout<<"Element "<<iSearch<<" has been updated to "<<iUpdate<<" in doubly linear linked list"<<endl;
 
             return;
         }
@@ -745,12 +754,12 @@ void SINGLY_CIRCULAR_LINKEDLIST::UpdateNoForNo(int iSearch,int iUpdate)
         iPosition++;
     }
 
-    cout<<"Element "<<iSearch<<" not found in singly circular linked list"<<endl;
+    cout<<"Element "<<iSearch<<" not found in doubly linear linked list"<<endl;
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//UpdateNoForPosition() Function: Updates the value at a specific position in singly circular     //
+//UpdateNoForPosition() Function: Updates the value at a specific position in doubly linear       //
 // linked list .                                                                                  //
 //================================================================================================//
 //Parameters:                                                                                     //
@@ -767,9 +776,9 @@ void SINGLY_CIRCULAR_LINKEDLIST::UpdateNoForNo(int iSearch,int iUpdate)
 //   specified value. If the value is found, update the data of the node with the specified value.//
 //2. If the value is not found, display a message that the value is not found.                    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void SINGLY_CIRCULAR_LINKEDLIST::UpdateNoForPosition(int iUpdate,int iPosition)
+void DOUBLY_LINEAR_LINKEDLIST::UpdateNoForPosition(int iUpdate,int iPosition)
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
+    if((iCountNode == 0) && (pHead == NULL))
     {
         cout<<"Linkedlist is empty"<<endl;
         return;
@@ -804,7 +813,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::UpdateNoForPosition(int iUpdate,int iPosition)
         if(iCnt == iPosition)
         {
             pHead -> iData = iUpdate;
-            cout<<"Element at position "<<iPosition<<" has been updated to "<<iUpdate<<" in singly circular linked list"<<endl;
+            cout<<"Element at position "<<iPosition<<" has been updated to "<<iUpdate<<" in doubly linear linked list"<<endl;
 
             return;
         }
@@ -816,53 +825,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::UpdateNoForPosition(int iUpdate,int iPosition)
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//Concat() Function: Concats two singly circular linked list .                                    //
-//================================================================================================//
-//Parameters:                                                                                     //
-//================================================================================================//
-//Return: void                                                                                    //
-//================================================================================================//
-//Local variables:                                                                                //
-//1. PsNODE : temporary pointer to traverse the linked list .                                     //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If both linked lists are empty, display a message that both linked lists are empty.          //
-//2. If the first linked list is empty, display a message that the first linked list is empty.    //
-//3. If the second linked list is empty, display a message that the second linked list is empty.  //
-//4. Traverse the first linked list till the last node and update thepNext pointer of the last    //
-//   node with the address of the first node of the second linked list and free the second linked //
-//   list.                                                                                        //
-////////////////////////////////////////////////////////////////////////////////////////////////////
-void SINGLY_CIRCULAR_LINKEDLIST::Concat()
-{
-    if((pHead1 == NULL) && (pHead2 == NULL) && (pTail1 == 0) && (pTail2 == NULL))
-    {
-        cout<<"Both linkedlist are empty"<<endl;
-        return;
-    }
-    else if((pHead1 == NULL) && (pTail1))
-    {
-        cout<<"First linkedlist is empty"<<endl;
-        return;
-    }
-    else if((pHead2 == NULL) && (pTail2 == NULL))
-    {
-        cout<<"Second linkedlist is empty"<<endl;
-        return;
-    }
-
-    pTail1 -> pNext = pHead2;
-    pTail2 -> pNext = pHead1;
-
-    pTail1 = pTail2;
-
-    pHead2 = NULL; //Freeing the second linked list
-    pTail2 = NULL; //Freeing the second linked list
-}
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-//InsertBefore() Function: Adds a new node before a specified node in singly circular linked list //
+//InsertBefore() Function: Adds a new node before a specified node in doubly linear linked list   //
 //================================================================================================//
 //Parameters:                                                                                     //
 //1. int : Data to be inserted in the new node .                                                  //
@@ -888,9 +851,9 @@ void SINGLY_CIRCULAR_LINKEDLIST::Concat()
 //   Next pointer of the previous node with the address of the new node.                          //
 //7. Update the Next pointer of the last node to point to the head node .                         //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void SINGLY_CIRCULAR_LINKEDLIST::InsertBefore(int iNo,int iPosition)
+void DOUBLY_LINEAR_LINKEDLIST::InsertBefore(int iNo,int iPosition)
 {
-    if((iCountNode == 0)  && (pHead == NULL) && (pTail == NULL))
+    if((iCountNode == 0)  && (pHead == NULL))
     {
         cout<<"linkedlist are empty\n"<<endl;
         return;
@@ -926,10 +889,12 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertBefore(int iNo,int iPosition)
     //Filling the node with data
     PsNewNode -> iData = iNo;
     PsNewNode -> pNext = NULL;
+    PsNewNode -> pPrev = NULL;
 
     if(iPosition == 1)
     {
         PsNewNode -> pNext = pHead;
+        pHead -> pPrev = PsNewNode;
         pHead = PsNewNode;
     }
     else
@@ -942,21 +907,21 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertBefore(int iNo,int iPosition)
         }
 
         PsNewNode -> pNext = ptemp -> pNext;
+        PsNewNode -> pPrev = ptemp;
         ptemp -> pNext = PsNewNode;
+        PsNewNode -> pNext -> pPrev = PsNewNode;
 
         ptemp = NULL;//Freeing the temporary pointer
     }
 
-    pTail -> pNext = pHead;
-
     iCountNode++;
 
-    cout<<"Node with data "<<iNo<<" inserted at the position "<<iPosition<<" of the singly circular linked list"<<endl;
+    cout<<"Node with data "<<iNo<<" inserted at the position "<<iPosition<<" of the doubly linear linked list"<<endl;
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//InsertAfter() Function: Adds a new node after a specified node in singly circular linked list . //
+//InsertAfter() Function: Adds a new node after a specified node in doubly linear linked list .   //
 //================================================================================================//
 //Parameters:                                                                                     //
 //1. int : Data to be inserted in the new node .                                                  //
@@ -979,9 +944,9 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertBefore(int iNo,int iPosition)
 //   the last node with the address of the new node.we can call the InsertFirst() Function or use //
 //   its logic .                                                                                  //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void SINGLY_CIRCULAR_LINKEDLIST::InsertAfter(int iNo,int iPosition)
+void DOUBLY_LINEAR_LINKEDLIST::InsertAfter(int iNo,int iPosition)
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
+    if((iCountNode == 0) && (pHead == NULL))
     {
         cout<<"linkedlist are empty"<<endl;
         return;
@@ -1017,38 +982,47 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertAfter(int iNo,int iPosition)
     //Filling the node with data
     PsNewNode -> iData = iNo;
     PsNewNode -> pNext = NULL;
+    PsNewNode -> pPrev = NULL;
+
+    PsNODE ptemp = pHead;
 
     if(iPosition == iCountNode)
     {
-        PsNewNode -> pNext = pHead;
-        pTail -> pNext = PsNewNode;
-        pTail = PsNewNode;
+        //InsertLast(pHead,iNo); ---> Can be used
+
+        while(ptemp ->pNext != NULL)
+        {
+            ptemp = ptemp ->pNext;
+        }
+
+        ptemp -> pNext = PsNewNode;
+        PsNewNode -> pPrev = ptemp;
+
+        ptemp = NULL;;//Freeing the temporary pointer
     }
     else
     {
-        PsNODE ptemp = pHead;
-
         for(iCnt = 1;iCnt <= (iPosition - 1);iCnt++)
         {
             ptemp = ptemp -> pNext;
         }
 
         PsNewNode -> pNext = ptemp -> pNext;
+        ptemp -> pNext -> pPrev = PsNewNode;
+        PsNewNode -> pPrev = ptemp;
         ptemp -> pNext = PsNewNode;
 
         ptemp = NULL;
     }
 
-    pTail -> pNext = pHead;
-
     iCountNode++;
 
-    cout<<"Node with data "<<iNo<<" inserted at the position "<<(iPosition + 1)<<" of the singly circular linked list"<<endl;
+    cout<<"Node with data "<<iNo<<" inserted at the position "<<(iPosition + 1)<<" of the doubly linear linked list"<<endl;
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//DeleteBefore() Function: Removes a node before specified node from singly circular linked list  //
+//DeleteBefore() Function: Removes a node before specified node from doubly linear linked list    //
 //================================================================================================//
 //Parameters:                                                                                     //
 //1. int : Position before which the node is to be deleted .                                      //
@@ -1070,9 +1044,9 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertAfter(int iNo,int iPosition)
 //   the Next pointer of the previous node with the Next pointer of the node to be deleted and    //
 //   free the memory of the node to be deleted.                                                   //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void SINGLY_CIRCULAR_LINKEDLIST::DeleteBefore(int iPosition)
+void DOUBLY_LINEAR_LINKEDLIST::DeleteBefore(int iPosition)
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
+    if((iCountNode == 0) && (pHead == NULL))
     {
         cout<<"linkedlist are empty"<<endl;
         return;
@@ -1100,19 +1074,21 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteBefore(int iPosition)
         return;
     }
 
+    PsNODE ptemp = pHead;
+
     if(iPosition == 2)
     {
-        pHead = pHead -> pNext;
+        pHead = ptemp -> pNext;
+        pHead -> pPrev = NULL;
 
-        cout<<"Node with data "<<pTail -> pNext -> iData<<" deleted from the beginning of the singly circular linked list"<<endl;
+        cout<<"Node with data "<<ptemp -> iData<<" deleted from the beginning of the doubly linear linked list"<<endl;
 
-        free(pTail -> pNext);
-        pTail -> pNext = pHead;
+        free(ptemp);
+        ptemp = NULL;
     }
     else
     {
         PsNODE ptempdelete = NULL;
-        PsNODE ptemp = pHead;
 
         for(iCnt = 1;iCnt < (iPosition - 2);iCnt++)
         {
@@ -1121,8 +1097,9 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteBefore(int iPosition)
 
         ptempdelete = ptemp -> pNext;
         ptemp -> pNext = ptemp -> pNext -> pNext;
+        ptempdelete -> pNext -> pPrev = ptemp;
 
-        cout<<"Node with data "<<ptempdelete -> iData<<" deleted from the singly circular linked list"<<endl;
+        cout<<"Node with data "<<ptempdelete -> iData<<" deleted from the doubly linear linked list"<<endl;
 
         free(ptempdelete);
     }
@@ -1132,7 +1109,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteBefore(int iPosition)
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//DeleteAfter() Function: Remove a node after a specified node from singly circular linked list . //
+//DeleteAfter() Function: Remove a node after a specified node from doubly linear linked list .   //
 //================================================================================================//
 //Parameters:                                                                                     //
 //1. int : Position before which the new node is to be inserted .                                 //
@@ -1152,9 +1129,9 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteBefore(int iPosition)
 //   the Next pointer of the previous node with the Next pointer of the node to be deleted and    //
 //   free the memory of the node to be deleted.                                                   //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void SINGLY_CIRCULAR_LINKEDLIST::DeleteAfter(int iPosition)
+void DOUBLY_LINEAR_LINKEDLIST::DeleteAfter(int iPosition)
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
+    if((iCountNode == 0) && (pHead == NULL))
     {
         cout<<"linkedlist are empty"<<endl;
         return;
@@ -1186,16 +1163,15 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteAfter(int iPosition)
 
     if(iPosition == (iCountNode - 1))
     {
-        while(ptemp -> pNext != pTail)
+        while(ptemp -> pNext -> pNext != NULL)
         {
             ptemp = ptemp -> pNext;
         }
 
-        cout<<"Node with data "<<ptemp -> pNext -> iData<<" deleted from the singly circular linked list"<<endl;
+        cout<<"Node with data "<<ptemp -> pNext -> iData<<" deleted from the doubly linear linked list"<<endl;
 
         free(ptemp -> pNext);
         ptemp -> pNext = NULL;
-        pTail = ptemp;
     }
     else
     {
@@ -1208,20 +1184,19 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteAfter(int iPosition)
 
         ptempdelete = ptemp -> pNext;
         ptemp -> pNext = ptemp -> pNext -> pNext;
+        ptempdelete -> pNext -> pPrev = ptemp;
 
-        cout<<"Node with data "<<ptempdelete -> iData<<" deleted from the singly circular linked list"<<endl;
+        cout<<"Node with data "<<ptempdelete -> iData<<" deleted from the doubly linear linked list"<<endl;
 
         free(ptempdelete);
     }
-
-    pTail -> pNext = pHead;
 
     iCountNode--;
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//DeleteList() Function: Deletes the entire singly circular linked list .                         //
+//DeleteList() Function: Deletes the entire doubly linear linked list .                           //
 //================================================================================================//
 //Parameters: None                                                                                //
 //================================================================================================//
@@ -1237,47 +1212,38 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteAfter(int iPosition)
 //3. Finally, free the memory of the first pointer.                                               //
 //4. Display a message that the linked list has been deleted.                                     //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void SINGLY_CIRCULAR_LINKEDLIST::DeleteList()
+void DOUBLY_LINEAR_LINKEDLIST::DeleteList()
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
+    if((iCountNode == 0) && (pHead == NULL))
     {
         cout<<"linkedlist is already empty"<<endl;
         return;
     }
 
-    do
+    PsNODE ptempdelete = pHead;
+
+    while(pHead != NULL)
     {
+        ptempdelete = pHead;
         pHead = pHead -> pNext;
 
-        cout<<"Node with data "<<pTail -> pNext -> iData<<" deleted from the singly circular linked list"<<endl;
+        cout<<"Node with data "<<ptempdelete -> iData<<" deleted from the doubly linear linked list"<<endl;
 
-        free(pTail -> pNext);
-        pTail -> pNext = pHead;
+        free(ptempdelete);
+        ptempdelete = NULL;
 
         iCountNode--;
-
-    }while(pHead != pTail);
-
-    if(pHead == pTail)
-    {
-        cout<<"Node with data "<<pTail -> iData<<" deleted from the singly circular linked list"<<endl;
-
-        free(pTail);
-        pTail = NULL;
     }
 
     free(pHead);
     pHead = NULL;
 
-    free(pTail);
-    pTail = NULL;
-
-    cout<<"Singly Circular Linked-List has been deleted"<<endl;
+    cout<<"Doubly Linear Linked-List has been deleted"<<endl;
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//SortAscending() Function: Sorts the singly circular linked list in ascending order .            //
+//SortAscending() Function: Sorts the doubly linear linked list in ascending order .              //
 //================================================================================================//
 //Parameters: None                                                                                //
 //================================================================================================//
@@ -1295,9 +1261,9 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteList()
 //   the next node, swap the data of the two nodes. Repeat this process till the last node.       //
 //3. Finally, display a message that the linked list has been sorted in ascending order.          //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void SINGLY_CIRCULAR_LINKEDLIST::SortAscending()
+void DOUBLY_LINEAR_LINKEDLIST::SortAscending()
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
+    if((iCountNode == 0) && (pHead == NULL))
     {
         cout<<"linkedlist is empty"<<endl;
         return;
@@ -1307,29 +1273,25 @@ void SINGLY_CIRCULAR_LINKEDLIST::SortAscending()
     PsNODE ptemp1 = pHead;
     PsNODE ptemp2 = pHead;
 
-    do
+    for(ptemp1 = pHead;ptemp1 -> pNext != NULL;ptemp1 = ptemp1 -> pNext)
     {
-        do
+        for(ptemp2 = ptemp1 -> pNext;ptemp2 != NULL;ptemp2 = ptemp2 -> pNext)
         {
-            if(ptemp1 -> iData < ptemp2 -> iData)
+            if(ptemp1 -> iData > ptemp2 -> iData)
             {
                 itransfer = ptemp1 -> iData;
                 ptemp1 -> iData = ptemp2 -> iData;
                 ptemp2 -> iData = itransfer;
             }
+        }
+    }
 
-            ptemp2 = ptemp2 -> pNext;
-        }while(ptemp2 != pTail);
-
-        ptemp1 = ptemp1 -> pNext;
-    }while(ptemp1 != pHead);
-
-    cout<<"Singly Circular Linked-List has been sorted as in ascending order"<<endl;
+    cout<<"Doubly Linear Linked-List has been sorted as in ascending order"<<endl;
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//Reverse() Function: Reverses the order of data in singly circular linked list .                 //
+//Reverse() Function: Reverses the order of data in doubly linear linked list .                   //
 //================================================================================================//
 //Parameters: None                                                                                //
 //================================================================================================//
@@ -1346,38 +1308,36 @@ void SINGLY_CIRCULAR_LINKEDLIST::SortAscending()
 //   the next node, swap the data of the two nodes. Repeat this process till the last node.       //
 //3. Finally, display a message that the linked list has been sorted in ascending order.          //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void SINGLY_CIRCULAR_LINKEDLIST::Reverse()
+void DOUBLY_LINEAR_LINKEDLIST::Reverse()
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
+    if((iCountNode == 0) && (pHead == NULL))
     {
         cout<<"linkedlist is empty"<<endl;
         return;
     }
 
+    PsNODE ptemp = NULL;
     PsNODE pCurrent = pHead;
-    PsNODE ptempprev = pTail;
-    PsNODE ptempNext = NULL;
 
-    do
+    while(pCurrent != NULL)
     {
-        ptempNext = pCurrent -> pNext;
-        pCurrent -> pNext = ptempprev;
-        ptempprev = pCurrent;
-        pCurrent = ptempNext;
-    }while(pCurrent != pHead);
+        ptemp = pCurrent -> pPrev;
+        pCurrent -> pPrev = pCurrent -> pNext;
+        pCurrent -> pNext = ptemp;
+        pCurrent = pCurrent -> pPrev;
+    }
 
-    pCurrent = pHead;
-    pHead = pTail;
-    pTail = pCurrent;
+    if(ptemp != NULL)
+    {
+        pHead = ptemp -> pPrev;
+    }
 
-    pTail -> pNext = pHead;
-
-    cout<<"Singly Circular Linked-List's data has been reversed"<<endl;
+    cout<<"Doubly Linear Linked-List's data has been reversed"<<endl;
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//FindMiddleNode() Function: returns the middle node from the singly circular linked list .       //
+//FindMiddleNode() Function: returns the middle node from the doubly linear linked list .         //
 //================================================================================================//
 //Parameters: None                                                                                //
 //================================================================================================//
@@ -1392,9 +1352,9 @@ void SINGLY_CIRCULAR_LINKEDLIST::Reverse()
 //2. Count the number of nodes in the linked list .                                               //
 //3. Traverse the linked list till the middle node and return the address of the middle node.     //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindMiddleNode()
+PsNODE DOUBLY_LINEAR_LINKEDLIST::FindMiddleNode()
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
+    if((iCountNode == 0) && (pHead == NULL))
     {
         cout<<"linkedlist is empty"<<endl;
         return 0;
@@ -1414,7 +1374,7 @@ PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindMiddleNode()
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//FindKthNodeFromStart() Function: return the kth node from start from singly circular linkedlist //
+//FindKthNodeFromStart() Function: return the kth node from start from doubly linear linkedlist   //
 //================================================================================================//
 //Parameters: None                                                                                //
 //================================================================================================//
@@ -1430,9 +1390,9 @@ PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindMiddleNode()
 //2. If the kth position is invalid, display a message that the kth position is invalid.          //
 //3. Travel the linked list till the kth node from start and return the address of the kth node.  //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindKthNodeFromStart()
+PsNODE DOUBLY_LINEAR_LINKEDLIST::FindKthNodeFromStart()
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
+    if((iCountNode == 0) && (pHead == NULL))
     {
         cout<<"linkedlist is empty"<<endl;
         return 0;
@@ -1476,7 +1436,7 @@ PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindKthNodeFromStart()
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//FindKthNodeFromMiddle() Function: returns the kth node from middle from singly circular linked  //
+//FindKthNodeFromMiddle() Function: returns the kth node from middle from doubly linear linked    //
 // list .                                                                                         //
 //================================================================================================//
 //Parameters: None                                                                                //
@@ -1495,9 +1455,9 @@ PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindKthNodeFromStart()
 //3. If the kth position is random, traverse the linked list till the kth node from middle and    //
 //   return the address of the kth node.                                                          //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindKthNodeFromMiddle()
+PsNODE DOUBLY_LINEAR_LINKEDLIST::FindKthNodeFromMiddle()
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
+    if((iCountNode == 0) && (pHead == NULL))
     {
         cout<<"linkedlist is empty"<<endl;
         return 0;
@@ -1561,9 +1521,9 @@ PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindKthNodeFromMiddle()
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//FindKthNodeFromEnd() Function: returns the kth node from end from singly linear linkedlist .    //
+//FindKthNodeFromEnd() Function: returns the kth node from end from doubly linear linkedlist .    //
 //================================================================================================//
-//Parameters: None                                                                                //
+//Parameters: None                                                                                    //
 //================================================================================================//
 //Return: PsNODE                                                                                  //
 //================================================================================================//
@@ -1578,9 +1538,9 @@ PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindKthNodeFromMiddle()
 //3. If the kth position is random, traverse the linked list till the kth node from end and       //
 //   return the address of the kth node.                                                          //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindKthNodeFromEnd()
+PsNODE DOUBLY_LINEAR_LINKEDLIST::FindKthNodeFromEnd()
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
+    if((iCountNode == 0) && (pHead == NULL))
     {
         cout<<"linkedlist is empty"<<endl;
         return 0;
@@ -1633,7 +1593,7 @@ PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindKthNodeFromEnd()
 //6===============================================================================================//
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//Manual() Function: A guide for the usage of singly-circular-linked-list .                       //
+//Manual() Function: A guide for the usage of doubly-linear-linked-list .                         //
 //================================================================================================//
 //Parameters: None                                                                                //
 //================================================================================================//
@@ -1643,13 +1603,13 @@ PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindKthNodeFromEnd()
 //================================================================================================//
 //Algorithm: None                                                                                 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void SINGLY_CIRCULAR_LINKEDLIST::Manual()
+void DOUBLY_LINEAR_LINKEDLIST::Manual()
 {
-    cout<<"::::MANUAL FOR RAJAS's SINGLY CIRCULAR LINKED LIST APPLICATION::::"<<endl<<endl<<endl;
+    cout<<"::::MANUAL FOR RAJAS's DOUBLY LINEAR LINKED LIST APPLICATION::::\n\n"<<endl;
 
 
 
-    cout<<"-----Below are functionalities provided for simple access of linked list(After entering 2 in ModeSelection stage)-----"<<endl<<endl<<endl;
+    cout<<"-----Below are functionalities provided for simple access of linked list(After entering 2 in ModeSelection stage)-----\n"<<endl;
 
     cout<<"INSERTION"<<endl;
     cout<<"For Inserting data at FIRST      position : press A"<<endl;
@@ -1662,10 +1622,10 @@ void SINGLY_CIRCULAR_LINKEDLIST::Manual()
     cout<<"For Deleting  data at  SPECIFIC  position : press F"<<endl<<endl;
 
     cout<<"COUNT"<<endl;
-    cout<<"To Count no. of nodes in linked list      : press G"<<endl<<endl;
+    cout<<"To Count no. of nodes in linked list      : press G"<<endl;
 
     cout<<"DISPLAY"<<endl;
-    cout<<"To View data in linked list               : press H"<<endl<<endl;
+    cout<<"To View data in linked list               : press H"<<endl<<endl<<endl;
 
 
     cout<<"-----Below are functionalities provided for added features of linked list(After entering 3 in ModeSelection stage)-----"<<endl<<endl;
@@ -1715,7 +1675,7 @@ int main()
 {
     //Manual();//Display the manual for the application
 
-    SINGLY_CIRCULAR_LINKEDLIST SinglyCircularLL;
+    DOUBLY_LINEAR_LINKEDLIST DoublyLinearLL;
 
     PsNODE pRet = NULL;//Pointer to the second node of the linked list
 
@@ -1729,9 +1689,9 @@ int main()
     int iPosition1 = 0;//Variable to store the position of the node
     int iExitMode = 0;//Variable to store the exit mode of the application
 
-    bool bRet = false;
+    bool bRet = 0;
 
-    cout<<"Welcome to Rajas's Application of Singly-Circular-LinkedList"<<endl<<endl;
+    cout<<"Welcome to Rajas's Application of Doubly-Linear-LinkedList"<<endl<<endl;
 
     while(1)
     {
@@ -1743,7 +1703,7 @@ int main()
 
         if(atoi(siChoiceMode) == 1)
         {
-            SinglyCircularLL.Manual();//Display the manual for the application
+            DoublyLinearLL.Manual();//Display the manual for the application
         }
         else if(atoi(siChoiceMode) == 2)
         {
@@ -1767,7 +1727,7 @@ int main()
                         cin>>iNo1;
                         cout<<endl;
 
-                        SinglyCircularLL.InsertFirst(iNo1);
+                        DoublyLinearLL.InsertFirst(iNo1);
                         break;
                     case 'B':
                     case 'b':
@@ -1775,7 +1735,7 @@ int main()
                         cin>>iNo1;
                         cout<<endl;
 
-                        SinglyCircularLL.InsertLast(iNo1);
+                        DoublyLinearLL.InsertLast(iNo1);
                         break;
                     case 'C':
                     case 'c':
@@ -1787,17 +1747,17 @@ int main()
                         cin>>iPosition1;
                         cout<<endl;
 
-                        SinglyCircularLL.InsertAtPosition(iNo1,iPosition1);
+                        DoublyLinearLL.InsertAtPosition(iNo1,iPosition1);
 
                         break;
                     case 'D':
                     case 'd':
-                        SinglyCircularLL.DeleteFirst();
+                        DoublyLinearLL.DeleteFirst();
 
                         break;
                     case 'E':
                     case 'e':
-                        SinglyCircularLL.DeleteLast();
+                        DoublyLinearLL.DeleteLast();
 
                         break;
                     case 'F':
@@ -1805,23 +1765,23 @@ int main()
                         cout<<"Enter the position at which the data is to be deleted : ";
                         cin>>iPosition1;
 
-                        SinglyCircularLL.DeleteAtPosition(iPosition1);
+                        DoublyLinearLL.DeleteAtPosition(iPosition1);
 
                         break;
                     case 'G':
                     case 'g':
-                        SinglyCircularLL.Display();
+                        DoublyLinearLL.Display();
 
                         break;
                     case 'H':
                     case 'h':
-                        iRet = SinglyCircularLL.Count();
+                        iRet = DoublyLinearLL.Count();
                         cout<<"Number of nodes in the linked list are : "<<iRet<<endl;
 
                         break;
                     case 'Y':
                     case 'y':
-                        SinglyCircularLL.Manual();//Display the manual for the application
+                        DoublyLinearLL.Manual();//Display the manual for the application
 
                         break;
                     case 'Z':
@@ -1853,17 +1813,17 @@ int main()
                 {
                     case 'B':
                     case 'b':
-                        SinglyCircularLL.Manual();//Display the manual for the application
+                        DoublyLinearLL.Manual();//Display the manual for the application
 
                         break;
                     case 'G':
                     case 'g':
-                        SinglyCircularLL.Display();
+                        DoublyLinearLL.Display();
 
                         break;
                     case 'H':
                     case 'h':
-                        iRet = SinglyCircularLL.Count();
+                        iRet = DoublyLinearLL.Count();
                         cout<<"Number of nodes in the linked list are : "<<iRet<<endl;
 
                         break;
@@ -1872,27 +1832,27 @@ int main()
                         cout<<"Enter the value to be searched in the linked list : ";
                         cin>>iNo1;
 
-                        bRet = SinglyCircularLL.Search(iNo1);
+                        bRet = DoublyLinearLL.Search(iNo1);
 
                         break;
                     case 'J':
                     case 'j':
-                        SinglyCircularLL.Reverse();
+                        DoublyLinearLL.Reverse();
 
                         break;
                     case 'K':
                     case 'k':
-                        SinglyCircularLL.Concat();
+                        DoublyLinearLL.Concat();
 
                         break;
                     case 'L':
                     case 'l':
-                        //SinglyCircularLL.Merge(&pHead1,&pHead1);
+                        //DoublyLinearLL.Merge(&pHead1,&pHead1);
 
                         break;
                     case 'M':
                     case 'm':
-                        SinglyCircularLL.SortAscending();
+                        DoublyLinearLL.SortAscending();
 
                         break;
                     case 'N':
@@ -1904,7 +1864,7 @@ int main()
                         cout<<"Enter the value to be updated with : ";
                         cin>>iNo2;
 
-                        SinglyCircularLL.UpdateNoForNo(iNo1,iNo2);
+                        DoublyLinearLL.UpdateNoForNo(iNo1,iNo2);
 
                         break;
                     case 'O':
@@ -1916,7 +1876,7 @@ int main()
                         cout<<"Enter the position at which the data is to be updated : ";
                         cin>>iPosition1;
 
-                        SinglyCircularLL.UpdateNoForPosition(iNo1,iPosition1);
+                        DoublyLinearLL.UpdateNoForPosition(iNo1,iPosition1);
 
                         break;
                     case 'P':
@@ -1929,7 +1889,7 @@ int main()
                         cin>>iPosition1;
                         cout<<endl;
 
-                        SinglyCircularLL.InsertBefore(iNo1,iPosition1);
+                        DoublyLinearLL.InsertBefore(iNo1,iPosition1);
 
                         break;
                     case 'Q':
@@ -1943,7 +1903,7 @@ int main()
                         cin>>iPosition1;
                         cout<<endl;
 
-                        SinglyCircularLL.InsertAfter(iNo1,iPosition1);
+                        DoublyLinearLL.InsertAfter(iNo1,iPosition1);
 
                         break;
                     case 'R':
@@ -1952,7 +1912,7 @@ int main()
                         cin>>iPosition1;
                         cout<<endl;
 
-                        SinglyCircularLL.DeleteBefore(iPosition1);
+                        DoublyLinearLL.DeleteBefore(iPosition1);
 
                         break;
                     case 'S':
@@ -1961,22 +1921,22 @@ int main()
                         cin>>iPosition1;
                         cout<<endl;
  
-                        SinglyCircularLL.DeleteAfter(iPosition1);
+                        DoublyLinearLL.DeleteAfter(iPosition1);
 
                         break;
                     case 'T':
                     case 't':
-                        SinglyCircularLL.DeleteList();
+                        DoublyLinearLL.DeleteList();
 
                         break;
                     case 'U':
                     case 'u':
-                        //SinglyCircularLL.RemoveDuplicates();
+                        //DoublyLinearLL.RemoveDuplicates();
 
                         break;
                     case 'V':
                     case 'v':
-                        pRet = SinglyCircularLL.FindMiddleNode();
+                        pRet = DoublyLinearLL.FindMiddleNode();
 
                         if(pRet != NULL)
                         {
@@ -2002,17 +1962,17 @@ int main()
                         break;
                     case 'X':
                     case 'x':
-                        pRet = SinglyCircularLL.FindKthNodeFromStart();
+                        pRet = DoublyLinearLL.FindKthNodeFromStart();
 
                         break;
                     case 'Y':
                     case 'y':
-                        pRet = SinglyCircularLL.FindKthNodeFromMiddle();
+                        pRet = DoublyLinearLL.FindKthNodeFromMiddle();
 
                         break;
                     case 'Z':
                     case 'z':
-                        pRet = SinglyCircularLL.FindKthNodeFromEnd();
+                        pRet = DoublyLinearLL.FindKthNodeFromEnd();
 
                         break;
                     case 'A':
@@ -2030,7 +1990,7 @@ int main()
         }
         else if(atoi(siChoiceMode) == 4)
         {
-            cout<<"Exiting the RAJAS's SINGLY CIRCULAR LINKEDLIST application"<<endl;
+            cout<<"Exiting the RAJAS's DOUBLY LINEAR LINKEDLIST application"<<endl;
             break;
         }
         else
