@@ -88,8 +88,8 @@ class SINGLY_CIRCULAR_LINKEDLIST
         //Insert and Delete functions
         void InsertBefore(int,int);
         void InsertAfter(int,int);
-        void DeleteBefore(int);
-        void DeleteAfter(int);
+        int DeleteBefore(int);
+        int DeleteAfter(int);
         void DeleteList(); // Helper for destructor
 
         //Sorting and Reversing functions
@@ -123,8 +123,6 @@ SINGLY_CIRCULAR_LINKEDLIST::SINGLY_CIRCULAR_LINKEDLIST()
 SINGLY_CIRCULAR_LINKEDLIST::~SINGLY_CIRCULAR_LINKEDLIST()
 {
     DeleteList();
-    iCountNode = 0;
-    iCountNode_Main = 0;
 }
 
 //3===============================================================================================//
@@ -241,14 +239,14 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertFirst(int iNo)
     {
         pHead = PsNewNode;
         pTail = PsNewNode;
+        pTail -> pNext = pHead;
     }
     else//If linkedlist contains atleast one node
     {
         PsNewNode -> pNext = pHead;
         pHead = PsNewNode;
+        pTail -> pNext = pHead;
     }
-
-    pTail -> pNext = pHead;
 
     iCountNode++;
     iCountNode_Main++;
@@ -278,12 +276,12 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertFirst(int iNo)
 void SINGLY_CIRCULAR_LINKEDLIST::InsertLast(int iNo)
 {
     //Initialize a new node
-    PsNODE PsNewNode = NULL;
+    PsNODE PsNewNode = nullptr;
     PsNewNode = new sNODE;
 
     //Filling the node with data
     PsNewNode -> iData = iNo;
-    PsNewNode -> pNext = NULL;
+    PsNewNode -> pNext = nullptr;
 
     if((pHead == nullptr) && (iCountNode == 0))//If linkedlist is empty((pHead == NULL) && (pTail == NULL))
     {
@@ -297,11 +295,8 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertLast(int iNo)
         pTail = PsNewNode;
     }
 
-    pTail -> pNext = pHead;
-
     iCountNode++;
-
-    cout<<"Node with data "<<iNo<<" inserted at the end of the singly circular linked list"<<endl;
+    iCountNode_Main++;
 }
 
 
@@ -321,85 +316,50 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertLast(int iNo)
 //3. int : Counter variable .                                                                     //
 //================================================================================================//
 //Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty and return .    //
-//2. Count the number of nodes in the linked list .                                               //
-//3. If the position is invalid, display a message that the position is invalid.                  //
-//4. If the position is 1,call the InsertFirst() function to insert the new node at the beginning.//
-//5. If the position is the last,call the InsertLast() function to insert the new node at the end.//
-//6. If the position is random, traverse till the node before the specified position and update   //
+//1. If the position is 1,call the InsertFirst() function to insert the new node at the beginning.//
+//2. If the position is the last,call the InsertLast() function to insert the new node at the end.//
+//3. If the position is random, traverse till the node before the specified position and update   //
 //   the Next pointer of the new node with the address of the Next node and update the Next       //
 //   pointer of the previous node with the address of the new node.                               //
-//7. Update the Next pointer of the new node to point to the head node .                          //
-//8. Increment the count of nodes in the linked list by 1.                                        //
+//4. Update the Next pointer of the new node to point to the head node .                          //
+//5. Increment the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_CIRCULAR_LINKEDLIST::InsertAtPosition(int iNo,int iPosition)
 {
-    //Initialize a new node
-    PsNODE PsNewNode = NULL;
-    PsNewNode = new sNODE;
-
-    //Filling the node with data
-    PsNewNode -> iData = iNo;
-    PsNewNode -> pNext = NULL;
-
-    int iCnt = 0;
-
-    if((iPosition < 1) || (iPosition > (iCountNode + 1)))//If position is invalid
+    if(iPosition == 1)//If position is 1
     {
-        while(iCnt <= 2)
-        {
-            cout<<"Invalid position"<<endl;
-
-            cout<<"Enter valid position : "<<endl;
-            cin>>iPosition;
-
-            if((iPosition >= 1) && (iPosition <= (iCountNode + 1)))
-            {
-                InsertAtPosition(iNo,iPosition);
-                return;
-            }
-
-            iCnt++;
-        }
-
-        cout<<"Wrong input entered 3 times , call function again ."<<endl;
-
+        InsertFirst(iNo);
         return;
-    }
-    else if((iCountNode == 0) && (pHead == NULL))//If linkedlist is empty
-    {
-        pHead = PsNewNode;
-        pTail = PsNewNode;
-    }
-    else if(iPosition == 1)//If position is 1
-    {
-        PsNewNode -> pNext = pHead;
-        pHead = PsNewNode;
     }
     else if(iPosition == (iCountNode + 1))//If position last
     {
-        PsNewNode -> pNext = pHead;
-        pTail -> pNext = PsNewNode;
-        pTail = PsNewNode;
+        InsertLast(iNo);
+        return;
     }
     else//Random position
     {
+        //Initialize a new node
+        PsNODE PsNewNode = nullptr;
+        PsNewNode = new sNODE;
+
+        //Filling the node with data
+        PsNewNode -> iData = iNo;
+        PsNewNode -> pNext = nullptr;
+
         PsNODE ptemp = pHead;
 
-        for(iCnt = 1;iCnt < (iPosition - 1);iCnt++)
+        for(int iCnt = 1;iCnt < (iPosition - 1);iCnt++)
         {
             ptemp = ptemp -> pNext;
         }
 
         PsNewNode -> pNext = ptemp -> pNext;
         ptemp -> pNext = PsNewNode;
+        pTail -> pNext = PsNewNode;
     }
 
-    pTail -> pNext = pHead;
-
     iCountNode++;
-
-    cout<<"Node with data "<<iNo<<" inserted at position "<<iPosition<<" in the singly circular linked list"<<endl;
+    iCountNode_Main++;
 }
 
 
@@ -408,9 +368,10 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertAtPosition(int iNo,int iPosition)
 //================================================================================================//
 //Parameters: None                                                                                //
 //================================================================================================//
-//Return: void                                                                                    //
+//Return: int                                                                                     //
 //================================================================================================//
-//Local variables: None                                                                           //
+//Local variables:                                                                                //
+//1. int : variable to return the deleted data                                                    //
 //================================================================================================//
 //Algorithm:                                                                                      //
 //1. If the linked list is empty, display a message that the linked list is empty and return .    //
@@ -421,33 +382,32 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertAtPosition(int iNo,int iPosition)
 //4. Update the Next pointer of the new node to point to the head node .                          //
 //5. Decrement the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void SINGLY_CIRCULAR_LINKEDLIST::DeleteFirst()
+int SINGLY_CIRCULAR_LINKEDLIST::DeleteFirst()
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))//If linkedlist is empty
-    {
-        cout<<"Linkedlist is empty"<<endl;
-        return;
-    }
-    else if((iCountNode == 1) && (pHead == pTail))//If linkedlist contains one node
-    {
-        cout<<"Node with data "<<(pHead) -> iData<<" deleted from the beginning of the singly circular linked list"<<endl;
+    int iDeleted = 0;
 
-        free(pTail);
-        free(pHead);
-        pTail = NULL;
-        pHead = NULL;
+    if((iCountNode == 1) && (pHead == pTail))//If linkedlist contains one node
+    {
+        iDeleted = pHead -> iData;
+
+        delete pHead;
+        pHead = nullptr;
+
+        delete pTail;
+        pTail = nullptr;
     }
     else//If linkedlist contains atleast one node
     {
         pHead = pHead -> pNext;
-
-        cout<<"Node with data "<<pTail -> pNext -> iData<<" deleted from the beginning of the singly circular linked list"<<endl;
-        free(pTail -> pNext);
-
+        iDeleted = pTail -> pNext -> iData;
+        delete pTail -> pNext;
         pTail -> pNext = pHead;
     }
 
     iCountNode--;
+    iCountNode_Main--;
+
+    return iDeleted;
 }
 
 
@@ -456,10 +416,11 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteFirst()
 //================================================================================================//
 //Parameters: None                                                                                //
 //================================================================================================//
-//Return: void                                                                                    //
+//Return: int                                                                                     //
 //================================================================================================//
 //Local variables:                                                                                //
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
+//2. int    : variable to return the deleted data                                                 //
 //================================================================================================//
 //Algorithm:                                                                                      //
 //1. If the linked list is empty, display a message that the linked list is empty and return .    //
@@ -469,21 +430,19 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteFirst()
 //4. Update the Next pointer of the new node to point to the head node .                          //
 //5. Decrement the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void SINGLY_CIRCULAR_LINKEDLIST::DeleteLast()
+int SINGLY_CIRCULAR_LINKEDLIST::DeleteLast()
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))//If linkedlist is empty
-    {
-        cout<<"Linkedlist is empty"<<endl;
-        return;
-    }
-    else if((iCountNode == 1) && (pHead == pTail))//If linkedlist contains one node
-    {
-        cout<<"Node with data "<<(pHead) -> iData<<" deleted from the end of the singly circular linked list"<<endl;
+    int iDeleted = 0;
 
-        free(pTail);
-        pTail = NULL;
-        free(pHead);
-        pHead = NULL;
+    if((iCountNode == 1) && (pHead == pTail))//If linkedlist contains one node
+    {
+        iDeleted = pHead -> iData;
+
+        delete pHead;
+        pHead = nullptr;
+
+        delete pTail;
+        pTail = nullptr;
     }
     else//If linkedlist contains atleast two node
     {
@@ -494,14 +453,16 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteLast()
             ptemp = ptemp -> pNext;
         }
 
-        cout<<"Node with data "<<ptemp -> pNext -> iData<<" deleted from the end of the singly circular linked list"<<endl;
-
-        free(ptemp -> pNext);
+        iDeleted = ptemp -> pNext -> iData;
+        delete ptemp -> pNext;
         pTail = ptemp;
         pTail -> pNext = pHead;
     }
 
     iCountNode--;
+    iCountNode_Main--;
+
+    return iDeleted;
 }
 
 
@@ -512,7 +473,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteLast()
 //Parameters:                                                                                     //
 //1. int : Position at which the new node is to be inserted .                                     //
 //================================================================================================//
-//Return: void                                                                                    //
+//Return: int                                                                                     //
 //================================================================================================//
 //Local variables:                                                                                //
 //1. int : Counter variable .                                                                     //
@@ -529,76 +490,24 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteLast()
 //   and free the memory of the node to be deleted.                                               //
 //6. Decrement the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void SINGLY_CIRCULAR_LINKEDLIST::DeleteAtPosition(int iPosition)
+int SINGLY_CIRCULAR_LINKEDLIST::DeleteAtPosition(int iPosition)
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))//If linkedlist is empty
-    {
-        cout<<"Linkedlist is empty"<<endl;
-        return;
-    }
-
     int iCnt = 0;
 
-    if((iPosition < 1) || (iPosition > iCountNode))//If position is invalid
+    if(iPosition == 1)//If position is 1
     {
-        while(iCnt <= 2)
-        {
-            cout<<"Invalid position"<<endl;
-
-            cout<<"Enter valid position : "<<endl;
-            cin>>iPosition;
-
-            if((iPosition >= 1) && (iPosition <= iCountNode))
-            {
-                DeleteAtPosition(iPosition);
-                return;
-            }
-
-            iCnt++;
-        }
-
-        cout<<"Wrong input entered 3 times , call function again ."<<endl;
-
-        return;
-    }
-
-    if((iCountNode == 1) && (pHead == pTail))
-    {
-        cout<<"Node with data "<<(pHead) -> iData<<" deleted from the singly circular linked list"<<endl;
-
-        free(pTail);
-        pTail = NULL;
-        free(pHead);
-        pHead = NULL;
-    }
-    else if(iPosition == 1)//If position is 1
-    {
-        pHead = pHead -> pNext;
-
-        cout<<"Node with data "<<pTail -> pNext -> iData<<" deleted from the beginning of the singly circular linked list"<<endl;
-
-        free(pTail -> pNext);
-        pTail -> pNext = pHead;
+        iCnt = DeleteFirst();
+        return iCnt;
     }
     else if(iPosition == iCountNode)//If position last
     {
-        PsNODE ptempdelete = pHead;
-
-        while(ptempdelete -> pNext != pTail)
-        {
-            ptempdelete = ptempdelete -> pNext;
-        }
-
-        cout<<"Node with data "<<ptempdelete -> pNext -> iData<<" deleted from the end of the singly circular linked list"<<endl;
-
-        free(ptempdelete -> pNext);
-        pTail = ptempdelete;
-        pTail -> pNext = pHead;
+        iCnt = DeleteLast();
+        return iCnt;
     }
     else//Random position
     {
         PsNODE ptemp = pHead;
-        PsNODE ptempdelete = NULL;
+        PsNODE ptempdelete = nullptr;
 
         for(iCnt = 1;iCnt < (iPosition - 1);iCnt++)
         {
@@ -608,12 +517,15 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteAtPosition(int iPosition)
         ptempdelete = ptemp -> pNext;
         ptemp -> pNext = ptemp -> pNext -> pNext;
 
-        cout<<"Node with data "<<ptempdelete -> iData<<" deleted from "<<iPosition<<" position from singly circular linked list"<<endl;
+        iCnt = ptempdelete -> iData;
+        delete ptempdelete;
+        ptempdelete = nullptr;
 
-        free(ptempdelete);
+        iCountNode--;
+        iCountNode_Main--;
+        return iCnt;
     }
 
-    iCountNode--;
 }
 
 //4===============================================================================================//
@@ -656,6 +568,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteAtPosition(int iPosition)
 //================================================================================================//
 //Local variables:                                                                                //
 //1. int : Counter variable & Position variable in one .                                          //
+//2. PsNODE : Temporary pointer to traverse linkedlist .                                          //
 //================================================================================================//
 //Algorithm:                                                                                      //
 //1. If the linked list is empty, display a message that the linked list is empty and return .    //
@@ -664,29 +577,23 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteAtPosition(int iPosition)
 //   specified value. If the value is found, display a message that the value is found and return.//
 //4. If the value is not found, return false.                                                     //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool SINGLY_CIRCULAR_LINKEDLIST::Search(int iSearch)
+bool SINGLY_CIRCULAR_LINKEDLIST::Search(int iSearch) const
 {
-    if((iCountNode == 0)  && (pHead == NULL) && (pTail == NULL))
-    {
-        cout<<"Linkedlist is empty"<<endl;
-        return false;
-    }
-
     int iPosition = 1;
+    PsNODE ptemp = pHead;
 
     while(iPosition <= iCountNode)
     {
-        if(pHead -> iData == iSearch)
+        if(ptemp -> iData == iSearch)
         {
             cout<<"Element "<<iSearch<<" is found at position "<<iPosition<<" in singly circular linked list"<<endl;
             return true;
         }
 
-        pHead = pHead -> pNext;
+        ptemp = ptemp -> pNext;
         iPosition++;
     }
 
-    cout<<"Element "<<iSearch<<" not found in singly circular linked list"<<endl;
     return false;
 }
 
@@ -703,37 +610,32 @@ bool SINGLY_CIRCULAR_LINKEDLIST::Search(int iSearch)
 //================================================================================================//
 //Local variables:                                                                                //
 //1. int : Counter variable & Position variable in one .                                          //
+//2. PsNODE : Temporary pointer to traverse linkedlist .                                          //
 //================================================================================================//
 //Algorithm:                                                                                      //
 //1. Traverse the linked list till the last node and compare the data of each node with the       //
 //   specified value. If the value is found, update the data of the node with the specified value.//
 //2. If the value is not found, display a message that the value is not found.                    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void SINGLY_CIRCULAR_LINKEDLIST::UpdateNoForNo(int iSearch,int iUpdate)
+bool SINGLY_CIRCULAR_LINKEDLIST::UpdateNoForNo(int iSearch,int iUpdate)
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
-    {
-        cout<<"Linkedlist is empty"<<endl;
-        return;
-    }
-
     int iPosition = 1;
+    PsNODE ptemp = pHead;
 
     while(iPosition <= iCountNode)
     {
-        if(pHead -> iData == iSearch)
+        if(ptemp -> iData == iSearch)
         {
-            pHead -> iData = iUpdate;
-            cout<<"Element "<<iSearch<<" has been updated to "<<iUpdate<<" in singly circular linked list"<<endl;
+            ptemp -> iData = iUpdate;
 
-            return;
+            return true;
         }
 
-        pHead = pHead -> pNext;
+        ptemp = ptemp -> pNext;
         iPosition++;
     }
 
-    cout<<"Element "<<iSearch<<" not found in singly circular linked list"<<endl;
+    return false;
 }
 
 
@@ -749,6 +651,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::UpdateNoForNo(int iSearch,int iUpdate)
 //================================================================================================//
 //Local variables:                                                                                //
 //1. int : Counter variable & Position variable in one .                                          //
+//2. PsNODE : Temporary pointer to traverse linkedlist .                                          //
 //================================================================================================//
 //Algorithm:                                                                                      //
 //1. Traverse the linked list till the last node and compare the data of each node with the       //
@@ -757,95 +660,20 @@ void SINGLY_CIRCULAR_LINKEDLIST::UpdateNoForNo(int iSearch,int iUpdate)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_CIRCULAR_LINKEDLIST::UpdateNoForPosition(int iUpdate,int iPosition)
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
-    {
-        cout<<"Linkedlist is empty"<<endl;
-        return;
-    }
-
-    int iCnt = 0;
-
-    if((iPosition < 1) || (iPosition > (iCountNode + 1)))
-    {
-        for(iCnt = 0;iCnt <= 2;iCnt++)
-        {
-            cout<<"Invalid position"<<endl;
-            cout<<"Enter valid position : "<<endl;
-            cin>>iPosition;
-
-            if((iPosition >= 1) && (iPosition <= (iCountNode + 1)))
-            {
-                UpdateNoForPosition(iUpdate,iPosition);
-                return;
-            }
-        }
-
-        cout<<"Wrong input entered 3 times , call function again ."<<endl;
-
-        return;
-    }
-
-    iCnt = 1;
+    int iCnt = 1;
+    PsNODE ptemp = pHead;
 
     while(iCnt <= iCountNode)
     {
         if(iCnt == iPosition)
         {
-            pHead -> iData = iUpdate;
-            cout<<"Element at position "<<iPosition<<" has been updated to "<<iUpdate<<" in singly circular linked list"<<endl;
-
+            ptemp -> iData = iUpdate;
             return;
         }
 
-        pHead = pHead -> pNext;
+        ptemp = ptemp -> pNext;
         iCnt++;
     }
-}
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-//Concat() Function: Concats two singly circular linked list .                                    //
-//================================================================================================//
-//Parameters:                                                                                     //
-//================================================================================================//
-//Return: void                                                                                    //
-//================================================================================================//
-//Local variables:                                                                                //
-//1. PsNODE : temporary pointer to traverse the linked list .                                     //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If both linked lists are empty, display a message that both linked lists are empty.          //
-//2. If the first linked list is empty, display a message that the first linked list is empty.    //
-//3. If the second linked list is empty, display a message that the second linked list is empty.  //
-//4. Traverse the first linked list till the last node and update thepNext pointer of the last    //
-//   node with the address of the first node of the second linked list and free the second linked //
-//   list.                                                                                        //
-////////////////////////////////////////////////////////////////////////////////////////////////////
-void SINGLY_CIRCULAR_LINKEDLIST::Concat()
-{
-    if((pHead1 == NULL) && (pHead2 == NULL) && (pTail1 == 0) && (pTail2 == NULL))
-    {
-        cout<<"Both linkedlist are empty"<<endl;
-        return;
-    }
-    else if((pHead1 == NULL) && (pTail1))
-    {
-        cout<<"First linkedlist is empty"<<endl;
-        return;
-    }
-    else if((pHead2 == NULL) && (pTail2 == NULL))
-    {
-        cout<<"Second linkedlist is empty"<<endl;
-        return;
-    }
-
-    pTail1 -> pNext = pHead2;
-    pTail2 -> pNext = pHead1;
-
-    pTail1 = pTail2;
-
-    pHead2 = NULL; //Freeing the second linked list
-    pTail2 = NULL; //Freeing the second linked list
 }
 
 
@@ -878,42 +706,15 @@ void SINGLY_CIRCULAR_LINKEDLIST::Concat()
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_CIRCULAR_LINKEDLIST::InsertBefore(int iNo,int iPosition)
 {
-    if((iCountNode == 0)  && (pHead == NULL) && (pTail == NULL))
-    {
-        cout<<"linkedlist are empty\n"<<endl;
-        return;
-    }
-
     int iCnt = 0;
 
-    if((iPosition < 1) || (iPosition > (iCountNode)))
-    {
-        for(iCnt = 0;iCnt <= 2;iCnt++)
-        {
-            cout<<"Invalid position"<<endl;
-            cout<<"Enter valid position : "<<endl;
-            cin>>iPosition;
-
-            if((iPosition >= 1) && (iPosition <= (iCountNode)))
-            {
-                InsertBefore(iNo,iPosition);
-                return;
-            }
-        }
-
-        cout<<"Wrong input entered 3 times , call function again ."<<endl;
-
-        return;
-    }
-
-
     //Initialize a new node
-    PsNODE PsNewNode = NULL;
+    PsNODE PsNewNode = nullptr;
     PsNewNode = new sNODE;
 
     //Filling the node with data
     PsNewNode -> iData = iNo;
-    PsNewNode -> pNext = NULL;
+    PsNewNode -> pNext = nullptr;
 
     if(iPosition == 1)
     {
@@ -932,14 +733,13 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertBefore(int iNo,int iPosition)
         PsNewNode -> pNext = ptemp -> pNext;
         ptemp -> pNext = PsNewNode;
 
-        ptemp = NULL;//Freeing the temporary pointer
+        ptemp = nullptr;//Freeing the temporary pointer
     }
 
     pTail -> pNext = pHead;
 
     iCountNode++;
-
-    cout<<"Node with data "<<iNo<<" inserted at the position "<<iPosition<<" of the singly circular linked list"<<endl;
+    iCountNode_Main++;
 }
 
 
@@ -969,42 +769,15 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertBefore(int iNo,int iPosition)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_CIRCULAR_LINKEDLIST::InsertAfter(int iNo,int iPosition)
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
-    {
-        cout<<"linkedlist are empty"<<endl;
-        return;
-    }
-
     int iCnt = 0;
 
-    if((iPosition < 1) || (iPosition > (iCountNode)))
-    {
-        for(iCnt = 0;iCnt <= 2;iCnt++)
-        {
-            cout<<"Invalid position"<<endl;
-            cout<<"Enter valid position : "<<endl;
-            cin>>iPosition;
-
-            if((iPosition >= 1) && (iPosition <= (iCountNode)))
-            {
-                InsertAfter(iNo,iPosition);
-                return;
-            }
-        }
-
-        cout<<"Wrong input entered 3 times , call function again ."<<endl;
-
-        return;
-    }
-
-
     //Initialize a new node
-    PsNODE PsNewNode = NULL;
+    PsNODE PsNewNode = nullptr;
     PsNewNode = new sNODE;
 
     //Filling the node with data
     PsNewNode -> iData = iNo;
-    PsNewNode -> pNext = NULL;
+    PsNewNode -> pNext = nullptr;
 
     if(iPosition == iCountNode)
     {
@@ -1024,14 +797,13 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertAfter(int iNo,int iPosition)
         PsNewNode -> pNext = ptemp -> pNext;
         ptemp -> pNext = PsNewNode;
 
-        ptemp = NULL;
+        ptemp = nullptr;
     }
 
     pTail -> pNext = pHead;
 
     iCountNode++;
-
-    cout<<"Node with data "<<iNo<<" inserted at the position "<<(iPosition + 1)<<" of the singly circular linked list"<<endl;
+    iCountNode_Main++;
 }
 
 
@@ -1041,7 +813,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertAfter(int iNo,int iPosition)
 //Parameters:                                                                                     //
 //1. int : Position before which the node is to be deleted .                                      //
 //================================================================================================//
-//Return: void                                                                                    //
+//Return: int                                                                                     //
 //================================================================================================//
 //Local variables:                                                                                //
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
@@ -1058,48 +830,20 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertAfter(int iNo,int iPosition)
 //   the Next pointer of the previous node with the Next pointer of the node to be deleted and    //
 //   free the memory of the node to be deleted.                                                   //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void SINGLY_CIRCULAR_LINKEDLIST::DeleteBefore(int iPosition)
+int SINGLY_CIRCULAR_LINKEDLIST::DeleteBefore(int iPosition)
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
-    {
-        cout<<"linkedlist are empty"<<endl;
-        return;
-    }
-
     int iCnt = 0;
-
-    if((iPosition < 2) || (iPosition > (iCountNode)))
-    {
-        for(iCnt = 0;iCnt <= 2;iCnt++)
-        {
-            cout<<"Invalid position"<<endl;
-            cout<<"Enter valid position : "<<endl;
-            cin>>iPosition;
-
-            if((iPosition >= 2) && (iPosition <= (iCountNode)))
-            {
-                DeleteBefore(iPosition);
-                return;
-            }
-        }
-
-        cout<<"Wrong input entered 3 times , call function again ."<<endl;
-
-        return;
-    }
 
     if(iPosition == 2)
     {
         pHead = pHead -> pNext;
-
-        cout<<"Node with data "<<pTail -> pNext -> iData<<" deleted from the beginning of the singly circular linked list"<<endl;
-
-        free(pTail -> pNext);
+        iCnt = pTail -> pNext -> iData;
+        delete pTail -> pNext;
         pTail -> pNext = pHead;
     }
     else
     {
-        PsNODE ptempdelete = NULL;
+        PsNODE ptempdelete = nullptr;
         PsNODE ptemp = pHead;
 
         for(iCnt = 1;iCnt < (iPosition - 2);iCnt++)
@@ -1110,12 +854,16 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteBefore(int iPosition)
         ptempdelete = ptemp -> pNext;
         ptemp -> pNext = ptemp -> pNext -> pNext;
 
-        cout<<"Node with data "<<ptempdelete -> iData<<" deleted from the singly circular linked list"<<endl;
+        iCnt = ptempdelete -> iData;
 
-        free(ptempdelete);
+        delete ptempdelete;
+        ptempdelete = nullptr;
     }
 
     iCountNode--;
+    iCountNode_Main--;
+
+    return iCnt;
 }
 
 
@@ -1125,7 +873,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteBefore(int iPosition)
 //Parameters:                                                                                     //
 //1. int : Position before which the new node is to be inserted .                                 //
 //================================================================================================//
-//Return: void                                                                                    //
+//Return: int                                                                                     //
 //================================================================================================//
 //Local variables:                                                                                //
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
@@ -1140,36 +888,9 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteBefore(int iPosition)
 //   the Next pointer of the previous node with the Next pointer of the node to be deleted and    //
 //   free the memory of the node to be deleted.                                                   //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void SINGLY_CIRCULAR_LINKEDLIST::DeleteAfter(int iPosition)
+int SINGLY_CIRCULAR_LINKEDLIST::DeleteAfter(int iPosition)
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
-    {
-        cout<<"linkedlist are empty"<<endl;
-        return;
-    }
-
     int iCnt = 0;
-
-    if((iPosition < 1) || (iPosition > (iCountNode - 1)))
-    {
-        for(iCnt = 0;iCnt <= 2;iCnt++)
-        {
-            cout<<"Invalid position"<<endl;
-            cout<<"Enter valid position : "<<endl;
-            cin>>iPosition;
-
-            if((iPosition >= 1) && (iPosition <= (iCountNode - 1)))
-            {
-                DeleteAfter(iPosition);
-                return;
-            }
-        }
-
-        cout<<"Wrong input entered 3 times , call function again ."<<endl;
-
-        return;
-    }
-
     PsNODE ptemp = pHead;
 
     if(iPosition == (iCountNode - 1))
@@ -1179,15 +900,14 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteAfter(int iPosition)
             ptemp = ptemp -> pNext;
         }
 
-        cout<<"Node with data "<<ptemp -> pNext -> iData<<" deleted from the singly circular linked list"<<endl;
-
-        free(ptemp -> pNext);
-        ptemp -> pNext = NULL;
+        iCnt = ptemp -> pNext -> iData;
+        delete ptemp -> pNext;
+        ptemp -> pNext = nullptr;
         pTail = ptemp;
     }
     else
     {
-        PsNODE ptempdelete = NULL;
+        PsNODE ptempdelete = nullptr;
 
         for(iCnt = 1;iCnt < (iPosition);iCnt++)
         {
@@ -1197,14 +917,17 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteAfter(int iPosition)
         ptempdelete = ptemp -> pNext;
         ptemp -> pNext = ptemp -> pNext -> pNext;
 
-        cout<<"Node with data "<<ptempdelete -> iData<<" deleted from the singly circular linked list"<<endl;
-
-        free(ptempdelete);
+        iCnt = ptempdelete -> iData;
+        delete ptempdelete;
+        ptempdelete = nullptr;
     }
 
     pTail -> pNext = pHead;
 
     iCountNode--;
+    iCountNode_Main--;
+
+    return iCnt;
 }
 
 
@@ -1216,7 +939,6 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteAfter(int iPosition)
 //Return: void                                                                                    //
 //================================================================================================//
 //Local variables:                                                                                //
-//1. PsNODE : temporary pointer to traverse the linked list .                                     //
 //================================================================================================//
 //Algorithm:                                                                                      //
 //1. If the linked list is empty, display a message that the linked list is empty.                //
@@ -1227,30 +949,21 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteAfter(int iPosition)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_CIRCULAR_LINKEDLIST::DeleteList()
 {
-    do
+    PsNODE ptempdelete = pHead;
+
+    while(pHead != nullptr)
     {
+        ptempdelete = pHead;
         pHead = pHead -> pNext;
 
-        cout<<"Node with data "<<pTail -> pNext -> iData<<" deleted from the singly circular linked list"<<endl;
-
-        delete pTail -> pNext;
-        pTail -> pNext = pHead;
+        delete ptempdelete;
+        ptempdelete = nullptr;
 
         iCountNode--;
-
-    }while(pHead != pTail);
-
-    if(pHead == pTail)
-    {
-        delete pTail;
-        pTail = NULL;
+        iCountNode_Main--;
     }
 
-    delete pHead;
-    pHead = NULL;
-
-    delete pTail;
-    pTail = NULL;
+    pTail = nullptr;
 }
 
 
@@ -1275,12 +988,6 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteList()
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_CIRCULAR_LINKEDLIST::SortAscending()
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
-    {
-        cout<<"linkedlist is empty"<<endl;
-        return;
-    }
-
     int itransfer = 0;
     PsNODE ptemp1 = pHead;
     PsNODE ptemp2 = pHead;
@@ -1301,8 +1008,6 @@ void SINGLY_CIRCULAR_LINKEDLIST::SortAscending()
 
         ptemp1 = ptemp1 -> pNext;
     }while(ptemp1 != pHead);
-
-    cout<<"Singly Circular Linked-List has been sorted as in ascending order"<<endl;
 }
 
 
@@ -1326,15 +1031,9 @@ void SINGLY_CIRCULAR_LINKEDLIST::SortAscending()
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_CIRCULAR_LINKEDLIST::Reverse()
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
-    {
-        cout<<"linkedlist is empty"<<endl;
-        return;
-    }
-
     PsNODE pCurrent = pHead;
     PsNODE ptempprev = pTail;
-    PsNODE ptempNext = NULL;
+    PsNODE ptempNext = nullptr;
 
     do
     {
@@ -1349,8 +1048,6 @@ void SINGLY_CIRCULAR_LINKEDLIST::Reverse()
     pTail = pCurrent;
 
     pTail -> pNext = pHead;
-
-    cout<<"Singly Circular Linked-List's data has been reversed"<<endl;
 }
 
 
@@ -1370,16 +1067,9 @@ void SINGLY_CIRCULAR_LINKEDLIST::Reverse()
 //2. Count the number of nodes in the linked list .                                               //
 //3. Traverse the linked list till the middle node and return the address of the middle node.     //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindMiddleNode()
+PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindMiddleNode() const
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
-    {
-        cout<<"linkedlist is empty"<<endl;
-        return 0;
-    }
-
     PsNODE ptemp = pHead;
-
     int iCnt = 0;
 
     for(iCnt = 1;iCnt < ((iCountNode + 1)/2);iCnt++)
@@ -1394,59 +1084,28 @@ PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindMiddleNode()
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //FindKthNodeFromStart() Function: return the kth node from start from singly circular linkedlist //
 //================================================================================================//
-//Parameters: None                                                                                //
+//Parameters:                                                                                     //
+//1. int : integer to store kth position from start .                                             //
 //================================================================================================//
 //Return: PsNODE                                                                                  //
 //================================================================================================//
 //Local variables:                                                                                //
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
-//2. int : integer to store kth position from start .                                             //
-//3. int : integer to store counter variable .                                                    //
+//2. int : integer to store counter variable .                                                    //
 //================================================================================================//
 //Algorithm:                                                                                      //
 //1. If the linked list is empty, display a message that the linked list is empty.                //
 //2. If the kth position is invalid, display a message that the kth position is invalid.          //
 //3. Travel the linked list till the kth node from start and return the address of the kth node.  //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindKthNodeFromStart()
+PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindKthNodeFromStart(int iKth) const
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
-    {
-        cout<<"linkedlist is empty"<<endl;
-        return 0;
-    }
-
     PsNODE ptemp = pHead;
-
-    int iKth = 0;
-    cout<<"Enter the kth position from start : ";
-    cin>>iKth;
-    cout<<endl;
     int iCnt = 0;
-
-    if((iKth < 1) || (iKth > iCountNode))
-    {
-        cout<<"Invalid position"<<endl;
-
-        cout<<"Wrong input, call function again ."<<endl;
-
-        return NULL;
-    }
-
 
     for(iCnt = 1;iCnt < iKth;iCnt++)
     {
         ptemp = ptemp -> pNext;
-    }
-
-    if(ptemp == NULL)
-    {
-        cout<<"Invalid position"<<endl;
-        return NULL;
-    }
-    else
-    {
-        cout<<"Data in "<<iKth<<" node from start is : "<<ptemp -> iData<<endl;
     }
 
     return ptemp;
@@ -1457,15 +1116,15 @@ PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindKthNodeFromStart()
 //FindKthNodeFromMiddle() Function: returns the kth node from middle from singly circular linked  //
 // list .                                                                                         //
 //================================================================================================//
-//Parameters: None                                                                                //
+//Parameters:                                                                                     //
+//1. int : integer to store kth position from start .                                             //
+//2. int : integer to store direction of kth position from start or end .                         //
 //================================================================================================//
 //Return: PsNODE                                                                                  //
 //================================================================================================//
 //Local variables:                                                                                //
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
-//2. int : integer to store kth position from start .                                             //
-//3. int : integer to store counter variable .                                                    //
-//4. int : integer to store direction of kth position from start or end .                         //
+//2. int : integer to store counter variable .                                                    //
 //================================================================================================//
 //Algorithm:                                                                                      //
 //1. If the linked list is empty, display a message that the linked list is empty.                //
@@ -1473,35 +1132,10 @@ PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindKthNodeFromStart()
 //3. If the kth position is random, traverse the linked list till the kth node from middle and    //
 //   return the address of the kth node.                                                          //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindKthNodeFromMiddle()
+PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindKthNodeFromMiddle(int iKth,int iDirection) const
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
-    {
-        cout<<"linkedlist is empty"<<endl;
-        return 0;
-    }
-
     PsNODE ptemp = pHead;
-
-    int iKth = 0;
-    cout<<"Enter the kth position from middle : ";
-    cin>>iKth;
-    cout<<endl;
-    int iDirection = 0;
-    cout<<"Kth node from start or end ? >>Press 1 : FOR start [OR] >>Press 2 : FOR end ::: Your choice : ";
-    cin>>iDirection;
-    cout<<endl;
     int iCnt = 0;
-
-
-    if((iKth < 1) || (iKth >= ((iCountNode + 1)/2)))
-    {
-        cout<<"Invalid position"<<endl;
-
-        cout<<"Wrong input, call function again ."<<endl;
-
-        return NULL;
-    }
 
     if(iDirection == 1)
     {
@@ -1517,23 +1151,6 @@ PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindKthNodeFromMiddle()
         ptemp = ptemp -> pNext;
     }
 
-    if(ptemp == NULL)
-    {
-        cout<<"Invalid position"<<endl;
-        return NULL;
-    }
-    else
-    {
-        if(iDirection == 1)
-        {
-            cout<<"Data in "<<iKth<<" node from middle to start is : "<<ptemp -> iData<<endl;
-        }
-        else
-        {
-            cout<<"Data in "<<iKth<<" node from middle to end is : "<<ptemp -> iData<<endl;
-        }
-    }
-
     return ptemp;
 }
 
@@ -1541,14 +1158,14 @@ PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindKthNodeFromMiddle()
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //FindKthNodeFromEnd() Function: returns the kth node from end from singly linear linkedlist .    //
 //================================================================================================//
-//Parameters: None                                                                                //
+//Parameters:                                                                                     //
+//1. int : integer to store kth position from start .                                             //
 //================================================================================================//
 //Return: PsNODE                                                                                  //
 //================================================================================================//
 //Local variables:                                                                                //
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
-//2. int : integer to store kth position from start .                                             //
-//3. int : integer to store counter variable .                                                    //
+//2. int : integer to store counter variable .                                                    //
 //================================================================================================//
 //Algorithm:                                                                                      //
 //1. If the linked list is empty, display a message that the linked list is empty.                //
@@ -1556,46 +1173,13 @@ PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindKthNodeFromMiddle()
 //3. If the kth position is random, traverse the linked list till the kth node from end and       //
 //   return the address of the kth node.                                                          //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindKthNodeFromEnd()
+PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindKthNodeFromEnd(int iKth) const
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
-    {
-        cout<<"linkedlist is empty"<<endl;
-        return 0;
-    }
-
     PsNODE ptemp = pHead;
 
-    int iKth = 0;
-    cout<<"Enter the kth position from end : ";
-    cin>>iKth;
-    cout<<endl;
-    int iCnt = 0;
-
-    if((iKth < 1) || (iKth > iCountNode))
-    {
-        cout<<"Invalid position"<<endl;
-
-        cout<<"Wrong input, call function again ."<<endl;
-
-        return NULL;
-    }
-
-    int iIndex = iCountNode - iKth + 1;
-
-    for(iCnt = 1;iCnt < iIndex;iCnt++)
+    for(int iCnt = 1;iCnt < (iCountNode - iKth + 1);iCnt++)
     {
         ptemp = ptemp -> pNext;
-    }
-
-    if(ptemp == NULL)
-    {
-        cout<<"Invalid position"<<endl;
-        return NULL;
-    }
-    else
-    {
-        cout<<"Data in "<<iKth<<" node from end is : "<<ptemp -> iData<<endl;
     }
 
     return ptemp;
@@ -1651,7 +1235,6 @@ void SINGLY_CIRCULAR_LINKEDLIST::Manual()
     cout<<"SEARCHING AND MERGING"<<endl;
     cout<<"To Search a Specific Value in linkedlist  : press I"<<endl;
     cout<<"To Reverse the linkedList                 : press J"<<endl;
-    cout<<"To Concatenate two linkedlists            : press K"<<endl;
     cout<<"To Sort the linkedlist                    : press M"<<endl<<endl;
 
     cout<<"UPDATING"<<endl;
@@ -1695,9 +1278,9 @@ int main()
 
     SINGLY_CIRCULAR_LINKEDLIST SinglyCircularLL;
 
-    PsNODE pRet = NULL;//Pointer to the second node of the linked list
+    PsNODE pRet = nullptr;//Pointer to the second node of the linked list
 
-    char siChoiceMode[] = "0";//Variable to store the choice of the user for the mode of operation
+    char siChoiceMode[] = {'\0'};//Variable to store the choice of the user for the mode of operation
     char cChoiceFunction = '\0';//Variable to store the choice of the user for the function to be performed
 
     int iNo1 = 0;//Variable to store the data of the node
@@ -1742,53 +1325,124 @@ int main()
                     case 'A':
                     case 'a':
                         cout<<"Enter the data to be inserted in the linked list : ";
-                        cin>>iNo1;
-                        cout<<endl;
+                        while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                        {
+                            cout<<"Invalid input. Please enter a single integer : ";
+                            cin.clear();
+                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                        }
 
                         SinglyCircularLL.InsertFirst(iNo1);
+                        cout<<"Node with data "<<iNo1<<" inserted at the beginning of the singly linear linked list"<<endl;
+
                         break;
                     case 'B':
                     case 'b':
                         cout<<"Enter the data to be inserted in the linked list : ";
-                        cin>>iNo1;
-                        cout<<endl;
+                        while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                        {
+                            cout<<"Invalid input. Please enter a single integer : ";
+                            cin.clear();
+                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                        }
 
                         SinglyCircularLL.InsertLast(iNo1);
+                        cout<<"Node with data "<<iNo1<<" inserted at the end of the singly linear linked list"<<endl;
+
                         break;
                     case 'C':
                     case 'c':
                         cout<<"Enter the data to be inserted in the linked list : ";
-                        cin>>iNo1;
-                        cout<<endl;
+                        while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                        {
+                            cout<<"Invalid input. Please enter a single integer : ";
+                            cin.clear();
+                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                        }
 
                         cout<<"Enter the position at which the data is to be inserted : ";
                         cin>>iPosition1;
                         cout<<endl;
+                        while((iPosition1 < 1) || (iPosition1 > (SinglyCircularLL.iCountNode_Main + 1)))
+                        {
+                            cout<<"Enter the position between 1 <-> "<<(SinglyCircularLL.iCountNode_Main + 1)<<" : ";
+                            while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
+                        }
 
                         SinglyCircularLL.InsertAtPosition(iNo1,iPosition1);
+                        cout<<"Node with data "<<iNo1<<" inserted at position "<<iPosition1<<" in the singly linear linked list"<<endl;
 
                         break;
                     case 'D':
                     case 'd':
-                        SinglyCircularLL.DeleteFirst();
+                        if(SinglyCircularLL.iCountNode_Main != 0)
+                        {
+                            iRet = SinglyCircularLL.DeleteFirst();
+                            cout<<"Node with data "<<iRet<<" deleted from the beginning of the singly linear linked list"<<endl;
+                        }
+                        else
+                        {
+                            cout<<"!!Linked-List is empty!!"<<endl;
+                        }
+
+
 
                         break;
                     case 'E':
                     case 'e':
-                        SinglyCircularLL.DeleteLast();
+                        if(SinglyCircularLL.iCountNode_Main != 0)
+                        {
+                            iRet = SinglyCircularLL.DeleteLast();
+                            cout<<"Node with data "<<iRet<<" deleted from the end of the singly linear linked list"<<endl;
+                        }
+                        else
+                        {
+                            cout<<"!!Linked-List is empty!!"<<endl;
+                        }
 
                         break;
                     case 'F':
                     case 'f':
-                        cout<<"Enter the position at which the data is to be deleted : ";
-                        cin>>iPosition1;
+                        if(SinglyCircularLL.iCountNode_Main != 0)
+                        {
+                            cout<<"Enter the position from which the data is to be deleted : ";
+                            cin>>iPosition1;
+                            cout<<endl;
+                            while((iPosition1 < 1) || (iPosition1 > SinglyCircularLL.iCountNode_Main))
+                            {
+                                cout<<"Enter the position between 1 <-> "<<SinglyCircularLL.iCountNode_Main<<" : ";
+                                while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
+                            }
 
-                        SinglyCircularLL.DeleteAtPosition(iPosition1);
+                            iRet = SinglyCircularLL.DeleteAtPosition(iPosition1);
+                            cout<<"Node with data "<<iRet<<" deleted from the position "<<iPosition1<<" from the singly linear linked list"<<endl;
+                        }
+                        else
+                        {
+                            cout<<"!!Linked-List is empty!!"<<endl;
+                        }
 
                         break;
                     case 'G':
                     case 'g':
-                        SinglyCircularLL.Display();
+                        if(SinglyCircularLL.iCountNode_Main != 0)
+                        {
+                            SinglyCircularLL.Display();
+                        }
+                        else
+                        {
+                            cout<<"!!Linked-List is empty!!"<<endl;
+                        }
 
                         break;
                     case 'H':
@@ -1836,7 +1490,14 @@ int main()
                         break;
                     case 'G':
                     case 'g':
-                        SinglyCircularLL.Display();
+                        if(SinglyCircularLL.iCountNode_Main != 0)
+                        {
+                            SinglyCircularLL.Display();
+                        }
+                        else
+                        {
+                            cout<<"!!Linked-List is empty!!"<<endl;
+                        }
 
                         break;
                     case 'H':
@@ -1847,150 +1508,443 @@ int main()
                         break;
                     case 'I':
                     case 'i':
-                        cout<<"Enter the value to be searched in the linked list : ";
-                        cin>>iNo1;
+                        if(SinglyCircularLL.iCountNode_Main != 0)
+                        {
+                            cout<<"Enter the value to be searched in the linked list : ";
+                            while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
 
-                        bRet = SinglyCircularLL.Search(iNo1);
+                            bRet = SinglyCircularLL.Search(iNo1);
+                            if(bRet == true)
+                            {
+                                cout<<"Element "<<iNo1<<" is found at position "<<iPosition1<<" in singly linear linked list"<<endl;
+                            }
+                            else
+                            {
+                                cout<<"Element "<<iNo1<<" wasn't found in singly linear linked list"<<endl;
+                            }
+                        }
+                        else
+                        {
+                            cout<<"!!Linked-List is empty!!"<<endl;
+                        }
 
                         break;
                     case 'J':
                     case 'j':
-                        SinglyCircularLL.Reverse();
+                        if(SinglyCircularLL.iCountNode_Main != 0)
+                        {
+                            SinglyCircularLL.Reverse();
+                            cout<<"!! Linked-List has been Reversed !!"<<endl;
+                        }
 
-                        break;
-                    case 'K':
-                    case 'k':
-                        SinglyCircularLL.Concat();
-
-                        break;
-                    case 'L':
-                    case 'l':
-                        //SinglyCircularLL.Merge(&pHead1,&pHead1);
+                        cout<<"Linked-List is empty"<<endl;
 
                         break;
                     case 'M':
                     case 'm':
-                        SinglyCircularLL.SortAscending();
+                        if(SinglyCircularLL.iCountNode_Main != 0)
+                        {
+                            SinglyCircularLL.SortAscending();
+                            cout<<"Singly Linear Linked-List has been sorted in ascending order"<<endl;
+                        }
+                        else
+                        {
+                            cout<<"!!Linked-List is empty!!"<<endl;
+                        }
 
                         break;
                     case 'N':
                     case 'n':
-                        cout<<"Enter the value to be updated in the linked list : ";
-                        cin>>iNo1;
-                        cout<<endl;
+                        if(SinglyCircularLL.iCountNode_Main != 0)
+                        {
+                            cout<<"Enter the value to be updated in the linked list : ";
+                            while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
 
-                        cout<<"Enter the value to be updated with : ";
-                        cin>>iNo2;
+                            cout<<"Enter the value to be updated with : ";
+                            while((!(cin>>iNo2)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
 
-                        SinglyCircularLL.UpdateNoForNo(iNo1,iNo2);
+                            bRet = SinglyCircularLL.UpdateNoForNo(iNo1,iNo2);
+                            if(bRet == true)
+                            {
+                                cout<<"Element "<<iNo1<<" has been updated to "<<iNo2<<" in singly linear linked list"<<endl;
+                            }
+                            else
+                            {
+                                cout<<"Element "<<iNo1<<" not found in singly linear linked list"<<endl;
+                            }
+                        }
+                        else
+                        {
+                            cout<<"!!Linked-List is empty!!"<<endl;
+                        }
 
                         break;
                     case 'O':
                     case 'o':
-                        cout<<"Enter the value to be updated at a specific position in the linked list : ";
-                        cin>>iNo1;
-                        cout<<endl;
+                        if(SinglyCircularLL.iCountNode_Main != 0)
+                        {
+                            cout<<"Enter the value to be updated at a specific position in the linked list : ";
+                            while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
 
-                        cout<<"Enter the position at which the data is to be updated : ";
-                        cin>>iPosition1;
+                            cout<<"Enter the position at which the data is to be updated : ";
+                            while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
 
-                        SinglyCircularLL.UpdateNoForPosition(iNo1,iPosition1);
+                            while((iPosition1 < 1) || (iPosition1 > SinglyCircularLL.iCountNode_Main))
+                            {
+                                cout<<"Enter the position between 1 <-> "<<SinglyCircularLL.iCountNode_Main<<" : ";
+                                while((!(cin>>iPosition1) || (cin.peek() != '\n')))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
+                            }
+
+                            SinglyCircularLL.UpdateNoForPosition(iNo1,iPosition1);
+                            cout<<"Element at position "<<iPosition1<<" has been updated to "<<iNo1<<" in singly linear linked list"<<endl;
+                        }
+                        else
+                        {
+                            cout<<"!!Linked-List is empty!!"<<endl;
+                        }
 
                         break;
                     case 'P':
                     case 'p':
-                        cout<<"Enter the data to be inserted in the linked list : ";
-                        cin>>iNo1;
-                        cout<<endl;
+                        if(SinglyCircularLL.iCountNode_Main > 0)
+                        {
+                            cout<<"Enter the data to be inserted in the linked list : ";
+                            while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
 
-                        cout<<"Enter the position before which the data is to be inserted : ";
-                        cin>>iPosition1;
-                        cout<<endl;
+                            cout<<"Enter the position before which the data is to be inserted : ";
+                            while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
 
-                        SinglyCircularLL.InsertBefore(iNo1,iPosition1);
+                            while((iPosition1 < 1) || (iPosition1 > SinglyCircularLL.iCountNode_Main))
+                            {
+                                cout<<"Enter the position between 1 <-> "<<SinglyCircularLL.iCountNode_Main<<" : ";
+                                while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
+                            }
+
+                            SinglyCircularLL.InsertBefore(iNo1,iPosition1);
+                            cout<<"Node with data "<<iNo1<<" inserted at the position "<<iPosition1<<" of the singly linear linked list"<<endl;
+                        }
+                        else
+                        {
+                            cout<<"!!Not Enough Nodes!!"<<endl;
+                        }
 
                         break;
                     case 'Q':
                     case 'q':
-                        cout<<"Enter the data to be inserted in the linked list : ";
-                        cin>>iNo1;
-                        cout<<endl;
+                        if(SinglyCircularLL.iCountNode_Main > 0)
+                        {
+                            cout<<"Enter the data to be inserted in the linked list : ";
+                            while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
 
+                            cout<<"Enter the position before which the data is to be inserted : ";
+                            while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
+                            while((iPosition1 < 1) || (iPosition1 > SinglyCircularLL.iCountNode_Main))
+                            {
+                                cout<<"Enter the position between 1 <-> "<<SinglyCircularLL.iCountNode_Main<<" : ";
+                                while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
+                            }
 
-                        cout<<"Enter the position after which the data is to be inserted : ";
-                        cin>>iPosition1;
-                        cout<<endl;
-
-                        SinglyCircularLL.InsertAfter(iNo1,iPosition1);
+                            SinglyCircularLL.InsertAfter(iNo1,iPosition1);
+                            cout<<"Node with data "<<iNo1<<" inserted at the position "<<(iPosition1 + 1)<<" of the singly linear linked list"<<endl;
+                        }
+                        else
+                        {
+                            cout<<"!!Not Enough Nodes!!"<<endl;
+                        }
 
                         break;
                     case 'R':
                     case 'r':
-                        cout<<"Enter the position before which the data is to be deleted : ";
-                        cin>>iPosition1;
-                        cout<<endl;
+                        if(SinglyCircularLL.iCountNode_Main > 1)
+                        {
+                            cout<<"Enter the position before which the data is to be deleted : ";
+                            while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
 
-                        SinglyCircularLL.DeleteBefore(iPosition1);
+                            while((iPosition1 < 2) || (iPosition1 > SinglyCircularLL.iCountNode_Main))
+                            {
+                                cout<<"Enter the position between 2 <-> "<<SinglyCircularLL.iCountNode_Main<<" : ";
+                                while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
+                            }
+
+                            iRet = SinglyCircularLL.DeleteBefore(iPosition1);
+                            cout<<"Node with data "<<iRet<<" deleted at the position "<<iPosition1<<" of the singly linear linked list"<<endl;
+                        }
+                        else
+                        {
+                            cout<<"!!Not Enough Nodes!!"<<endl;
+                        }
 
                         break;
                     case 'S':
                     case 's':
-                        cout<<"Enter the position after which the data is to be deleted : ";
-                        cin>>iPosition1;
-                        cout<<endl;
- 
-                        SinglyCircularLL.DeleteAfter(iPosition1);
+                        if(SinglyCircularLL.iCountNode_Main > 1)
+                        {
+                            cout<<"Enter the position before which the data is to be deleted : ";
+                            while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
+
+                            while((iPosition1 < 1) || (iPosition1 > (SinglyCircularLL.iCountNode_Main - 1)))
+                            {
+                                cout<<"Enter the position between 2 <-> "<<(SinglyCircularLL.iCountNode_Main - 1)<<" : ";
+                                while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
+                            }
+
+                            iRet = SinglyCircularLL.DeleteAfter(iPosition1);
+                            cout<<"Node with data "<<iRet<<" deleted at the position "<<iPosition1<<" of the singly linear linked list"<<endl;
+                        }
+                        else
+                        {
+                            cout<<"!!Not Enough Nodes!!"<<endl;
+                        }
 
                         break;
                     case 'T':
                     case 't':
-                        SinglyCircularLL.DeleteList();
-
-                        break;
-                    case 'U':
-                    case 'u':
-                        //SinglyCircularLL.RemoveDuplicates();
+                        if(SinglyCircularLL.iCountNode_Main != 0)
+                        {
+                            SinglyCircularLL.DeleteList();
+                            cout<<"Linked-List has been deleted ."<<endl;
+                        }
+                        else
+                        {
+                            cout<<"!!Linked-List is empty!!"<<endl;
+                        }
 
                         break;
                     case 'V':
                     case 'v':
-                        pRet = SinglyCircularLL.FindMiddleNode();
-
-                        if(pRet != NULL)
+                        if(SinglyCircularLL.iCountNode_Main != 0)
                         {
-                            cout<<"The data in middle node from the linked list is : "<<pRet -> iData<<endl;
+                            pRet = SinglyCircularLL.FindMiddleNode();
+
+                            if(pRet != nullptr)
+                            {
+                                cout<<"The data in middle node from the linked list is : "<<pRet -> iData<<endl;
+                            }
+                            else
+                            {
+                                cout<<"Invalid position"<<endl;
+                            }
                         }
                         else
                         {
-                            cout<<"Invalid position"<<endl;
+                            cout<<"!!Linked_List is empty!!"<<endl;
                         }
-
-                        break;
-                    case 'W':
-                    case 'w':
-                        cout<<"Enter the first linked list : ";
-                        cin>>iNo1;
-                        cout<<endl;
-
-                        cout<<"Enter the second linked list : ";
-                        cin>>iNo2;
-
-                        //iReturn = pRet -> iDataFindDifference();
 
                         break;
                     case 'X':
                     case 'x':
-                        pRet = SinglyCircularLL.FindKthNodeFromStart();
+                        if(SinglyCircularLL.iCountNode_Main != 0)
+                        {
+                            cout<<"Enter the kth position from start : ";
+                            while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
+
+                            while((iNo1 < 1) || (iNo1 > SinglyCircularLL.iCountNode_Main))
+                            {
+                                cout<<"Enter offset between 1 <-> "<<SinglyCircularLL.iCountNode_Main<<" : "<<endl;
+                                while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
+                            }
+
+                            pRet = SinglyCircularLL.FindKthNodeFromStart(iNo1);
+                            cout<<"Data in "<<iNo1<<" node from start is : "<<pRet -> iData<<endl;
+                        }
+                        else
+                        {
+                            cout<<"!!Linked-List is empty!!"<<endl;
+                        }
 
                         break;
                     case 'Y':
                     case 'y':
-                        pRet = SinglyCircularLL.FindKthNodeFromMiddle();
+                        if(SinglyCircularLL.iCountNode_Main != 0)
+                        {
+                            cout<<"Enter the kth position from start : ";
+                            while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
+
+                            while((iNo1 < 1) || (iNo1 > SinglyCircularLL.iCountNode_Main))
+                            {
+                                cout<<"Enter offset between 1 <-> "<<SinglyCircularLL.iCountNode_Main<<" : "<<endl;
+                                while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
+                            }
+
+                            cout<<"Kth node from start or end ? >>Press 1 : FOR start [OR] >>Press 2 : FOR end ::: Your choice : ";
+                            while((!(cin>>iNo2)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
+
+                            if((iNo1 == 1) || (iNo2 == 0))
+                            {
+                                pRet = SinglyCircularLL.FindKthNodeFromMiddle(iNo1,iNo2);
+                                if(iNo2 == 1)
+                                {
+                                    cout<<"Data in "<<iNo1<<" node from middle to start is : "<<pRet -> iData<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"Data in "<<iNo1<<" node from middle to end is : "<<pRet -> iData<<endl;
+                                }
+                            }
+                            else
+                            {
+                                while((iNo2 != 1) || (iNo2 != 0))
+                                {
+                                    cout<<"Kth node from start or end ? >>Press 1 : FOR start [OR] >>Press 2 : FOR end ::: Your choice : ";
+                                    while((!(cin>>iNo2)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
+                                }
+
+                                pRet = SinglyCircularLL.FindKthNodeFromMiddle(iNo1,iNo2);
+                                if(iNo2 == 1)
+                                {
+                                    cout<<"Data in "<<iNo1<<" node from middle to start is : "<<pRet -> iData<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"Data in "<<iNo1<<" node from middle to end is : "<<pRet -> iData<<endl;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            cout<<"!!Linked-List is empty!!"<<endl;
+                        }
 
                         break;
                     case 'Z':
                     case 'z':
-                        pRet = SinglyCircularLL.FindKthNodeFromEnd();
+                        if(SinglyCircularLL.iCountNode_Main != 0)
+                        {
+                            cout<<"Enter the kth position from start : ";
+                            while((!(cin>>iNo2)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
+                            while((iNo1 < 1) || (iNo1 > SinglyCircularLL.iCountNode_Main))
+                            {
+                                cout<<"Enter offset between 1 <-> "<<SinglyCircularLL.iCountNode_Main<<" : "<<endl;
+                                while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
+                            }
+
+                            pRet = SinglyCircularLL.FindKthNodeFromEnd(iNo1);
+                            cout<<"Data in "<<iNo1<<" node from end is : "<<pRet -> iData<<endl;
+                        }
+                        else
+                        {
+                            cout<<"!!Linked-List is empty!!"<<endl;
+                        }
 
                         break;
                     case 'A':
