@@ -475,13 +475,7 @@ int SINGLY_LINEAR_LINKEDLIST::DeleteAtPosition(int iPosition)
 {
     int iCnt = 0;
 
-    if((iCountNode == 1) && ((pHead) -> pNext == nullptr))
-    {
-        iCnt = pHead -> iData;
-        delete pHead;
-        pHead = nullptr;
-    }
-    else if(iPosition == 1)//If position is 1
+    if(iPosition == 1)//If position is 1
     {
         iCnt = DeleteFirst();
         return iCnt;
