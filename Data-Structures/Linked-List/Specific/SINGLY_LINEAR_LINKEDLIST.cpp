@@ -175,6 +175,8 @@ void SINGLY_LINEAR_LINKEDLIST::Display() const
         ptemp = ptemp -> pNext;
     }
     cout<<"nullptr"<<endl;
+
+    ptemp = nullptr;
 }
 
 
@@ -452,7 +454,7 @@ int SINGLY_LINEAR_LINKEDLIST::DeleteLast()
 // linked list .                                                                                  //
 //================================================================================================//
 //Parameters:                                                                                     //
-//1. int : Position at which the new node is to be inserted .                                     //
+//1. int : Position at which the new node is to be deleted .                                      //
 //================================================================================================//
 //Return: int                                                                                     //
 //================================================================================================//
@@ -925,7 +927,7 @@ void SINGLY_LINEAR_LINKEDLIST::DeleteList()
 {
     PsNODE ptempdelete = pHead;
 
-    while(pHead != nullptr)
+    while(pHead -> pNext != nullptr)
     {
         ptempdelete = pHead;
         pHead = pHead -> pNext;
@@ -936,6 +938,12 @@ void SINGLY_LINEAR_LINKEDLIST::DeleteList()
         iCountNode--;
         iCountNode_Main--;
     }
+
+    delete pHead;
+    pHead = nullptr;
+
+    iCountNode--;
+    iCountNode_Main--;
 }
 
 
