@@ -98,9 +98,9 @@ class DOUBLY_LINEAR_LINKEDLIST
 
         //Finding functions
         PsNODE FindMiddleNode() const;
-        PsNODE FindKthNodeFromStart() const;
-        PsNODE FindKthNodeFromMiddle() const;
-        PsNODE FindKthNodeFromEnd() const;
+        PsNODE FindKthNodeFromStart(int) const;
+        PsNODE FindKthNodeFromMiddle(int,int) const;
+        PsNODE FindKthNodeFromEnd(int) const;
 
 //~=====Added Features Functions======//
 
@@ -113,7 +113,7 @@ class DOUBLY_LINEAR_LINKEDLIST
 
 DOUBLY_LINEAR_LINKEDLIST::DOUBLY_LINEAR_LINKEDLIST()
 {
-    pHead = NULL;
+    pHead = nullptr;
     iCountNode = 0;
     iCountNode_Main = 0;
 }
@@ -163,19 +163,15 @@ DOUBLY_LINEAR_LINKEDLIST::~DOUBLY_LINEAR_LINKEDLIST()
 //================================================================================================//
 //Return: void                                                                                    //
 //================================================================================================//
-//Local variables: None                                                                           //
+//Local variables:                                                                                //
+//1. PsNODE : temporary pointer to traverse linkedlist.
 //================================================================================================//
 //Algorithm:                                                                                      //
 //1. Traverse the linked list till the last node and display the data of each node.               //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void DOUBLY_LINEAR_LINKEDLIST::Display()
+void DOUBLY_LINEAR_LINKEDLIST::Display() const
 {
-    if((iCountNode == 0) && (pHead == NULL))
-    {
-        cout<<"Linkedlist is empty"<<endl;
-        cout<<"NULL"<<endl;
-        return;
-    }
+    PsNODE ptemp = pHead;
 
     cout<<"Elements from linked list are : "<<endl<<endl;
 
@@ -184,12 +180,12 @@ void DOUBLY_LINEAR_LINKEDLIST::Display()
     cout<<"Elements from linked list in serial order are : "<<endl;
 
     cout<<"NULL";
-    while(pHead -> pNext != NULL)
+    while(ptemp -> pNext != nullptr)
     {
-        cout<<"<- | "<<pHead -> iData<<" | -> ";
-        pHead = pHead -> pNext;
+        cout<<"<- | "<<ptemp -> iData<<" | -> ";
+        ptemp = ptemp -> pNext;
     }
-    cout<<"<- | "<<pHead -> iData<<" | -> ";
+    cout<<"<- | "<<ptemp -> iData<<" | -> ";
     cout<<"NULL"<<endl<<endl;
 
     ///////////////////////Display in reverse order//////////////////////
@@ -197,12 +193,12 @@ void DOUBLY_LINEAR_LINKEDLIST::Display()
     cout<<"Elements from linked list in reverse order are : "<<endl<<endl;
 
     cout<<"NULL";
-    while(pHead -> pPrev != NULL)
+    while(ptemp -> pPrev != nullptr)
     {
-        cout<<"<- | "<<pHead -> iData<<" | -> ";
-        pHead = pHead -> pPrev;
+        cout<<"<- | "<<ptemp -> iData<<" | -> ";
+        ptemp = ptemp -> pPrev;
     };
-    cout<<"<- | "<<pHead -> iData<<" | -> ";
+    cout<<"<- | "<<ptemp -> iData<<" | -> ";
     cout<<"NULL";
     cout<<endl;
 }
@@ -220,7 +216,7 @@ void DOUBLY_LINEAR_LINKEDLIST::Display()
 //Algorithm:                                                                                      //
 //1. Return the value of iCountNode which is updated during insertion and deletion operations.    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-int DOUBLY_LINEAR_LINKEDLIST::Count()
+int DOUBLY_LINEAR_LINKEDLIST::Count() const
 {
     return iCountNode;
 }
@@ -249,28 +245,26 @@ int DOUBLY_LINEAR_LINKEDLIST::Count()
 void DOUBLY_LINEAR_LINKEDLIST::InsertFirst(int iNo)
 {
     //Initialize a new node
-    PsNODE PsNewNode = NULL;
+    PsNODE PsNewNode = nullptr;
     PsNewNode = new sNODE;
 
     //Filling the node with data
     PsNewNode -> iData = iNo;
-    PsNewNode -> pNext = NULL;
-    PsNewNode -> pPrev = NULL;
+    PsNewNode -> pNext = nullptr;
+    PsNewNode -> pPrev = nullptr;
 
-    if((iCountNode == 0) && (pHead == NULL))//If linkedlist is empty(pHead == NULL)
+    if((pHead == nullptr) && (iCountNode == 0))//If linkedlist is empty(pHead == NULL)
     {
         pHead = PsNewNode;
     }
     else//If linkedlist contains atleast one node
     {
         PsNewNode -> pNext = pHead;
-        pHead -> pPrev = PsNewNode;
         pHead = PsNewNode;
     }
 
     iCountNode++;
-
-    cout<<"Node with data "<<iNo<<" inserted at the beginning of the doubly linear linked list"<<endl;
+    iCountNode_Main++;
 }
 
 
@@ -298,15 +292,15 @@ void DOUBLY_LINEAR_LINKEDLIST::InsertFirst(int iNo)
 void DOUBLY_LINEAR_LINKEDLIST::InsertLast(int iNo)
 {
     //Initialize a new node
-    PsNODE PsNewNode = NULL;
+    PsNODE PsNewNode = nullptr;
     PsNewNode = new sNODE;
 
     //Filling the node with data
     PsNewNode -> iData = iNo;
-    PsNewNode -> pNext = NULL;
-    PsNewNode -> pPrev = NULL;
+    PsNewNode -> pNext = nullptr;
+    PsNewNode -> pPrev = nullptr;
 
-    if(iCountNode == 0)//If linkedlist is empty(pHead == NULL)
+    if((pHead == nullptr) && (iCountNode == 0))//If linkedlist is empty(pHead == NULL)
     {
         pHead = PsNewNode;
     }
@@ -314,7 +308,7 @@ void DOUBLY_LINEAR_LINKEDLIST::InsertLast(int iNo)
     {
         PsNODE ptemp = pHead;
 
-        while(ptemp -> pNext != NULL)
+        while(ptemp -> pNext != nullptr)
         {
             ptemp = ptemp -> pNext;
         }
@@ -324,8 +318,7 @@ void DOUBLY_LINEAR_LINKEDLIST::InsertLast(int iNo)
     }
 
     iCountNode++;
-
-    cout<<"Node with data "<<iNo<<" inserted at the end of the doubly linear linked list"<<endl;
+    iCountNode_Main++;
 }
 
 
@@ -358,66 +351,29 @@ void DOUBLY_LINEAR_LINKEDLIST::InsertLast(int iNo)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void DOUBLY_LINEAR_LINKEDLIST::InsertAtPosition(int iNo,int iPosition)
 {
-    //Initialize a new node
-    PsNODE PsNewNode = NULL;
-    PsNewNode = new sNODE;
-
-    //Filling the node with data
-    PsNewNode -> iData = iNo;
-    PsNewNode -> pNext = NULL;
-    PsNewNode -> pPrev = NULL;
-
-    int iCnt = 0;
-
-    if((iPosition < 1) || (iPosition > (iCountNode + 1)))//If position is invalid
+    if(iPosition == 1)//If position is 1
     {
-        while(iCnt <= 2)
-        {
-            cout<<"Invalid position"<<endl;
-
-            cout<<"Enter valid position : "<<endl;
-            cin>>iPosition;
-
-            if((iPosition >= 1) && (iPosition <= (iCountNode + 1)))
-            {
-                InsertAtPosition(iNo,iPosition);
-                return;
-            }
-
-            iCnt++;
-        }
-
-        cout<<"Wrong input entered 3 times , call function again ."<<endl;
-
+        InsertFirst(iNo);
         return;
-    }
-    else if((iCountNode == 0) && (pHead == NULL))//If linkedlist is empty
-    {
-        pHead = PsNewNode;
-    }
-    else if(iPosition == 1)//If position is 1
-    {
-        PsNewNode -> pNext = pHead;
-        pHead -> pPrev = PsNewNode;
-        pHead = PsNewNode;
     }
     else if(iPosition == (iCountNode + 1))//If position last
     {
-        PsNODE ptemp = pHead;
-
-        while(ptemp -> pNext != NULL)
-        {
-            ptemp = ptemp ->pNext;
-        }
-
-        ptemp -> pNext = PsNewNode;
-        PsNewNode -> pPrev = ptemp;
+        InsertLast(iNo);
+        return;
     }
     else//Random position
     {
+        //Initialize a new node
+        PsNODE PsNewNode = nullptr;
+        PsNewNode = new sNODE;
+
+        //Filling the node with data
+        PsNewNode -> iData = iNo;
+        PsNewNode -> pNext = nullptr;
+
         PsNODE ptemp = pHead;
 
-        for(iCnt = 1;iCnt < (iPosition - 1);iCnt++)
+        for(int iCnt = 1;iCnt < (iPosition - 1);iCnt++)
         {
             ptemp = ptemp -> pNext;
         }
@@ -426,11 +382,10 @@ void DOUBLY_LINEAR_LINKEDLIST::InsertAtPosition(int iNo,int iPosition)
         ptemp -> pNext -> pPrev = PsNewNode;
         ptemp -> pNext = PsNewNode;
         PsNewNode -> pPrev = ptemp;
+
+        iCountNode++;
+        iCountNode_Main++;
     }
-
-    iCountNode++;
-
-    cout<<"Node with data "<<iNo<<" inserted at position "<<iPosition<<" in the doubly linear linked list"<<endl;
 }
 
 
@@ -439,10 +394,11 @@ void DOUBLY_LINEAR_LINKEDLIST::InsertAtPosition(int iNo,int iPosition)
 //================================================================================================//
 //Parameters: None                                                                                //
 //================================================================================================//
-//Return: void                                                                                    //
+//Return: int                                                                                     //
 //================================================================================================//
 //Local variables:                                                                                //
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
+//2. int    : variable to return the deleted data                                                 //
 //================================================================================================//
 //Algorithm:                                                                                      //
 //1. If the linked list is empty, display a message that the linked list is empty and return .    //
@@ -453,30 +409,28 @@ void DOUBLY_LINEAR_LINKEDLIST::InsertAtPosition(int iNo,int iPosition)
 //4. Update the Next pointer of the new node to point to the head node .                          //
 //5. Decrement the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void DOUBLY_LINEAR_LINKEDLIST::DeleteFirst()
+int DOUBLY_LINEAR_LINKEDLIST::DeleteFirst()
 {
-    if((iCountNode == 0) && (pHead == NULL))//If linkedlist is empty
+    int iDeleted = 0;
+
+    if(iCountNode == 1)//If linkedlist contains one node
     {
-        cout<<"Linkedlist is empty"<<endl;
-        return;
-    }
-    else if((iCountNode == 1) && ((pHead -> pNext) == NULL))//If linkedlist contains one node
-    {
-        cout<<"Node with data "<<pHead -> iData<<" deleted from the beginning of the doubly linear linked list"<<endl;
-        free(pHead);
-        pHead = NULL;
+        iDeleted = pHead -> iData;
+        delete pHead;
+        pHead = nullptr;
     }
     else//If linkedlist contains atleast one node
     {
         pHead = pHead -> pNext;
-
-        cout<<"Node with data "<<pHead -> pPrev -> iData<<" deleted from the beginning of the doubly linear linked list"<<endl;
-
-        free(pHead -> pPrev);
-        pHead -> pPrev = NULL;
+        iDeleted = pHead -> pPrev -> iData;
+        delete pHead -> pPrev;
+        pHead -> pPrev = nullptr;
     }
 
     iCountNode--;
+    iCountNode_Main--;
+
+    return iDeleted;
 }
 
 
@@ -485,10 +439,11 @@ void DOUBLY_LINEAR_LINKEDLIST::DeleteFirst()
 //================================================================================================//
 //Parameters: None                                                                                //
 //================================================================================================//
-//Return: void                                                                                    //
+//Return: int                                                                                     //
 //================================================================================================//
 //Local variables:                                                                                //
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
+//2. int    : variable to return the deleted data                                                 //
 //================================================================================================//
 //Algorithm:                                                                                      //
 //1. If the linked list is empty, display a message that the linked list is empty and return .    //
@@ -498,36 +453,34 @@ void DOUBLY_LINEAR_LINKEDLIST::DeleteFirst()
 //4. Update the Next pointer of the new node to point to the head node .                          //
 //5. Decrement the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void DOUBLY_LINEAR_LINKEDLIST::DeleteLast()
+int DOUBLY_LINEAR_LINKEDLIST::DeleteLast()
 {
-    if((iCountNode == 0) && (pHead == NULL))//If linkedlist is empty
-    {
-        cout<<"Linkedlist is empty"<<endl;
-        return;
-    }
-    else if((iCountNode == 1) && ((pHead) -> pNext == NULL))//If linkedlist contains one node
-    {
-        cout<<"Node with data "<<(pHead) -> iData<<" deleted from the end of the doubly circular linked list"<<endl;
+    int iDeleted = 0;
 
-        free(pHead);
-        pHead = NULL;
+    else if((iCountNode == 1) && ((pHead) -> pNext == nullptr))//If linkedlist contains one node
+    {
+        iDeleted pHead -> iData;
+        delete pHead;
+        pHead = nullptr;
     }
     else//If linkedlist contains atleast two node
     {
         PsNODE ptemp = pHead;
 
-        while(ptemp -> pNext -> pNext != NULL)
+        while(ptemp -> pNext -> pNext != nullptr)
         {
             ptemp = ptemp -> pNext;
         }
 
-        cout<<"Node with data "<<ptemp -> pNext -> iData<<" deleted from the end of the doubly linear linked list"<<endl;
-
-        free(ptemp -> pNext);
-        ptemp -> pNext = NULL;
+        iDeleted = ptemp -> pNext -> iData;
+        delete ptemp -> pNext;
+        ptemp -> pNext = nullptr;
     }
 
     iCountNode--;
+    iCountNode_Main--;
+
+    return iDeleted;
 }
 
 
@@ -536,9 +489,9 @@ void DOUBLY_LINEAR_LINKEDLIST::DeleteLast()
 // linked list .                                                                                  //
 //================================================================================================//
 //Parameters:                                                                                     //
-//1. int : Position at which the new node is to be inserted .                                     //
+//1. int : Position at which the new node is to be deleted .                                      //
 //================================================================================================//
-//Return: void                                                                                    //
+//Return: int                                                                                     //
 //================================================================================================//
 //Local variables:                                                                                //
 //1. int : Counter variable .                                                                     //
@@ -556,66 +509,17 @@ void DOUBLY_LINEAR_LINKEDLIST::DeleteLast()
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void DOUBLY_LINEAR_LINKEDLIST::DeleteAtPosition(int iPosition)
 {
-    if((iCountNode == 0) && (pHead == NULL))//If linkedlist is empty
-    {
-        cout<<"Linkedlist is empty"<<endl;
-        return;
-    }
-
     int iCnt = 0;
 
-    if((iPosition < 1) || (iPosition > iCountNode))//If position is invalid
+    if(iPosition == 1)//If position is 1
     {
-        while(iCnt <= 2)
-        {
-            cout<<"Invalid position"<<endl;
-
-            cout<<"Enter valid position : "<<endl;
-            cin>>iPosition;
-
-            if((iPosition >= 1) && (iPosition <= iCountNode))
-            {
-                DeleteAtPosition(iPosition);
-                return;
-            }
-
-            iCnt++;
-        }
-
-        cout<<"Wrong input entered 3 times , call function again ."<<endl;
-
-        return;
-    }
-
-    if((iCountNode == 1) && ((pHead -> pNext) == NULL))
-    {
-        cout<<"Node with data "<<(pHead) -> iData<<" deleted from the doubly linear linked list"<<endl;
-
-        free(pHead);
-        pHead = NULL;
-    }
-    else if(iPosition == 1)//If position is 1
-    {
-        pHead = pHead -> pNext;
-
-        cout<<"Node with data "<<pHead -> pPrev -> iData<<" deleted from the beginning of the doubly linear linked list"<<endl;
-
-        free(pHead -> pPrev);
-        pHead -> pPrev = NULL;
+        iCnt = DeleteFirst();
+        return iCnt;
     }
     else if(iPosition == iCountNode)//If position last
     {
-        PsNODE ptemp = pHead;
-
-        while(ptemp -> pNext -> pNext != NULL)
-        {
-            ptemp = ptemp -> pNext;
-        }
-
-        cout<<"Node with data "<<ptemp -> pNext -> iData<<" deleted from the end of the doubly linear linked list"<<endl;
-
-        free(ptemp -> pNext);
-        ptemp -> pNext = pHead;
+        iCnt = DeleteLast();
+        return iCnt;
     }
     else//Random position
     {
@@ -627,14 +531,15 @@ void DOUBLY_LINEAR_LINKEDLIST::DeleteAtPosition(int iPosition)
         }
 
         ptemp -> pNext = ptemp -> pNext -> pNext;
-
-        cout<<"Node with data "<<ptemp -> pNext -> pPrev -> iData<<" deleted from "<<iPosition<<" position from doubly linear linked list"<<endl;
-
-        free(ptemp -> pNext -> pPrev);
+        iCnt = ptemp -> pNext -> pPrev -> iData;
+        delete ptemp -> pNext -> pPrev;
         ptemp -> pNext -> pPrev = ptemp;
     }
 
     iCountNode--;
+    iCountNode_Main--;
+
+    return iCnt;
 }
 
 //4===============================================================================================//
@@ -685,29 +590,22 @@ void DOUBLY_LINEAR_LINKEDLIST::DeleteAtPosition(int iPosition)
 //   specified value. If the value is found, display a message that the value is found and return.//
 //4. If the value is not found, return false.                                                     //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool DOUBLY_LINEAR_LINKEDLIST::Search(int iSearch)
+bool DOUBLY_LINEAR_LINKEDLIST::Search(int iSearch) const
 {
-    if((iCountNode == 0)  && (pHead == NULL))
-    {
-        cout<<"Linkedlist is empty"<<endl;
-        return false;
-    }
-
     int iPosition = 1;
+    PsNODE ptemp = pHead;
 
     while(iPosition <= iCountNode)
     {
-        if(pHead -> iData == iSearch)
+        if(ptemp -> iData == iSearch)
         {
-            cout<<"Element "<<iSearch<<" is found at position "<<iPosition<<" in doubly linear linked list"<<endl;
             return true;
         }
 
-        pHead = pHead -> pNext;
+        ptemp = ptemp -> pNext;
         iPosition++;
     }
 
-    cout<<"Element "<<iSearch<<" not found in doubly linear linked list"<<endl;
     return false;
 }
 
