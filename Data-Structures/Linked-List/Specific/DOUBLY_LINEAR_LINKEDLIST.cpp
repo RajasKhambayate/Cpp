@@ -179,33 +179,33 @@ void DOUBLY_LINEAR_LINKEDLIST::Display() const
 
     cout<<"Elements from linked list in serial order are : "<<endl;
 
-    cout<<"NULL";
+    cout<<"nullptr";
     while(ptemp -> pNext != nullptr)
     {
         cout<<"<- | "<<ptemp -> iData<<" | -> ";
         ptemp = ptemp -> pNext;
     }
     cout<<"<- | "<<ptemp -> iData<<" | -> ";
-    cout<<"NULL"<<endl<<endl;
+    cout<<"nullptr"<<endl<<endl;
 
     ///////////////////////Display in reverse order//////////////////////
 
-    cout<<"Elements from linked list in reverse order are : "<<endl<<endl;
+    cout<<"Elements from linked list in reverse order are : "<<endl;
 
-    cout<<"NULL";
+    cout<<"nullptr";
     while(ptemp -> pPrev != nullptr)
     {
         cout<<"<- | "<<ptemp -> iData<<" | -> ";
         ptemp = ptemp -> pPrev;
     };
     cout<<"<- | "<<ptemp -> iData<<" | -> ";
-    cout<<"NULL";
+    cout<<"nullptr";
     cout<<endl;
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//Count() Function: Counts number of node in the singly circular linked list .                    //
+//Count() Function: Counts number of node in the doubly circular linked list .                    //
 //================================================================================================//
 //Parameters: None                                                                                //
 //================================================================================================//
@@ -238,9 +238,9 @@ int DOUBLY_LINEAR_LINKEDLIST::Count() const
 //2. Fill the new node with the data .                                                            //
 //3. If the linked list is empty, update the first pointer with the address of the new node .     //
 //4. If the linked list contains at least one node, update the Next pointer of the new node with  //
-//   the address of the first node and update the first pointer with the address of the new node. //
-//5. Update the Next pointer of the new node to point to the head node .                          //
-//6. Increment the count of nodes in the linked list by 1.                                        //
+//   the address of the first node then update the Previous pointer of the first node with        //
+//   address of new node and update the first pointer with the address of the new node.           //
+//5. Increment the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void DOUBLY_LINEAR_LINKEDLIST::InsertFirst(int iNo)
 {
@@ -260,6 +260,7 @@ void DOUBLY_LINEAR_LINKEDLIST::InsertFirst(int iNo)
     else//If linkedlist contains atleast one node
     {
         PsNewNode -> pNext = pHead;
+        pHead -> pPrev = PsNewNode;
         pHead = PsNewNode;
     }
 
@@ -457,9 +458,9 @@ int DOUBLY_LINEAR_LINKEDLIST::DeleteLast()
 {
     int iDeleted = 0;
 
-    else if((iCountNode == 1) && ((pHead) -> pNext == nullptr))//If linkedlist contains one node
+    if((iCountNode == 1) && ((pHead) -> pNext == nullptr))//If linkedlist contains one node
     {
-        iDeleted pHead -> iData;
+        iDeleted = pHead -> iData;
         delete pHead;
         pHead = nullptr;
     }
@@ -507,7 +508,7 @@ int DOUBLY_LINEAR_LINKEDLIST::DeleteLast()
 //   and free the memory of the node to be deleted.                                               //
 //6. Decrement the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void DOUBLY_LINEAR_LINKEDLIST::DeleteAtPosition(int iPosition)
+int DOUBLY_LINEAR_LINKEDLIST::DeleteAtPosition(int iPosition)
 {
     int iCnt = 0;
 
@@ -618,7 +619,7 @@ bool DOUBLY_LINEAR_LINKEDLIST::Search(int iSearch) const
 //1. int : Value to be searched in the linked list .                                              //
 //2. int : Value to be updated in the linked list .                                               //
 //================================================================================================//
-//Return: void                                                                                    //
+//Return: bool                                                                                    //
 //================================================================================================//
 //Local variables:                                                                                //
 //1. int : Counter variable & Position variable in one .                                          //
@@ -628,31 +629,24 @@ bool DOUBLY_LINEAR_LINKEDLIST::Search(int iSearch) const
 //   specified value. If the value is found, update the data of the node with the specified value.//
 //2. If the value is not found, display a message that the value is not found.                    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void DOUBLY_LINEAR_LINKEDLIST::UpdateNoForNo(int iSearch,int iUpdate)
+bool DOUBLY_LINEAR_LINKEDLIST::UpdateNoForNo(int iSearch,int iUpdate)
 {
-    if((iCountNode == 0) && (pHead == NULL))
-    {
-        cout<<"Linkedlist is empty"<<endl;
-        return;
-    }
-
+    PsNODE ptemp = pHead;
     int iPosition = 1;
 
     while(iPosition <= iCountNode)
     {
-        if(pHead -> iData == iSearch)
+        if(ptemp -> iData == iSearch)
         {
-            pHead -> iData = iUpdate;
-            cout<<"Element "<<iSearch<<" has been updated to "<<iUpdate<<" in doubly linear linked list"<<endl;
-
-            return;
+            ptemp -> iData = iUpdate;
+            return true;
         }
 
-        pHead = pHead -> pNext;
+        ptemp = ptemp -> pNext;
         iPosition++;
     }
 
-    cout<<"Element "<<iSearch<<" not found in doubly linear linked list"<<endl;
+    return false;
 }
 
 
@@ -676,47 +670,18 @@ void DOUBLY_LINEAR_LINKEDLIST::UpdateNoForNo(int iSearch,int iUpdate)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void DOUBLY_LINEAR_LINKEDLIST::UpdateNoForPosition(int iUpdate,int iPosition)
 {
-    if((iCountNode == 0) && (pHead == NULL))
-    {
-        cout<<"Linkedlist is empty"<<endl;
-        return;
-    }
-
-    int iCnt = 0;
-
-    if((iPosition < 1) || (iPosition > (iCountNode + 1)))
-    {
-        for(iCnt = 0;iCnt <= 2;iCnt++)
-        {
-            cout<<"Invalid position"<<endl;
-            cout<<"Enter valid position : "<<endl;
-            cin>>iPosition;
-
-            if((iPosition >= 1) && (iPosition <= (iCountNode + 1)))
-            {
-                UpdateNoForPosition(iUpdate,iPosition);
-                return;
-            }
-        }
-
-        cout<<"Wrong input entered 3 times , call function again ."<<endl;
-
-        return;
-    }
-
-    iCnt = 1;
+    PsNODE ptemp = pHead;
+    int iCnt = 1;
 
     while(iCnt <= iCountNode)
     {
         if(iCnt == iPosition)
         {
-            pHead -> iData = iUpdate;
-            cout<<"Element at position "<<iPosition<<" has been updated to "<<iUpdate<<" in doubly linear linked list"<<endl;
-
+            ptemp -> iData = iUpdate;
             return;
         }
 
-        pHead = pHead -> pNext;
+        ptemp = ptemp -> pNext;
         iCnt++;
     }
 }
@@ -751,43 +716,16 @@ void DOUBLY_LINEAR_LINKEDLIST::UpdateNoForPosition(int iUpdate,int iPosition)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void DOUBLY_LINEAR_LINKEDLIST::InsertBefore(int iNo,int iPosition)
 {
-    if((iCountNode == 0)  && (pHead == NULL))
-    {
-        cout<<"linkedlist are empty\n"<<endl;
-        return;
-    }
-
     int iCnt = 0;
 
-    if((iPosition < 1) || (iPosition > (iCountNode)))
-    {
-        for(iCnt = 0;iCnt <= 2;iCnt++)
-        {
-            cout<<"Invalid position"<<endl;
-            cout<<"Enter valid position : "<<endl;
-            cin>>iPosition;
-
-            if((iPosition >= 1) && (iPosition <= (iCountNode)))
-            {
-                InsertBefore(iNo,iPosition);
-                return;
-            }
-        }
-
-        cout<<"Wrong input entered 3 times , call function again ."<<endl;
-
-        return;
-    }
-
-
     //Initialize a new node
-    PsNODE PsNewNode = NULL;
+    PsNODE PsNewNode = nullptr;
     PsNewNode = new sNODE;
 
     //Filling the node with data
     PsNewNode -> iData = iNo;
-    PsNewNode -> pNext = NULL;
-    PsNewNode -> pPrev = NULL;
+    PsNewNode -> pNext = nullptr;
+    PsNewNode -> pPrev = nullptr;
 
     if(iPosition == 1)
     {
@@ -809,12 +747,11 @@ void DOUBLY_LINEAR_LINKEDLIST::InsertBefore(int iNo,int iPosition)
         ptemp -> pNext = PsNewNode;
         PsNewNode -> pNext -> pPrev = PsNewNode;
 
-        ptemp = NULL;//Freeing the temporary pointer
+        ptemp = nullptr;//Freeing the temporary pointer
     }
 
     iCountNode++;
-
-    cout<<"Node with data "<<iNo<<" inserted at the position "<<iPosition<<" of the doubly linear linked list"<<endl;
+    iCountNode_Main++;
 }
 
 
@@ -844,43 +781,16 @@ void DOUBLY_LINEAR_LINKEDLIST::InsertBefore(int iNo,int iPosition)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void DOUBLY_LINEAR_LINKEDLIST::InsertAfter(int iNo,int iPosition)
 {
-    if((iCountNode == 0) && (pHead == NULL))
-    {
-        cout<<"linkedlist are empty"<<endl;
-        return;
-    }
-
     int iCnt = 0;
 
-    if((iPosition < 1) || (iPosition > (iCountNode)))
-    {
-        for(iCnt = 0;iCnt <= 2;iCnt++)
-        {
-            cout<<"Invalid position"<<endl;
-            cout<<"Enter valid position : "<<endl;
-            cin>>iPosition;
-
-            if((iPosition >= 1) && (iPosition <= (iCountNode)))
-            {
-                InsertAfter(iNo,iPosition);
-                return;
-            }
-        }
-
-        cout<<"Wrong input entered 3 times , call function again ."<<endl;
-
-        return;
-    }
-
-
     //Initialize a new node
-    PsNODE PsNewNode = NULL;
+    PsNODE PsNewNode = nullptr;
     PsNewNode = new sNODE;
 
     //Filling the node with data
     PsNewNode -> iData = iNo;
-    PsNewNode -> pNext = NULL;
-    PsNewNode -> pPrev = NULL;
+    PsNewNode -> pNext = nullptr;
+    PsNewNode -> pPrev = nullptr;
 
     PsNODE ptemp = pHead;
 
@@ -888,7 +798,7 @@ void DOUBLY_LINEAR_LINKEDLIST::InsertAfter(int iNo,int iPosition)
     {
         //InsertLast(pHead,iNo); ---> Can be used
 
-        while(ptemp ->pNext != NULL)
+        while(ptemp ->pNext != nullptr)
         {
             ptemp = ptemp ->pNext;
         }
@@ -896,7 +806,7 @@ void DOUBLY_LINEAR_LINKEDLIST::InsertAfter(int iNo,int iPosition)
         ptemp -> pNext = PsNewNode;
         PsNewNode -> pPrev = ptemp;
 
-        ptemp = NULL;;//Freeing the temporary pointer
+        ptemp = nullptr;//Freeing the temporary pointer
     }
     else
     {
@@ -910,12 +820,11 @@ void DOUBLY_LINEAR_LINKEDLIST::InsertAfter(int iNo,int iPosition)
         PsNewNode -> pPrev = ptemp;
         ptemp -> pNext = PsNewNode;
 
-        ptemp = NULL;
+        ptemp = nullptr;
     }
 
     iCountNode++;
-
-    cout<<"Node with data "<<iNo<<" inserted at the position "<<(iPosition + 1)<<" of the doubly linear linked list"<<endl;
+    iCountNode_Main++;
 }
 
 
@@ -925,7 +834,7 @@ void DOUBLY_LINEAR_LINKEDLIST::InsertAfter(int iNo,int iPosition)
 //Parameters:                                                                                     //
 //1. int : Position before which the node is to be deleted .                                      //
 //================================================================================================//
-//Return: void                                                                                    //
+//Return: int                                                                                     //
 //================================================================================================//
 //Local variables:                                                                                //
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
@@ -942,51 +851,22 @@ void DOUBLY_LINEAR_LINKEDLIST::InsertAfter(int iNo,int iPosition)
 //   the Next pointer of the previous node with the Next pointer of the node to be deleted and    //
 //   free the memory of the node to be deleted.                                                   //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void DOUBLY_LINEAR_LINKEDLIST::DeleteBefore(int iPosition)
+int DOUBLY_LINEAR_LINKEDLIST::DeleteBefore(int iPosition)
 {
-    if((iCountNode == 0) && (pHead == NULL))
-    {
-        cout<<"linkedlist are empty"<<endl;
-        return;
-    }
-
-    int iCnt = 0;
-
-    if((iPosition < 2) || (iPosition > (iCountNode)))
-    {
-        for(iCnt = 0;iCnt <= 2;iCnt++)
-        {
-            cout<<"Invalid position"<<endl;
-            cout<<"Enter valid position : "<<endl;
-            cin>>iPosition;
-
-            if((iPosition >= 2) && (iPosition <= (iCountNode)))
-            {
-                DeleteBefore(iPosition);
-                return;
-            }
-        }
-
-        cout<<"Wrong input entered 3 times , call function again ."<<endl;
-
-        return;
-    }
-
     PsNODE ptemp = pHead;
+    int iCnt = 0;
 
     if(iPosition == 2)
     {
         pHead = ptemp -> pNext;
-        pHead -> pPrev = NULL;
-
-        cout<<"Node with data "<<ptemp -> iData<<" deleted from the beginning of the doubly linear linked list"<<endl;
-
-        free(ptemp);
-        ptemp = NULL;
+        pHead -> pPrev = nullptr;
+        iCnt = ptemp -> iData;
+        delete ptemp;
+        ptemp = nullptr;
     }
     else
     {
-        PsNODE ptempdelete = NULL;
+        PsNODE ptempdelete = nullptr;
 
         for(iCnt = 1;iCnt < (iPosition - 2);iCnt++)
         {
@@ -997,12 +877,15 @@ void DOUBLY_LINEAR_LINKEDLIST::DeleteBefore(int iPosition)
         ptemp -> pNext = ptemp -> pNext -> pNext;
         ptempdelete -> pNext -> pPrev = ptemp;
 
-        cout<<"Node with data "<<ptempdelete -> iData<<" deleted from the doubly linear linked list"<<endl;
-
-        free(ptempdelete);
+        iCnt = ptempdelete -> iData;
+        delete ptempdelete;
+        ptempdelete = nullptr;
     }
 
     iCountNode--;
+    iCountNode_Main--;
+
+    return iCnt;
 }
 
 
@@ -1012,7 +895,7 @@ void DOUBLY_LINEAR_LINKEDLIST::DeleteBefore(int iPosition)
 //Parameters:                                                                                     //
 //1. int : Position before which the new node is to be inserted .                                 //
 //================================================================================================//
-//Return: void                                                                                    //
+//Return: int                                                                                     //
 //================================================================================================//
 //Local variables:                                                                                //
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
@@ -1027,53 +910,25 @@ void DOUBLY_LINEAR_LINKEDLIST::DeleteBefore(int iPosition)
 //   the Next pointer of the previous node with the Next pointer of the node to be deleted and    //
 //   free the memory of the node to be deleted.                                                   //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void DOUBLY_LINEAR_LINKEDLIST::DeleteAfter(int iPosition)
+int DOUBLY_LINEAR_LINKEDLIST::DeleteAfter(int iPosition)
 {
-    if((iCountNode == 0) && (pHead == NULL))
-    {
-        cout<<"linkedlist are empty"<<endl;
-        return;
-    }
-
-    int iCnt = 0;
-
-    if((iPosition < 1) || (iPosition > (iCountNode - 1)))
-    {
-        for(iCnt = 0;iCnt <= 2;iCnt++)
-        {
-            cout<<"Invalid position"<<endl;
-            cout<<"Enter valid position : "<<endl;
-            cin>>iPosition;
-
-            if((iPosition >= 1) && (iPosition <= (iCountNode - 1)))
-            {
-                DeleteAfter(iPosition);
-                return;
-            }
-        }
-
-        cout<<"Wrong input entered 3 times , call function again ."<<endl;
-
-        return;
-    }
-
     PsNODE ptemp = pHead;
+    int iCnt = 0;
 
     if(iPosition == (iCountNode - 1))
     {
-        while(ptemp -> pNext -> pNext != NULL)
+        while(ptemp -> pNext -> pNext != nullptr)
         {
             ptemp = ptemp -> pNext;
         }
 
-        cout<<"Node with data "<<ptemp -> pNext -> iData<<" deleted from the doubly linear linked list"<<endl;
-
-        free(ptemp -> pNext);
-        ptemp -> pNext = NULL;
+        iCnt = ptemp -> pNext -> iData;
+        delete ptemp -> pNext;
+        ptemp -> pNext = nullptr;
     }
     else
     {
-        PsNODE ptempdelete = NULL;
+        PsNODE ptempdelete = nullptr;
 
         for(iCnt = 1;iCnt < (iPosition);iCnt++)
         {
@@ -1084,12 +939,15 @@ void DOUBLY_LINEAR_LINKEDLIST::DeleteAfter(int iPosition)
         ptemp -> pNext = ptemp -> pNext -> pNext;
         ptempdelete -> pNext -> pPrev = ptemp;
 
-        cout<<"Node with data "<<ptempdelete -> iData<<" deleted from the doubly linear linked list"<<endl;
-
-        free(ptempdelete);
+        iCnt = ptempdelete -> iData;
+        delete ptempdelete;
+        ptempdelete = nullptr;
     }
 
     iCountNode--;
+    iCountNode_Main--;
+
+    return iCnt;
 }
 
 
@@ -1112,31 +970,22 @@ void DOUBLY_LINEAR_LINKEDLIST::DeleteAfter(int iPosition)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void DOUBLY_LINEAR_LINKEDLIST::DeleteList()
 {
-    if((iCountNode == 0) && (pHead == NULL))
-    {
-        cout<<"linkedlist is already empty"<<endl;
-        return;
-    }
-
     PsNODE ptempdelete = pHead;
 
-    while(pHead != NULL)
+    while(pHead != nullptr)
     {
         ptempdelete = pHead;
         pHead = pHead -> pNext;
 
-        cout<<"Node with data "<<ptempdelete -> iData<<" deleted from the doubly linear linked list"<<endl;
-
-        free(ptempdelete);
-        ptempdelete = NULL;
+        delete ptempdelete;
+        ptempdelete = nullptr;
 
         iCountNode--;
+        iCountNode_Main--;
     }
 
-    free(pHead);
-    pHead = NULL;
-
-    cout<<"Doubly Linear Linked-List has been deleted"<<endl;
+    delete pHead;
+    pHead = nullptr;
 }
 
 
@@ -1161,19 +1010,13 @@ void DOUBLY_LINEAR_LINKEDLIST::DeleteList()
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void DOUBLY_LINEAR_LINKEDLIST::SortAscending()
 {
-    if((iCountNode == 0) && (pHead == NULL))
-    {
-        cout<<"linkedlist is empty"<<endl;
-        return;
-    }
-
     int itransfer = 0;
     PsNODE ptemp1 = pHead;
     PsNODE ptemp2 = pHead;
 
-    for(ptemp1 = pHead;ptemp1 -> pNext != NULL;ptemp1 = ptemp1 -> pNext)
+    for(ptemp1 = pHead;ptemp1 -> pNext != nullptr;ptemp1 = ptemp1 -> pNext)
     {
-        for(ptemp2 = ptemp1 -> pNext;ptemp2 != NULL;ptemp2 = ptemp2 -> pNext)
+        for(ptemp2 = ptemp1 -> pNext;ptemp2 != nullptr;ptemp2 = ptemp2 -> pNext)
         {
             if(ptemp1 -> iData > ptemp2 -> iData)
             {
@@ -1183,8 +1026,6 @@ void DOUBLY_LINEAR_LINKEDLIST::SortAscending()
             }
         }
     }
-
-    cout<<"Doubly Linear Linked-List has been sorted as in ascending order"<<endl;
 }
 
 
@@ -1208,16 +1049,10 @@ void DOUBLY_LINEAR_LINKEDLIST::SortAscending()
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void DOUBLY_LINEAR_LINKEDLIST::Reverse()
 {
-    if((iCountNode == 0) && (pHead == NULL))
-    {
-        cout<<"linkedlist is empty"<<endl;
-        return;
-    }
-
-    PsNODE ptemp = NULL;
+    PsNODE ptemp = nullptr;
     PsNODE pCurrent = pHead;
 
-    while(pCurrent != NULL)
+    while(pCurrent != nullptr)
     {
         ptemp = pCurrent -> pPrev;
         pCurrent -> pPrev = pCurrent -> pNext;
@@ -1225,12 +1060,10 @@ void DOUBLY_LINEAR_LINKEDLIST::Reverse()
         pCurrent = pCurrent -> pPrev;
     }
 
-    if(ptemp != NULL)
+    if(ptemp != nullptr)
     {
         pHead = ptemp -> pPrev;
     }
-
-    cout<<"Doubly Linear Linked-List's data has been reversed"<<endl;
 }
 
 
@@ -1250,16 +1083,9 @@ void DOUBLY_LINEAR_LINKEDLIST::Reverse()
 //2. Count the number of nodes in the linked list .                                               //
 //3. Traverse the linked list till the middle node and return the address of the middle node.     //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-PsNODE DOUBLY_LINEAR_LINKEDLIST::FindMiddleNode()
+PsNODE DOUBLY_LINEAR_LINKEDLIST::FindMiddleNode() const
 {
-    if((iCountNode == 0) && (pHead == NULL))
-    {
-        cout<<"linkedlist is empty"<<endl;
-        return 0;
-    }
-
     PsNODE ptemp = pHead;
-
     int iCnt = 0;
 
     for(iCnt = 1;iCnt < ((iCountNode + 1)/2);iCnt++)
@@ -1288,45 +1114,13 @@ PsNODE DOUBLY_LINEAR_LINKEDLIST::FindMiddleNode()
 //2. If the kth position is invalid, display a message that the kth position is invalid.          //
 //3. Travel the linked list till the kth node from start and return the address of the kth node.  //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-PsNODE DOUBLY_LINEAR_LINKEDLIST::FindKthNodeFromStart()
+PsNODE DOUBLY_LINEAR_LINKEDLIST::FindKthNodeFromStart(int iKth) const
 {
-    if((iCountNode == 0) && (pHead == NULL))
-    {
-        cout<<"linkedlist is empty"<<endl;
-        return 0;
-    }
-
     PsNODE ptemp = pHead;
 
-    int iKth = 0;
-    cout<<"Enter the kth position from start : ";
-    cin>>iKth;
-    cout<<endl;
-    int iCnt = 0;
-
-    if((iKth < 1) || (iKth > iCountNode))
-    {
-        cout<<"Invalid position"<<endl;
-
-        cout<<"Wrong input, call function again ."<<endl;
-
-        return NULL;
-    }
-
-
-    for(iCnt = 1;iCnt < iKth;iCnt++)
+    for(int iCnt = 1;iCnt < iKth;iCnt++)
     {
         ptemp = ptemp -> pNext;
-    }
-
-    if(ptemp == NULL)
-    {
-        cout<<"Invalid position"<<endl;
-        return NULL;
-    }
-    else
-    {
-        cout<<"Data in "<<iKth<<" node from start is : "<<ptemp -> iData<<endl;
     }
 
     return ptemp;
@@ -1353,35 +1147,10 @@ PsNODE DOUBLY_LINEAR_LINKEDLIST::FindKthNodeFromStart()
 //3. If the kth position is random, traverse the linked list till the kth node from middle and    //
 //   return the address of the kth node.                                                          //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-PsNODE DOUBLY_LINEAR_LINKEDLIST::FindKthNodeFromMiddle()
+PsNODE DOUBLY_LINEAR_LINKEDLIST::FindKthNodeFromMiddle(int iKth,int iDirection) const
 {
-    if((iCountNode == 0) && (pHead == NULL))
-    {
-        cout<<"linkedlist is empty"<<endl;
-        return 0;
-    }
-
     PsNODE ptemp = pHead;
-
-    int iKth = 0;
-    cout<<"Enter the kth position from middle : ";
-    cin>>iKth;
-    cout<<endl;
-    int iDirection = 0;
-    cout<<"Kth node from start or end ? >>Press 1 : FOR start [OR] >>Press 2 : FOR end ::: Your choice : ";
-    cin>>iDirection;
-    cout<<endl;
     int iCnt = 0;
-
-
-    if((iKth < 1) || (iKth >= ((iCountNode + 1)/2)))
-    {
-        cout<<"Invalid position"<<endl;
-
-        cout<<"Wrong input, call function again ."<<endl;
-
-        return NULL;
-    }
 
     if(iDirection == 1)
     {
@@ -1395,23 +1164,6 @@ PsNODE DOUBLY_LINEAR_LINKEDLIST::FindKthNodeFromMiddle()
     for(iCnt = 1;iCnt < iKth;iCnt++)
     {
         ptemp = ptemp -> pNext;
-    }
-
-    if(ptemp == NULL)
-    {
-        cout<<"Invalid position"<<endl;
-        return NULL;
-    }
-    else
-    {
-        if(iDirection == 1)
-        {
-            cout<<"Data in "<<iKth<<" node from middle to start is : "<<ptemp -> iData<<endl;
-        }
-        else
-        {
-            cout<<"Data in "<<iKth<<" node from middle to end is : "<<ptemp -> iData<<endl;
-        }
     }
 
     return ptemp;
@@ -1436,46 +1188,14 @@ PsNODE DOUBLY_LINEAR_LINKEDLIST::FindKthNodeFromMiddle()
 //3. If the kth position is random, traverse the linked list till the kth node from end and       //
 //   return the address of the kth node.                                                          //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-PsNODE DOUBLY_LINEAR_LINKEDLIST::FindKthNodeFromEnd()
+PsNODE DOUBLY_LINEAR_LINKEDLIST::FindKthNodeFromEnd(int iKth) const
 {
-    if((iCountNode == 0) && (pHead == NULL))
-    {
-        cout<<"linkedlist is empty"<<endl;
-        return 0;
-    }
-
     PsNODE ptemp = pHead;
-
-    int iKth = 0;
-    cout<<"Enter the kth position from end : ";
-    cin>>iKth;
-    cout<<endl;
     int iCnt = 0;
 
-    if((iKth < 1) || (iKth > iCountNode))
-    {
-        cout<<"Invalid position"<<endl;
-
-        cout<<"Wrong input, call function again ."<<endl;
-
-        return NULL;
-    }
-
-    int iIndex = iCountNode - iKth + 1;
-
-    for(iCnt = 1;iCnt < iIndex;iCnt++)
+    for(int iCnt = 1;iCnt < (iCountNode - iKth + 1);iCnt++)
     {
         ptemp = ptemp -> pNext;
-    }
-
-    if(ptemp == NULL)
-    {
-        cout<<"Invalid position"<<endl;
-        return NULL;
-    }
-    else
-    {
-        cout<<"Data in "<<iKth<<" node from end is : "<<ptemp -> iData<<endl;
     }
 
     return ptemp;
@@ -1575,9 +1295,9 @@ int main()
 
     DOUBLY_LINEAR_LINKEDLIST DoublyLinearLL;
 
-    PsNODE pRet = NULL;//Pointer to the second node of the linked list
+    PsNODE pRet = nullptr;//Pointer to the second node of the linked list
 
-    char siChoiceMode[] = "0";//Variable to store the choice of the user for the mode of operation
+    int iChoiceMode = 0;//Variable to store the choice of the user for the mode of operation
     char cChoiceFunction = '\0';//Variable to store the choice of the user for the function to be performed
 
     int iNo1 = 0;//Variable to store the data of the node
@@ -1587,9 +1307,9 @@ int main()
     int iPosition1 = 0;//Variable to store the position of the node
     int iExitMode = 0;//Variable to store the exit mode of the application
 
-    bool bRet = 0;
+    bool bRet = false;
 
-    cout<<"Welcome to Rajas's Application of Doubly-Linear-LinkedList"<<endl<<endl;
+    cout<<"Welcome to Rajas's Application of Singly-Linear-LinkedList"<<endl<<endl;
 
     while(1)
     {
@@ -1597,13 +1317,13 @@ int main()
 
         cout<<"===================================================================================================="<<endl;
         cout<<"Enter the mode of operation : ";
-        cin>>siChoiceMode;
+        cin>>iChoiceMode;
 
-        if(atoi(siChoiceMode) == 1)
+        if(iChoiceMode == 1)
         {
             DoublyLinearLL.Manual();//Display the manual for the application
         }
-        else if(atoi(siChoiceMode) == 2)
+        else if(iChoiceMode == 2)
         {
             cout<<"Active Mode : SIMPLE ACCESS"<<endl;
 
@@ -1622,53 +1342,122 @@ int main()
                     case 'A':
                     case 'a':
                         cout<<"Enter the data to be inserted in the linked list : ";
-                        cin>>iNo1;
-                        cout<<endl;
+                        while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                        {
+                            cout<<"Invalid input. Please enter a single integer : ";
+                            cin.clear();
+                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                        }
 
                         DoublyLinearLL.InsertFirst(iNo1);
+                        cout<<"Node with data "<<iNo1<<" inserted at the beginning of the singly linear linked list"<<endl;
+
                         break;
                     case 'B':
                     case 'b':
                         cout<<"Enter the data to be inserted in the linked list : ";
-                        cin>>iNo1;
-                        cout<<endl;
+                        while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                        {
+                            cout<<"Invalid input. Please enter a single integer : ";
+                            cin.clear();
+                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                        }
 
                         DoublyLinearLL.InsertLast(iNo1);
+                        cout<<"Node with data "<<iNo1<<" inserted at the end of the singly linear linked list"<<endl;
+
                         break;
                     case 'C':
                     case 'c':
                         cout<<"Enter the data to be inserted in the linked list : ";
-                        cin>>iNo1;
-                        cout<<endl;
+                        while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                        {
+                            cout<<"Invalid input. Please enter a single integer : ";
+                            cin.clear();
+                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                        }
 
                         cout<<"Enter the position at which the data is to be inserted : ";
                         cin>>iPosition1;
                         cout<<endl;
+                        while((iPosition1 < 1) || (iPosition1 > (DoublyLinearLL.iCountNode_Main + 1)))
+                        {
+                            cout<<"Enter the position between 1 <-> "<<(DoublyLinearLL.iCountNode_Main + 1)<<" : ";
+                            while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
+                        }
 
                         DoublyLinearLL.InsertAtPosition(iNo1,iPosition1);
+                        cout<<"Node with data "<<iNo1<<" inserted at position "<<iPosition1<<" in the singly linear linked list"<<endl;
 
                         break;
                     case 'D':
                     case 'd':
-                        DoublyLinearLL.DeleteFirst();
+                        if(DoublyLinearLL.iCountNode_Main != 0)
+                        {
+                            iRet = DoublyLinearLL.DeleteFirst();
+                            cout<<"Node with data "<<iRet<<" deleted from the beginning of the singly linear linked list"<<endl;
+                        }
+                        else
+                        {
+                            cout<<"!!Linked-List is empty!!"<<endl;
+                        }
 
                         break;
                     case 'E':
                     case 'e':
-                        DoublyLinearLL.DeleteLast();
+                        if(DoublyLinearLL.iCountNode_Main != 0)
+                        {
+                            iRet = DoublyLinearLL.DeleteLast();
+                            cout<<"Node with data "<<iRet<<" deleted from the end of the singly linear linked list"<<endl;
+                        }
+                        else
+                        {
+                            cout<<"!!Linked-List is empty!!"<<endl;
+                        }
 
                         break;
                     case 'F':
                     case 'f':
-                        cout<<"Enter the position at which the data is to be deleted : ";
-                        cin>>iPosition1;
+                        if(DoublyLinearLL.iCountNode_Main != 0)
+                        {
+                            cout<<"Enter the position from which the data is to be deleted : ";
+                            cin>>iPosition1;
+                            cout<<endl;
+                            while((iPosition1 < 1) || (iPosition1 > DoublyLinearLL.iCountNode_Main))
+                            {
+                                cout<<"Enter the position between 1 <-> "<<DoublyLinearLL.iCountNode_Main<<" : ";
+                                while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
+                            }
 
-                        DoublyLinearLL.DeleteAtPosition(iPosition1);
+                            iRet = DoublyLinearLL.DeleteAtPosition(iPosition1);
+                            cout<<"Node with data "<<iRet<<" deleted from the position "<<iPosition1<<" from the singly linear linked list"<<endl;
+                        }
+                        else
+                        {
+                            cout<<"!!Linked-List is empty!!"<<endl;
+                        }
 
                         break;
                     case 'G':
                     case 'g':
-                        DoublyLinearLL.Display();
+                        if(DoublyLinearLL.iCountNode_Main != 0)
+                        {
+                            DoublyLinearLL.Display();
+                        }
+                        else
+                        {
+                            cout<<"!!Linked-List is empty!!"<<endl;
+                        }
 
                         break;
                     case 'H':
@@ -1693,7 +1482,7 @@ int main()
                 }
             }
         }
-        else if(atoi(siChoiceMode) == 3)
+        else if(iChoiceMode == 3)
         {
             cout<<"Active Mode : ADDED FEATURES"<<endl;
 
@@ -1716,7 +1505,14 @@ int main()
                         break;
                     case 'G':
                     case 'g':
-                        DoublyLinearLL.Display();
+                        if(DoublyLinearLL.iCountNode_Main != 0)
+                        {
+                            DoublyLinearLL.Display();
+                        }
+                        else
+                        {
+                            cout<<"!!Linked-List is empty!!"<<endl;
+                        }
 
                         break;
                     case 'H':
@@ -1727,150 +1523,445 @@ int main()
                         break;
                     case 'I':
                     case 'i':
-                        cout<<"Enter the value to be searched in the linked list : ";
-                        cin>>iNo1;
+                        if(DoublyLinearLL.iCountNode_Main != 0)
+                        {
+                            cout<<"Enter the value to be searched in the linked list : ";
+                            while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
 
-                        bRet = DoublyLinearLL.Search(iNo1);
+                            bRet = DoublyLinearLL.Search(iNo1);
+                            if(bRet == true)
+                            {
+                                cout<<"Element "<<iNo1<<" is found at position "<<iPosition1<<" in singly linear linked list"<<endl;
+                            }
+                            else
+                            {
+                                cout<<"Element "<<iNo1<<" wasn't found in singly linear linked list"<<endl;
+                            }
+                        }
+                        else
+                        {
+                            cout<<"!!Linked-List is empty!!"<<endl;
+                        }
 
                         break;
                     case 'J':
                     case 'j':
-                        DoublyLinearLL.Reverse();
-
-                        break;
-                    case 'K':
-                    case 'k':
-                        DoublyLinearLL.Concat();
-
-                        break;
-                    case 'L':
-                    case 'l':
-                        //DoublyLinearLL.Merge(&pHead1,&pHead1);
+                        if(DoublyLinearLL.iCountNode_Main != 0)
+                        {
+                            DoublyLinearLL.Reverse();
+                            cout<<"!! Linked-List has been Reversed !!"<<endl;
+                        }
+                        else
+                        {
+                            cout<<"!!Linked-List is empty!!"<<endl;
+                        }
 
                         break;
                     case 'M':
                     case 'm':
-                        DoublyLinearLL.SortAscending();
+                        if(DoublyLinearLL.iCountNode_Main != 0)
+                        {
+                            DoublyLinearLL.SortAscending();
+                            cout<<"Singly Linear Linked-List has been sorted in ascending order"<<endl;
+                        }
+                        else
+                        {
+                            cout<<"!!Linked-List is empty!!"<<endl;
+                        }
 
                         break;
                     case 'N':
                     case 'n':
-                        cout<<"Enter the value to be updated in the linked list : ";
-                        cin>>iNo1;
-                        cout<<endl;
+                        if(DoublyLinearLL.iCountNode_Main != 0)
+                        {
+                            cout<<"Enter the value to be updated in the linked list : ";
+                            while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
 
-                        cout<<"Enter the value to be updated with : ";
-                        cin>>iNo2;
+                            cout<<"Enter the value to be updated with : ";
+                            while((!(cin>>iNo2)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
 
-                        DoublyLinearLL.UpdateNoForNo(iNo1,iNo2);
+                            bRet = DoublyLinearLL.UpdateNoForNo(iNo1,iNo2);
+                            if(bRet == true)
+                            {
+                                cout<<"Element "<<iNo1<<" has been updated to "<<iNo2<<" in singly linear linked list"<<endl;
+                            }
+                            else
+                            {
+                                cout<<"Element "<<iNo1<<" not found in singly linear linked list"<<endl;
+                            }
+                        }
+                        else
+                        {
+                            cout<<"!!Linked-List is empty!!"<<endl;
+                        }
 
                         break;
                     case 'O':
                     case 'o':
-                        cout<<"Enter the value to be updated at a specific position in the linked list : ";
-                        cin>>iNo1;
-                        cout<<endl;
+                        if(DoublyLinearLL.iCountNode_Main != 0)
+                        {
+                            cout<<"Enter the value to be updated at a specific position in the linked list : ";
+                            while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
 
-                        cout<<"Enter the position at which the data is to be updated : ";
-                        cin>>iPosition1;
+                            cout<<"Enter the position at which the data is to be updated : ";
+                            while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
 
-                        DoublyLinearLL.UpdateNoForPosition(iNo1,iPosition1);
+                            while((iPosition1 < 1) || (iPosition1 > DoublyLinearLL.iCountNode_Main))
+                            {
+                                cout<<"Enter the position between 1 <-> "<<DoublyLinearLL.iCountNode_Main<<" : ";
+                                while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
+                            }
+
+                            DoublyLinearLL.UpdateNoForPosition(iNo1,iPosition1);
+                            cout<<"Element at position "<<iPosition1<<" has been updated to "<<iNo1<<" in singly linear linked list"<<endl;
+                        }
+                        else
+                        {
+                            cout<<"!!Linked-List is empty!!"<<endl;
+                        }
 
                         break;
                     case 'P':
                     case 'p':
-                        cout<<"Enter the data to be inserted in the linked list : ";
-                        cin>>iNo1;
-                        cout<<endl;
+                        if(DoublyLinearLL.iCountNode_Main > 0)
+                        {
+                            cout<<"Enter the data to be inserted in the linked list : ";
+                            while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
 
-                        cout<<"Enter the position before which the data is to be inserted : ";
-                        cin>>iPosition1;
-                        cout<<endl;
+                            cout<<"Enter the position before which the data is to be inserted : ";
+                            while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
 
-                        DoublyLinearLL.InsertBefore(iNo1,iPosition1);
+                            while((iPosition1 < 1) || (iPosition1 > DoublyLinearLL.iCountNode_Main))
+                            {
+                                cout<<"Enter the position between 1 <-> "<<DoublyLinearLL.iCountNode_Main<<" : ";
+                                while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
+                            }
+
+                            DoublyLinearLL.InsertBefore(iNo1,iPosition1);
+                            cout<<"Node with data "<<iNo1<<" inserted at the position "<<iPosition1<<" of the singly linear linked list"<<endl;
+                        }
+                        else
+                        {
+                            cout<<"!!Not Enough Nodes!!"<<endl;
+                        }
 
                         break;
                     case 'Q':
                     case 'q':
-                        cout<<"Enter the data to be inserted in the linked list : ";
-                        cin>>iNo1;
-                        cout<<endl;
+                        if(DoublyLinearLL.iCountNode_Main > 0)
+                        {
+                            cout<<"Enter the data to be inserted in the linked list : ";
+                            while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
 
+                            cout<<"Enter the position before which the data is to be inserted : ";
+                            while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
+                            while((iPosition1 < 1) || (iPosition1 > DoublyLinearLL.iCountNode_Main))
+                            {
+                                cout<<"Enter the position between 1 <-> "<<DoublyLinearLL.iCountNode_Main<<" : ";
+                                while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
+                            }
 
-                        cout<<"Enter the position after which the data is to be inserted : ";
-                        cin>>iPosition1;
-                        cout<<endl;
-
-                        DoublyLinearLL.InsertAfter(iNo1,iPosition1);
+                            DoublyLinearLL.InsertAfter(iNo1,iPosition1);
+                            cout<<"Node with data "<<iNo1<<" inserted at the position "<<(iPosition1 + 1)<<" of the singly linear linked list"<<endl;
+                        }
+                        else
+                        {
+                            cout<<"!!Not Enough Nodes!!"<<endl;
+                        }
 
                         break;
                     case 'R':
                     case 'r':
-                        cout<<"Enter the position before which the data is to be deleted : ";
-                        cin>>iPosition1;
-                        cout<<endl;
+                        if(DoublyLinearLL.iCountNode_Main > 1)
+                        {
+                            cout<<"Enter the position before which the data is to be deleted : ";
+                            while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
 
-                        DoublyLinearLL.DeleteBefore(iPosition1);
+                            while((iPosition1 < 2) || (iPosition1 > DoublyLinearLL.iCountNode_Main))
+                            {
+                                cout<<"Enter the position between 2 <-> "<<DoublyLinearLL.iCountNode_Main<<" : ";
+                                while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
+                            }
+
+                            iRet = DoublyLinearLL.DeleteBefore(iPosition1);
+                            cout<<"Node with data "<<iRet<<" deleted at the position "<<iPosition1<<" of the singly linear linked list"<<endl;
+                        }
+                        else
+                        {
+                            cout<<"!!Not Enough Nodes!!"<<endl;
+                        }
 
                         break;
                     case 'S':
                     case 's':
-                        cout<<"Enter the position after which the data is to be deleted : ";
-                        cin>>iPosition1;
-                        cout<<endl;
- 
-                        DoublyLinearLL.DeleteAfter(iPosition1);
+                        if(DoublyLinearLL.iCountNode_Main > 1)
+                        {
+                            cout<<"Enter the position before which the data is to be deleted : ";
+                            while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
+
+                            while((iPosition1 < 1) || (iPosition1 > (DoublyLinearLL.iCountNode_Main - 1)))
+                            {
+                                cout<<"Enter the position between 2 <-> "<<(DoublyLinearLL.iCountNode_Main - 1)<<" : ";
+                                while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
+                            }
+
+                            iRet = DoublyLinearLL.DeleteAfter(iPosition1);
+                            cout<<"Node with data "<<iRet<<" deleted at the position "<<iPosition1<<" of the singly linear linked list"<<endl;
+                        }
+                        else
+                        {
+                            cout<<"!!Not Enough Nodes!!"<<endl;
+                        }
 
                         break;
                     case 'T':
                     case 't':
-                        DoublyLinearLL.DeleteList();
-
-                        break;
-                    case 'U':
-                    case 'u':
-                        //DoublyLinearLL.RemoveDuplicates();
+                        if(DoublyLinearLL.iCountNode_Main != 0)
+                        {
+                            DoublyLinearLL.DeleteList();
+                            cout<<"Linked-List has been deleted ."<<endl;
+                        }
+                        else
+                        {
+                            cout<<"!!Linked-List is empty!!"<<endl;
+                        }
 
                         break;
                     case 'V':
                     case 'v':
-                        pRet = DoublyLinearLL.FindMiddleNode();
-
-                        if(pRet != NULL)
+                        if(DoublyLinearLL.iCountNode_Main != 0)
                         {
-                            cout<<"The data in middle node from the linked list is : "<<pRet -> iData<<endl;
+                            pRet = DoublyLinearLL.FindMiddleNode();
+
+                            if(pRet != nullptr)
+                            {
+                                cout<<"The data in middle node from the linked list is : "<<pRet -> iData<<endl;
+                            }
+                            else
+                            {
+                                cout<<"Invalid position"<<endl;
+                            }
                         }
                         else
                         {
-                            cout<<"Invalid position"<<endl;
+                            cout<<"!!Linked_List is empty!!"<<endl;
                         }
-
-                        break;
-                    case 'W':
-                    case 'w':
-                        cout<<"Enter the first linked list : ";
-                        cin>>iNo1;
-                        cout<<endl;
-
-                        cout<<"Enter the second linked list : ";
-                        cin>>iNo2;
-
-                        //iReturn = pRet -> iDataFindDifference();
 
                         break;
                     case 'X':
                     case 'x':
-                        pRet = DoublyLinearLL.FindKthNodeFromStart();
+                        if(DoublyLinearLL.iCountNode_Main != 0)
+                        {
+                            cout<<"Enter the kth position from start : ";
+                            while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
+
+                            while((iNo1 < 1) || (iNo1 > DoublyLinearLL.iCountNode_Main))
+                            {
+                                cout<<"Enter offset between 1 <-> "<<DoublyLinearLL.iCountNode_Main<<" : "<<endl;
+                                while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
+                            }
+
+                            pRet = DoublyLinearLL.FindKthNodeFromStart(iNo1);
+                            cout<<"Data in "<<iNo1<<" node from start is : "<<pRet -> iData<<endl;
+                        }
+                        else
+                        {
+                            cout<<"!!Linked-List is empty!!"<<endl;
+                        }
 
                         break;
                     case 'Y':
                     case 'y':
-                        pRet = DoublyLinearLL.FindKthNodeFromMiddle();
+                        if(DoublyLinearLL.iCountNode_Main != 0)
+                        {
+                            cout<<"Enter the kth position from start : ";
+                            while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
+
+                            while((iNo1 < 1) || (iNo1 > DoublyLinearLL.iCountNode_Main))
+                            {
+                                cout<<"Enter offset between 1 <-> "<<DoublyLinearLL.iCountNode_Main<<" : "<<endl;
+                                while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
+                            }
+
+                            cout<<"Kth node from start or end ? >>Press 1 : FOR start [OR] >>Press 2 : FOR end ::: Your choice : ";
+                            while((!(cin>>iNo2)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
+
+                            if((iNo1 == 1) || (iNo2 == 0))
+                            {
+                                pRet = DoublyLinearLL.FindKthNodeFromMiddle(iNo1,iNo2);
+                                if(iNo2 == 1)
+                                {
+                                    cout<<"Data in "<<iNo1<<" node from middle to start is : "<<pRet -> iData<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"Data in "<<iNo1<<" node from middle to end is : "<<pRet -> iData<<endl;
+                                }
+                            }
+                            else
+                            {
+                                while((iNo2 != 1) || (iNo2 != 0))
+                                {
+                                    cout<<"Kth node from start or end ? >>Press 1 : FOR start [OR] >>Press 2 : FOR end ::: Your choice : ";
+                                    while((!(cin>>iNo2)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
+                                }
+
+                                pRet = DoublyLinearLL.FindKthNodeFromMiddle(iNo1,iNo2);
+                                if(iNo2 == 1)
+                                {
+                                    cout<<"Data in "<<iNo1<<" node from middle to start is : "<<pRet -> iData<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"Data in "<<iNo1<<" node from middle to end is : "<<pRet -> iData<<endl;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            cout<<"!!Linked-List is empty!!"<<endl;
+                        }
 
                         break;
                     case 'Z':
                     case 'z':
-                        pRet = DoublyLinearLL.FindKthNodeFromEnd();
+                        if(DoublyLinearLL.iCountNode_Main != 0)
+                        {
+                            cout<<"Enter the kth position from start : ";
+                            while((!(cin>>iNo2)) || (cin.peek() != '\n'))
+                            {
+                                cout<<"Invalid input. Please enter a single integer : ";
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                            }
+                            while((iNo1 < 1) || (iNo1 > DoublyLinearLL.iCountNode_Main))
+                            {
+                                cout<<"Enter offset between 1 <-> "<<DoublyLinearLL.iCountNode_Main<<" : "<<endl;
+                                while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
+                            }
+
+                            pRet = DoublyLinearLL.FindKthNodeFromEnd(iNo1);
+                            cout<<"Data in "<<iNo1<<" node from end is : "<<pRet -> iData<<endl;
+                        }
+                        else
+                        {
+                            cout<<"!!Linked-List is empty!!"<<endl;
+                        }
 
                         break;
                     case 'A':
@@ -1886,9 +1977,9 @@ int main()
 
             continue;
         }
-        else if(atoi(siChoiceMode) == 4)
+        else if(iChoiceMode == 4)
         {
-            cout<<"Exiting the RAJAS's DOUBLY LINEAR LINKEDLIST application"<<endl;
+            cout<<"Exiting the RAJAS's SINGLY LINEAR LINKEDLIST application"<<endl;
             break;
         }
         else
