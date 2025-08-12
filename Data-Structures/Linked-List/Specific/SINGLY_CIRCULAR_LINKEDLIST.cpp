@@ -489,7 +489,7 @@ int SINGLY_CIRCULAR_LINKEDLIST::DeleteAtPosition(int iPosition)
 //6. InsertBefore() : Inserts a new node before a specific node                                   //
 //7. InsertAfter() : Inserts a new node after a specific node                                     //
 //8. DeleteBefore() : Deletes the node before a specific node                                     //
-//9. DeleteAfter() : Deletes the node after a specific node                                      //
+//9. DeleteAfter() : Deletes the node after a specific node                                       //
 //10. DeleteList() : Deletes the entire list                                                      //
 //11. FindMiddle() : Finds the middle node of the list                                            //
 //12. FindKthNodeFromStart() : Finds the kth node from the start of the list                      //
