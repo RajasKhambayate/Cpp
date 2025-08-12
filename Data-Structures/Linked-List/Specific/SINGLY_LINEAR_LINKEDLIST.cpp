@@ -160,9 +160,6 @@ SINGLY_LINEAR_LINKEDLIST::~SINGLY_LINEAR_LINKEDLIST()
 //================================================================================================//
 //Local variables:                                                                                //
 //1. PsNODE : Temporary pointer to traverse the linked list .                                     //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. Traverse the linked list till the last node and display the data of each node.               //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_LINEAR_LINKEDLIST::Display() const
 {
@@ -189,9 +186,6 @@ void SINGLY_LINEAR_LINKEDLIST::Display() const
 //Return: integer                                                                                 //
 //================================================================================================//
 //Local variables: None                                                                           //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. Return the value of iCountNode which is updated during insertion and deletion operations.    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 int SINGLY_LINEAR_LINKEDLIST::Count() const
 {
@@ -209,14 +203,6 @@ int SINGLY_LINEAR_LINKEDLIST::Count() const
 //================================================================================================//
 //Local variables:                                                                                //
 //1. PsNODE : Pointer to the new node .                                                           //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. Allocate memory for the new node .                                                           //
-//2. Fill the new node with the data .                                                            //
-//3. If the linked list is empty, update the first pointer with the address of the new node .     //
-//4. If the linked list contains at least one node, update the Next pointer of the new node with  //
-//   the address of the first node and update the first pointer with the address of the new node. //
-//5. Increment the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_LINEAR_LINKEDLIST::InsertFirst(int iNo)
 {
@@ -254,14 +240,6 @@ void SINGLY_LINEAR_LINKEDLIST::InsertFirst(int iNo)
 //Local variables:                                                                                //
 //1. PsNODE : Pointer to the new node .                                                           //
 //2. PsNODE : Temporary pointer for traversal                                                     //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. Allocate memory for the new node .                                                           //
-//2. Fill the new node with the data .                                                            //
-//3. If the linked list is empty, update the first pointer with the address of the new node .     //
-//4. If the linked list contains at least one node, traverse till the last node and update the    //
-//   Next pointer of the last node with the address of the new node.                              //
-//5. Increment the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_LINEAR_LINKEDLIST::InsertLast(int iNo)
 {
@@ -281,7 +259,7 @@ void SINGLY_LINEAR_LINKEDLIST::InsertLast(int iNo)
     {
         PsNODE ptemp = pHead;
 
-        while(ptemp -> pNext != NULL)
+        while(ptemp -> pNext != nullptr)
         {
             ptemp = ptemp -> pNext;
         }
@@ -308,14 +286,6 @@ void SINGLY_LINEAR_LINKEDLIST::InsertLast(int iNo)
 //1. PsNODE : Pointer to the new node .                                                           //
 //2. PsNODE : temporary pointer to traverse the linked list .                                     //
 //3. int    : Counter variable .                                                                  //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the position is 1,call the InsertFirst() function to insert the new node at the beginning.//
-//2. If the position is the last,call the InsertLast() function to insert the new node at the end.//
-//3. If the position is random, traverse till the node before the specified position and update   //
-//   the Next pointer of the new node with the address of the Next node and update the Next       //
-//   pointer of the previous node with the address of the new node.                               //
-//4. Increment the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_LINEAR_LINKEDLIST::InsertAtPosition(int iNo,int iPosition)
 {
@@ -365,13 +335,6 @@ void SINGLY_LINEAR_LINKEDLIST::InsertAtPosition(int iNo,int iPosition)
 //Local variables:                                                                                //
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
 //2. int    : variable to return the deleted data                                                 //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list contains one node, delete the node .                                      //
-//2. If the linked list contains more than one node, store the address of the first node in a     //
-//   temporary pointer, update the first pointer with the address of the next node and free the   //
-//   memory of the temporary pointer.                                                             //
-//3. Decrement the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 int SINGLY_LINEAR_LINKEDLIST::DeleteFirst()
 {
@@ -412,13 +375,6 @@ int SINGLY_LINEAR_LINKEDLIST::DeleteFirst()
 //Local variables:                                                                                //
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
 //2. int    : variable to return the deleted data                                                 //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty and return .    //
-//2. If the linked list contains one node, delete the node and return .                           //
-//3. If the linked list contains more than one node, traverse till the second last node and       //
-//   delete the last node.                                                                        //
-//4. Decrement the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 int SINGLY_LINEAR_LINKEDLIST::DeleteLast()
 {
@@ -460,17 +416,9 @@ int SINGLY_LINEAR_LINKEDLIST::DeleteLast()
 //Return: int                                                                                     //
 //================================================================================================//
 //Local variables:                                                                                //
-//1. int    : Counter variable .                                                                  //
-//2. PsNODE : temporary pointer to traverse the linked list .                                     //
-//3. PsNODE : temporary pointer to delete the node .                                              //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the position is 1,call the DeleteFirst() function to delete the first node.               //
-//2. If the position is the last,call the DeleteLast() function to delete the last node.          //
-//3. If the position is random, traverse till the node before the specified position and update   //
-//   the Next pointer of the previous node with the Next pointer of the node to be deleted        //
-//   and free the memory of the node to be deleted.                                               //
-//4. Decrement the count of nodes in the linked list by 1.                                        //
+//1. PsNODE : temporary pointer to traverse the linked list .                                     //
+//2. PsNODE : temporary pointer to delete the node .                                              //
+//3. int    : Counter variable .                                                                  //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 int SINGLY_LINEAR_LINKEDLIST::DeleteAtPosition(int iPosition)
 {
@@ -522,19 +470,18 @@ int SINGLY_LINEAR_LINKEDLIST::DeleteAtPosition(int iPosition)
 //================================================================================================//
 //1. Search() : Searches for a specific value in the list                                         //
 //2. Reverse() : Reverses the order of the list                                                   //
-//3. Concat() : Concatenates two lists                                                            //
-//4. Sort() : Sorts the list in ascending order                                                   //
-//5. UpdateNoforNo() : Updates the value of a specific node in exchange to some value             //
-//6. UpdateNoForPosition() : Updates the value of a specific node at specific position            //
-//7. InsertBefore() : Inserts a new node before a specific node                                   //
-//8. InsertAfter() : Inserts a new node after a specific node                                     //
-//9. DeleteBefore() : Deletes the node before a specific node                                     //
-//10. DeleteAfter() : Deletes the node after a specific node                                      //
-//11. DeleteList() : Deletes the entire list                                                      //
-//12. FindMiddle() : Finds the middle node of the list                                            //
-//13. FindKthNodeFromStart() : Finds the kth node from the start of the list                      //
-//14. FindKthNodeFromMiddle() : Finds the kth node from the middle of the list                    //
-//15. FindKthNodeFromEnd() : Finds the kth node from the end of the list                          //
+//3. Sort() : Sorts the list in ascending order                                                   //
+//4. UpdateNoforNo() : Updates the value of a specific node in exchange to some value             //
+//5. UpdateNoForPosition() : Updates the value of a specific node at specific position            //
+//6. InsertBefore() : Inserts a new node before a specific node                                   //
+//7. InsertAfter() : Inserts a new node after a specific node                                     //
+//8. DeleteBefore() : Deletes the node before a specific node                                     //
+//9. DeleteAfter() : Deletes the node after a specific node                                      //
+//10. DeleteList() : Deletes the entire list                                                      //
+//11. FindMiddle() : Finds the middle node of the list                                            //
+//12. FindKthNodeFromStart() : Finds the kth node from the start of the list                      //
+//13. FindKthNodeFromMiddle() : Finds the kth node from the middle of the list                    //
+//14. FindKthNodeFromEnd() : Finds the kth node from the end of the list                          //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -550,11 +497,6 @@ int SINGLY_LINEAR_LINKEDLIST::DeleteAtPosition(int iPosition)
 //Local variables:                                                                                //
 //1. PsNODE : Temporary pointer to traverse linkedlist .                                          //
 //2. int    : Counter variable & Position variable in one .                                       //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. Traverse the linked list till the last node and compare the data of each node with the       //
-//   specified value. If the value is found, display the position of the node and return true.    //
-//2. If the value is not found, return false.                                                     //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool SINGLY_LINEAR_LINKEDLIST::Search(int iSearch) const
 {
@@ -589,16 +531,11 @@ bool SINGLY_LINEAR_LINKEDLIST::Search(int iSearch) const
 //Local variables:                                                                                //
 //1. PsNODE : Temporary pointer to traverse linkedlist .                                          //
 //2. int    : Counter variable & Position variable in one .                                       //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. Traverse the linked list till the last node and compare the data of each node with the       //
-//   specified value. If the value is found, update the data of the node with the specified value.//
-//2. If the value is not found, return false .                                                    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool SINGLY_LINEAR_LINKEDLIST::UpdateNoForNo(int iSearch,int iUpdate)
 {
-    int iPosition = 1;
     PsNODE ptemp = pHead;
+    int iPosition = 1;
 
     while(iPosition <= iCountNode)
     {
@@ -630,16 +567,11 @@ bool SINGLY_LINEAR_LINKEDLIST::UpdateNoForNo(int iSearch,int iUpdate)
 //Local variables:                                                                                //
 //1. PsNODE : Temporary pointer to traverse linkedlist .                                          //
 //2. int    : Counter variable & Position variable in one .                                       //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. Traverse the linked list till the last node and compare the data of each node with the       //
-//   specified value. If the value is found, update the data of the node with the specified value.//
-//2. If the value is not found, return false .                                                    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_LINEAR_LINKEDLIST::UpdateNoForPosition(int iUpdate,int iPosition)
 {
-    int iCnt = 1;
     PsNODE ptemp = pHead;
+    int iCnt = 1;
 
     while(iCnt <= iCountNode)
     {
@@ -667,19 +599,10 @@ void SINGLY_LINEAR_LINKEDLIST::UpdateNoForPosition(int iUpdate,int iPosition)
 //Local variables:                                                                                //
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
 //2. PsNODE : Pointer to store the new node                                                       //
-//3. int    : Counter variable .                                                                  //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the position is 1, call the InsertFirst() Function or use its logic .                     //
-//2. If the position is random, traverse till the node before the specified position and update   //
-//   the Next pointer of the new node with the address of the Next node and update the Next       //
-//   pointer of the previous node with the address of the new node.                               //
-//3. Increment the count of nodes in the linked list by 1.                                        //
+//3. int : Counter variable .                                                                     //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_LINEAR_LINKEDLIST::InsertBefore(int iNo,int iPosition)
 {
-    int iCnt = 0;
-
     //Initialize a new node
     PsNODE PsNewNode = nullptr;
     PsNewNode = new sNODE;
@@ -697,7 +620,7 @@ void SINGLY_LINEAR_LINKEDLIST::InsertBefore(int iNo,int iPosition)
     {
         PsNODE ptemp = pHead;
 
-        for(iCnt = 1;iCnt < (iPosition - 1);iCnt++)
+        for(int iCnt = 1;iCnt < (iPosition - 1);iCnt++)
         {
             ptemp = ptemp -> pNext;
         }
@@ -724,22 +647,10 @@ void SINGLY_LINEAR_LINKEDLIST::InsertBefore(int iNo,int iPosition)
 //================================================================================================//
 //Local variables:                                                                                //
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
-//2. PsNODE : Pointer to store the new node                                                       //
 //3. int    : Counter variable .                                                                  //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the position is random, traverse till the node before the specified position and update   //
-//   the Next pointer of the new node with the address of the Next node and update the Next       //
-//   pointer of the previous node with the address of the new node.                               //
-//2. If the position is the last, traverse till the last node and update the Next pointer of      //
-//   the last node with the address of the new node.we can call the InsertFirst() Function or use //
-//   its logic .                                                                                  //
-//3. Increment the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_LINEAR_LINKEDLIST::InsertAfter(int iNo,int iPosition)
 {
-    int iCnt = 0;
-
     //Initialize a new node
     PsNODE PsNewNode = nullptr;
     PsNewNode = new sNODE;
@@ -765,7 +676,7 @@ void SINGLY_LINEAR_LINKEDLIST::InsertAfter(int iNo,int iPosition)
     }
     else
     {
-        for(iCnt = 1;iCnt <= (iPosition - 1);iCnt++)
+        for(int iCnt = 1;iCnt <= (iPosition - 1);iCnt++)
         {
             ptemp = ptemp -> pNext;
         }
@@ -793,20 +704,10 @@ void SINGLY_LINEAR_LINKEDLIST::InsertAfter(int iNo,int iPosition)
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
 //2. PsNODE : temporary pointer to delete the node .                                              //
 //3. int    : Counter variable .                                                                  //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the position is 2, store the address of the first node in a temporary pointer and update  //
-//   the first pointer with the Next pointer of the first node and free the memory of the         //
-//   temporary pointer.                                                                           //
-//2. If the position is random, traverse till the node before the specified position and update   //
-//   the Next pointer of the previous node with the Next pointer of the node to be deleted and    //
-//   free the memory of the node to be deleted.                                                   //
-//3. Decrement the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 int SINGLY_LINEAR_LINKEDLIST::DeleteBefore(int iPosition)
 {
     PsNODE ptemp = pHead;
-    int iCnt = 0;
 
     if(iPosition == 2)
     {
@@ -820,7 +721,7 @@ int SINGLY_LINEAR_LINKEDLIST::DeleteBefore(int iPosition)
     {
         PsNODE ptempdelete = nullptr;
 
-        for(iCnt = 1;iCnt < (iPosition - 2);iCnt++)
+        for(int iCnt = 1;iCnt < (iPosition - 2);iCnt++)
         {
             ptemp = ptemp -> pNext;
         }
@@ -852,13 +753,6 @@ int SINGLY_LINEAR_LINKEDLIST::DeleteBefore(int iPosition)
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
 //2. PsNODE : temporary pointer to delete the node .                                              //
 //3. int    : Counter variable .                                                                  //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the position is the last, traverse till the second last node and delete the last node.    //
-//2. If the position is random, traverse till the node before the specified position and update   //
-//   the Next pointer of the previous node with the Next pointer of the node to be deleted and    //
-//   free the memory of the node to be deleted.                                                   //
-//3. Decrement the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 int SINGLY_LINEAR_LINKEDLIST::DeleteAfter(int iPosition)
 {
@@ -910,12 +804,6 @@ int SINGLY_LINEAR_LINKEDLIST::DeleteAfter(int iPosition)
 //================================================================================================//
 //Local variables:                                                                                //
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is not empty, traverse the linked list and free the memory of each node.  //
-//   Update the first pointer to nullptr after freeing the memory of each node.                   //
-//2. Finally, free the memory of the first pointer.                                               //
-//3. Decrement the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_LINEAR_LINKEDLIST::DeleteList()
 {
@@ -952,18 +840,12 @@ void SINGLY_LINEAR_LINKEDLIST::DeleteList()
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
 //2. PsNODE : temporary pointer to traverse the linked list .                                     //
 //3. int    : temporary variable to store the data of the node .                                  //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is not empty, traverse the linked list and compare the data of each node  //
-//   with the data of the next node. If the data of the first node is greater than the data of    //
-//   the next node, swap the data of the two nodes. Repeat this process till the last node.       //
-//2. Decrement the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_LINEAR_LINKEDLIST::SortAscending()
 {
-    int itransfer = 0;
     PsNODE ptemp1 = pHead;
     PsNODE ptemp2 = pHead;
+    int itransfer = 0;
 
     for(ptemp1 = pHead;ptemp1 -> pNext != nullptr;ptemp1 = ptemp1 -> pNext)
     {
@@ -990,11 +872,6 @@ void SINGLY_LINEAR_LINKEDLIST::SortAscending()
 //Local variables:                                                                                //
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
 //2. PsNODE : temporary pointer to traverse the linked list .                                     //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is not empty, traverse the linked list and compare the data of each node  //
-//   with the data of the next node. If the data of the first node is greater than the data of    //
-//   the next node, swap the data of the two nodes. Repeat this process till the last node.       //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_LINEAR_LINKEDLIST::Reverse()
 {
@@ -1023,16 +900,12 @@ void SINGLY_LINEAR_LINKEDLIST::Reverse()
 //Local variables:                                                                                //
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
 //2. int    : integer to store counter variable .                                                 //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. Traverse the linked list till the middle node and return the address of the middle node.     //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 PsNODE SINGLY_LINEAR_LINKEDLIST::FindMiddleNode() const
 {
     PsNODE ptemp = pHead;
-    int iCnt = 0;
 
-    for(iCnt = 1;iCnt < ((iCountNode + 1)/2);iCnt++)
+    for(int iCnt = 1;iCnt < ((iCountNode + 1)/2);iCnt++)
     {
         ptemp = ptemp -> pNext;
     }
@@ -1052,9 +925,6 @@ PsNODE SINGLY_LINEAR_LINKEDLIST::FindMiddleNode() const
 //Local variables:                                                                                //
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
 //2. int    : integer to store counter variable .                                                 //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. Travel the linked list till the kth node from start and return the address of the kth node.  //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 PsNODE SINGLY_LINEAR_LINKEDLIST::FindKthNodeFromStart(int iKth) const
 {
@@ -1082,15 +952,10 @@ PsNODE SINGLY_LINEAR_LINKEDLIST::FindKthNodeFromStart(int iKth) const
 //Local variables:                                                                                //
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
 //2. int    : integer to store counter variable .                                                 //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the kth position is random, traverse the linked list till the kth node from middle and    //
-//   return the address of the kth node.                                                          //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 PsNODE SINGLY_LINEAR_LINKEDLIST::FindKthNodeFromMiddle(int iKth,int iDirection) const
 {
     PsNODE ptemp = pHead;
-    int iCnt = 0;
 
     if(iDirection == 1)
     {
@@ -1101,7 +966,7 @@ PsNODE SINGLY_LINEAR_LINKEDLIST::FindKthNodeFromMiddle(int iKth,int iDirection) 
         iKth = ((iCountNode + 1)/2) + iKth;
     }
 
-    for(iCnt = 1;iCnt < iKth;iCnt++)
+    for(int iCnt = 1;iCnt < iKth;iCnt++)
     {
         ptemp = ptemp -> pNext;
     }
@@ -1121,10 +986,6 @@ PsNODE SINGLY_LINEAR_LINKEDLIST::FindKthNodeFromMiddle(int iKth,int iDirection) 
 //Local variables:                                                                                //
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
 //2. int    : integer to store counter variable .                                                 //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the kth position is random, traverse the linked list till the kth node from end and       //
-//   return the address of kth node .                                                             //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 PsNODE SINGLY_LINEAR_LINKEDLIST::FindKthNodeFromEnd(int iKth) const
 {
