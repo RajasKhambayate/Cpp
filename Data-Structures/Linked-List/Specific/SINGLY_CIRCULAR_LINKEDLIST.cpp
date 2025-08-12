@@ -166,9 +166,6 @@ SINGLY_CIRCULAR_LINKEDLIST::~SINGLY_CIRCULAR_LINKEDLIST()
 //================================================================================================//
 //Local variables:                                                                                //
 //1. PsNODE : Temporary pointer to traverse the linked list .                                     //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. Traverse the linked list till the last node and display the data of each node.               //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_CIRCULAR_LINKEDLIST::Display() const
 {
@@ -197,9 +194,6 @@ void SINGLY_CIRCULAR_LINKEDLIST::Display() const
 //Return: integer                                                                                 //
 //================================================================================================//
 //Local variables: None                                                                           //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. Return the value of iCountNode which is updated during insertion and deletion operations.    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 int SINGLY_CIRCULAR_LINKEDLIST::Count() const
 {
@@ -217,16 +211,6 @@ int SINGLY_CIRCULAR_LINKEDLIST::Count() const
 //================================================================================================//
 //Local variables:                                                                                //
 //1. PsNODE : Pointer to the new node .                                                           //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. Allocate memory for the new node .                                                           //
-//2. Fill the new node with the data .                                                            //
-//3. If the linked list is empty, update the first and last pointer with the address of the new   //
-//   node .                                                                                       //
-//4. If the linked list contains at least one node, update the Next pointer of the new node with  //
-//   the address of the first node and update the first pointer with the address of the new node. //
-//5. Update the Next pointer of the last node to point to the head node .                         //
-//6. Increment the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_CIRCULAR_LINKEDLIST::InsertFirst(int iNo)
 {
@@ -266,16 +250,6 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertFirst(int iNo)
 //================================================================================================//
 //Local variables:                                                                                //
 //1. PsNODE : Pointer to the new node .                                                           //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. Allocate memory for the new node .                                                           //
-//2. Fill the new node with the data .                                                            //
-//3. If the linked list is empty, update the first and last pointer with the address of the new   //
-//   node .                                                                                       //
-//4. If the linked list contains at least one node, update the next Next pointer of last node     //
-//   with the address of new node then update the Next pointer of new node with the address of    //
-//   first node and update the last pointer with address of new node .                            //
-//5. Increment the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_CIRCULAR_LINKEDLIST::InsertLast(int iNo)
 {
@@ -316,17 +290,8 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertLast(int iNo)
 //================================================================================================//
 //Local variables:                                                                                //
 //1. PsNODE : Pointer to the new node .                                                           //
-//2. PsNODE : temporary pointer to traverse the linked list .                                     //
+//2. PsNODE : Temporary pointer to traverse the linked list .                                     //
 //3. int    : Counter variable .                                                                  //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the position is 1,call the InsertFirst() function to insert the new node at the beginning.//
-//2. If the position is the last,call the InsertLast() function to insert the new node at the end.//
-//3. If the position is random, traverse till the node before the specified position and update   //
-//   the Next pointer of the new node with the address of the Next node , update the Next pointer //
-//   of the previous node with the address of the new node & update the Next pointer of the new   //
-//   node to point to the head node .                                                             //
-//5. Increment the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_CIRCULAR_LINKEDLIST::InsertAtPosition(int iNo,int iPosition)
 {
@@ -376,14 +341,6 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertAtPosition(int iNo,int iPosition)
 //================================================================================================//
 //Local variables:                                                                                //
 //1. int : variable to return the deleted data                                                    //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list contains one node, delete the node and return .                           //
-//2. If the linked list contains more than one node, store the address of the first node in a     //
-//   temporary pointer, update the first pointer with the address of the next node and free the   //
-//   memory of the temporary pointer.                                                             //
-//3. Update the Next pointer of the new node to point to the head node .                          //
-//4. Decrement the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 int SINGLY_CIRCULAR_LINKEDLIST::DeleteFirst()
 {
@@ -424,13 +381,6 @@ int SINGLY_CIRCULAR_LINKEDLIST::DeleteFirst()
 //Local variables:                                                                                //
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
 //2. int    : variable to return the deleted data                                                 //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list contains one node, delete the node and return .                           //
-//2. If the linked list contains more than one node, traverse till the second last node and       //
-//   delete the last node.                                                                        //
-//3. Update the Next pointer of the new node to point to the head node .                          //
-//4. Decrement the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 int SINGLY_CIRCULAR_LINKEDLIST::DeleteLast()
 {
@@ -481,14 +431,6 @@ int SINGLY_CIRCULAR_LINKEDLIST::DeleteLast()
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
 //2. PsNODE : temporary pointer to delete the node .                                              //
 //3. int    : Counter variable .                                                                  //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the position is 1,call the DeleteFirst() function to delete the first node.               //
-//2. If the position is the last,call the DeleteLast() function to delete the last node.          //
-//3. If the position is random, traverse till the node before the specified position and update   //
-//   the Next pointer of the previous node with the Next pointer of the node to be deleted        //
-//   and free the memory of the node to be deleted.                                               //
-//4. Decrement the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 int SINGLY_CIRCULAR_LINKEDLIST::DeleteAtPosition(int iPosition)
 {
@@ -541,19 +483,18 @@ int SINGLY_CIRCULAR_LINKEDLIST::DeleteAtPosition(int iPosition)
 //================================================================================================//
 //1. Search() : Searches for a specific value in the list                                         //
 //2. Reverse() : Reverses the order of the list                                                   //
-//3. Concat() : Concatenates two lists                                                            //
-//4. Sort() : Sorts the list in ascending order                                                   //
-//5. UpdateNoforNo() : Updates the value of a specific node in exchange to some value             //
-//6. UpdateNoForPosition() : Updates the value of a specific node at specific position            //
-//7. InsertBefore() : Inserts a new node before a specific node                                   //
-//8. InsertAfter() : Inserts a new node after a specific node                                     //
-//9. DeleteBefore() : Deletes the node before a specific node                                     //
-//10. DeleteAfter() : Deletes the node after a specific node                                      //
-//11. DeleteList() : Deletes the entire list                                                      //
-//12. FindMiddle() : Finds the middle node of the list                                            //
-//13. FindKthNodeFromStart() : Finds the kth node from the start of the list                      //
-//14. FindKthNodeFromMiddle() : Finds the kth node from the middle of the list                    //
-//15. FindKthNodeFromEnd() : Finds the kth node from the end of the list                          //
+//3. Sort() : Sorts the list in ascending order                                                   //
+//4. UpdateNoforNo() : Updates the value of a specific node in exchange to some value             //
+//5. UpdateNoForPosition() : Updates the value of a specific node at specific position            //
+//6. InsertBefore() : Inserts a new node before a specific node                                   //
+//7. InsertAfter() : Inserts a new node after a specific node                                     //
+//8. DeleteBefore() : Deletes the node before a specific node                                     //
+//9. DeleteAfter() : Deletes the node after a specific node                                      //
+//10. DeleteList() : Deletes the entire list                                                      //
+//11. FindMiddle() : Finds the middle node of the list                                            //
+//12. FindKthNodeFromStart() : Finds the kth node from the start of the list                      //
+//13. FindKthNodeFromMiddle() : Finds the kth node from the middle of the list                    //
+//14. FindKthNodeFromEnd() : Finds the kth node from the end of the list                          //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -567,20 +508,13 @@ int SINGLY_CIRCULAR_LINKEDLIST::DeleteAtPosition(int iPosition)
 //Return: boolean                                                                                 //
 //================================================================================================//
 //Local variables:                                                                                //
-//1. int : Counter variable & Position variable in one .                                          //
-//2. PsNODE : Temporary pointer to traverse linkedlist .                                          //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty and return .    //
-//2. Count the number of nodes in the linked list .                                               //
-//3. Traverse the linked list till the last node and compare the data of each node with the       //
-//   specified value. If the value is found, display a message that the value is found and return.//
-//4. If the value is not found, return false.                                                     //
+//1. PsNODE : Temporary pointer to traverse linkedlist .                                          //
+//2. int : Counter variable & Position variable in one .                                          //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool SINGLY_CIRCULAR_LINKEDLIST::Search(int iSearch) const
 {
-    int iPosition = 1;
     PsNODE ptemp = pHead;
+    int iPosition = 1;
 
     while(iPosition <= iCountNode)
     {
@@ -609,18 +543,13 @@ bool SINGLY_CIRCULAR_LINKEDLIST::Search(int iSearch) const
 //Return: void                                                                                    //
 //================================================================================================//
 //Local variables:                                                                                //
-//1. int : Counter variable & Position variable in one .                                          //
-//2. PsNODE : Temporary pointer to traverse linkedlist .                                          //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. Traverse the linked list till the last node and compare the data of each node with the       //
-//   specified value. If the value is found, update the data of the node with the specified value.//
-//2. If the value is not found, display a message that the value is not found.                    //
+//1. PsNODE : Temporary pointer to traverse linkedlist .                                          //
+//2. int : Counter variable & Position variable in one .                                          //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool SINGLY_CIRCULAR_LINKEDLIST::UpdateNoForNo(int iSearch,int iUpdate)
 {
-    int iPosition = 1;
     PsNODE ptemp = pHead;
+    int iPosition = 1;
 
     while(iPosition <= iCountNode)
     {
@@ -650,18 +579,13 @@ bool SINGLY_CIRCULAR_LINKEDLIST::UpdateNoForNo(int iSearch,int iUpdate)
 //Return: void                                                                                    //
 //================================================================================================//
 //Local variables:                                                                                //
-//1. int : Counter variable & Position variable in one .                                          //
-//2. PsNODE : Temporary pointer to traverse linkedlist .                                          //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. Traverse the linked list till the last node and compare the data of each node with the       //
-//   specified value. If the value is found, update the data of the node with the specified value.//
-//2. If the value is not found, display a message that the value is not found.                    //
+//1. PsNODE : Temporary pointer to traverse linkedlist .                                          //
+//2. int : Counter variable & Position variable in one .                                          //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_CIRCULAR_LINKEDLIST::UpdateNoForPosition(int iUpdate,int iPosition)
 {
-    int iCnt = 1;
     PsNODE ptemp = pHead;
+    int iCnt = 1;
 
     while(iCnt <= iCountNode)
     {
@@ -690,24 +614,9 @@ void SINGLY_CIRCULAR_LINKEDLIST::UpdateNoForPosition(int iUpdate,int iPosition)
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
 //2. PsNODE : Pointer to store the new node                                                       //
 //3. int : Counter variable .                                                                     //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. Count the number of nodes in the linked list .                                               //
-//3. If the position is invalid, display a message that the position is invalid.                  //
-//4. If the position is 1, update the Next pointer of the new node with the address of the first  //
-//   node and update the first pointer with the address of the new node.                          //
-//5. If the position is last,update the Next pointer of the last node with the address of the new //
-//   node and update the last pointer with the address of the new node.                           //
-//6. If the position is random, traverse till the node before the specified position and update   //
-//   the Next pointer of the new node with the address of the Next node and update the            //
-//   Next pointer of the previous node with the address of the new node.                          //
-//7. Update the Next pointer of the last node to point to the head node .                         //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_CIRCULAR_LINKEDLIST::InsertBefore(int iNo,int iPosition)
 {
-    int iCnt = 0;
-
     //Initialize a new node
     PsNODE PsNewNode = nullptr;
     PsNewNode = new sNODE;
@@ -725,7 +634,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertBefore(int iNo,int iPosition)
     {
         PsNODE ptemp = pHead;
 
-        for(iCnt = 1;iCnt < (iPosition - 1);iCnt++)
+        for(int iCnt = 1;iCnt < (iPosition - 1);iCnt++)
         {
             ptemp = ptemp -> pNext;
         }
@@ -756,21 +665,9 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertBefore(int iNo,int iPosition)
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
 //2. PsNODE : Pointer to store the new node                                                       //
 //3. int : Counter variable .                                                                     //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. If the position is invalid, display a message that the position is invalid.                  //
-//3. If the position is random, traverse till the node before the specified position and update   //
-//   the Next pointer of the new node with the address of the Next node and update the Next       //
-//   pointer of the previous node with the address of the new node.                               //
-//4. If the position is the last, traverse till the last node and update the Next pointer of      //
-//   the last node with the address of the new node.we can call the InsertFirst() Function or use //
-//   its logic .                                                                                  //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_CIRCULAR_LINKEDLIST::InsertAfter(int iNo,int iPosition)
 {
-    int iCnt = 0;
-
     //Initialize a new node
     PsNODE PsNewNode = nullptr;
     PsNewNode = new sNODE;
@@ -789,7 +686,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertAfter(int iNo,int iPosition)
     {
         PsNODE ptemp = pHead;
 
-        for(iCnt = 1;iCnt <= (iPosition - 1);iCnt++)
+        for(int iCnt = 1;iCnt <= (iPosition - 1);iCnt++)
         {
             ptemp = ptemp -> pNext;
         }
@@ -819,21 +716,9 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertAfter(int iNo,int iPosition)
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
 //2. PsNODE : temporary pointer to delete the node .                                              //
 //3. int : Counter variable .                                                                     //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. If the position is invalid, display a message that the position is invalid.                  //
-//3. If the position is 2, store the address of the first node in a temporary pointer and update  //
-//   the first pointer with the Next pointer of the first node and free the memory of the         //
-//   temporary pointer.                                                                           //
-//4. If the position is random, traverse till the node before the specified position and update   //
-//   the Next pointer of the previous node with the Next pointer of the node to be deleted and    //
-//   free the memory of the node to be deleted.                                                   //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 int SINGLY_CIRCULAR_LINKEDLIST::DeleteBefore(int iPosition)
 {
-    int iCnt = 0;
-
     if(iPosition == 2)
     {
         pHead = pHead -> pNext;
@@ -846,7 +731,7 @@ int SINGLY_CIRCULAR_LINKEDLIST::DeleteBefore(int iPosition)
         PsNODE ptempdelete = nullptr;
         PsNODE ptemp = pHead;
 
-        for(iCnt = 1;iCnt < (iPosition - 2);iCnt++)
+        for(int iCnt = 1;iCnt < (iPosition - 2);iCnt++)
         {
             ptemp = ptemp -> pNext;
         }
@@ -878,18 +763,9 @@ int SINGLY_CIRCULAR_LINKEDLIST::DeleteBefore(int iPosition)
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
 //2. PsNODE : temporary pointer to delete the node .                                              //
 //3. int : Counter variable .                                                                     //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. If the position is invalid, display a message that the position is invalid.                  //
-//3. If the position is the last, traverse till the second last node and delete the last node.    //
-//4. If the position is random, traverse till the node before the specified position and update   //
-//   the Next pointer of the previous node with the Next pointer of the node to be deleted and    //
-//   free the memory of the node to be deleted.                                                   //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 int SINGLY_CIRCULAR_LINKEDLIST::DeleteAfter(int iPosition)
 {
-    int iCnt = 0;
     PsNODE ptemp = pHead;
 
     if(iPosition == (iCountNode - 1))
@@ -908,7 +784,7 @@ int SINGLY_CIRCULAR_LINKEDLIST::DeleteAfter(int iPosition)
     {
         PsNODE ptempdelete = nullptr;
 
-        for(iCnt = 1;iCnt < (iPosition);iCnt++)
+        for(int iCnt = 1;iCnt < (iPosition);iCnt++)
         {
             ptemp = ptemp -> pNext;
         }
@@ -938,13 +814,7 @@ int SINGLY_CIRCULAR_LINKEDLIST::DeleteAfter(int iPosition)
 //Return: void                                                                                    //
 //================================================================================================//
 //Local variables:                                                                                //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. If the linked list is not empty, traverse the linked list and free the memory of each node.  //
-//   Update the first pointer to NULL after freeing the memory of each node.                      //
-//3. Finally, free the memory of the first pointer.                                               //
-//4. Display a message that the linked list has been deleted.                                     //
+//1. PsNODE : temporary pointer to delete the node .                                              //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_CIRCULAR_LINKEDLIST::DeleteList()
 {
@@ -977,19 +847,12 @@ void SINGLY_CIRCULAR_LINKEDLIST::DeleteList()
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
 //2. PsNODE : temporary pointer to traverse the linked list .                                     //
 //3. int : temporary variable to store the data of the node .                                     //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. If the linked list is not empty, traverse the linked list and compare the data of each node  //
-//   with the data of the next node. If the data of the first node is greater than the data of    //
-//   the next node, swap the data of the two nodes. Repeat this process till the last node.       //
-//3. Finally, display a message that the linked list has been sorted in ascending order.          //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_CIRCULAR_LINKEDLIST::SortAscending()
 {
-    int itransfer = 0;
     PsNODE ptemp1 = pHead;
     PsNODE ptemp2 = pHead;
+    int itransfer = 0;
 
     do
     {
@@ -1020,13 +883,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::SortAscending()
 //Local variables:                                                                                //
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
 //2. PsNODE : temporary pointer to traverse the linked list .                                     //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. If the linked list is not empty, traverse the linked list and compare the data of each node  //
-//   with the data of the next node. If the data of the first node is greater than the data of    //
-//   the next node, swap the data of the two nodes. Repeat this process till the last node.       //
-//3. Finally, display a message that the linked list has been sorted in ascending order.          //
+//3. PsNODE : temporary pointer to traverse the linked list .                                     //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_CIRCULAR_LINKEDLIST::Reverse()
 {
@@ -1060,18 +917,12 @@ void SINGLY_CIRCULAR_LINKEDLIST::Reverse()
 //Local variables:                                                                                //
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
 //2. int : integer to store counter variable .                                                    //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. Count the number of nodes in the linked list .                                               //
-//3. Traverse the linked list till the middle node and return the address of the middle node.     //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindMiddleNode() const
 {
     PsNODE ptemp = pHead;
-    int iCnt = 0;
 
-    for(iCnt = 1;iCnt < ((iCountNode + 1)/2);iCnt++)
+    for(int iCnt = 1;iCnt < ((iCountNode + 1)/2);iCnt++)
     {
         ptemp = ptemp -> pNext;
     }
@@ -1091,18 +942,12 @@ PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindMiddleNode() const
 //Local variables:                                                                                //
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
 //2. int : integer to store counter variable .                                                    //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. If the kth position is invalid, display a message that the kth position is invalid.          //
-//3. Travel the linked list till the kth node from start and return the address of the kth node.  //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindKthNodeFromStart(int iKth) const
 {
     PsNODE ptemp = pHead;
-    int iCnt = 0;
 
-    for(iCnt = 1;iCnt < iKth;iCnt++)
+    for(int iCnt = 1;iCnt < iKth;iCnt++)
     {
         ptemp = ptemp -> pNext;
     }
@@ -1124,17 +969,10 @@ PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindKthNodeFromStart(int iKth) const
 //Local variables:                                                                                //
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
 //2. int : integer to store counter variable .                                                    //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. If the kth position is invalid, display a message that the kth position is invalid.          //
-//3. If the kth position is random, traverse the linked list till the kth node from middle and    //
-//   return the address of the kth node.                                                          //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindKthNodeFromMiddle(int iKth,int iDirection) const
 {
     PsNODE ptemp = pHead;
-    int iCnt = 0;
 
     if(iDirection == 1)
     {
@@ -1145,7 +983,7 @@ PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindKthNodeFromMiddle(int iKth,int iDirection
         iKth = ((iCountNode + 1)/2) + iKth;
     }
 
-    for(iCnt = 1;iCnt < iKth;iCnt++)
+    for(int iCnt = 1;iCnt < iKth;iCnt++)
     {
         ptemp = ptemp -> pNext;
     }
@@ -1165,12 +1003,6 @@ PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindKthNodeFromMiddle(int iKth,int iDirection
 //Local variables:                                                                                //
 //1. PsNODE : temporary pointer to traverse the linked list .                                     //
 //2. int : integer to store counter variable .                                                    //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. If the kth position is invalid, display a message that the kth position is invalid.          //
-//3. If the kth position is random, traverse the linked list till the kth node from end and       //
-//   return the address of the kth node.                                                          //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindKthNodeFromEnd(int iKth) const
 {
