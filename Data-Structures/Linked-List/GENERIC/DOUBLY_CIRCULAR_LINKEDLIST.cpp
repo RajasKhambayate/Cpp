@@ -81,7 +81,7 @@ class DOUBLY_CIRCULAR_LINKEDLIST
 //======Added Features Functions======//
 
         //Search and Update functions
-        bool Search(Generic) const;
+        int Search(Generic) const;
         bool UpdateNoForNo(Generic,Generic);
         void UpdateNoForPosition(Generic,int);
 
