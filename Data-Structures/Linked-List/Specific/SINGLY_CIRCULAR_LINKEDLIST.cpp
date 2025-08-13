@@ -719,6 +719,8 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertAfter(int iNo,int iPosition)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 int SINGLY_CIRCULAR_LINKEDLIST::DeleteBefore(int iPosition)
 {
+    int iCnt = 0;
+
     if(iPosition == 2)
     {
         pHead = pHead -> pNext;
@@ -731,7 +733,7 @@ int SINGLY_CIRCULAR_LINKEDLIST::DeleteBefore(int iPosition)
         PsNODE ptempdelete = nullptr;
         PsNODE ptemp = pHead;
 
-        for(int iCnt = 1;iCnt < (iPosition - 2);iCnt++)
+        for(iCnt = 1;iCnt < (iPosition - 2);iCnt++)
         {
             ptemp = ptemp -> pNext;
         }
@@ -767,6 +769,7 @@ int SINGLY_CIRCULAR_LINKEDLIST::DeleteBefore(int iPosition)
 int SINGLY_CIRCULAR_LINKEDLIST::DeleteAfter(int iPosition)
 {
     PsNODE ptemp = pHead;
+    int iCnt = 0;
 
     if(iPosition == (iCountNode - 1))
     {
@@ -784,7 +787,7 @@ int SINGLY_CIRCULAR_LINKEDLIST::DeleteAfter(int iPosition)
     {
         PsNODE ptempdelete = nullptr;
 
-        for(int iCnt = 1;iCnt < (iPosition);iCnt++)
+        for(iCnt = 1;iCnt < (iPosition);iCnt++)
         {
             ptemp = ptemp -> pNext;
         }
@@ -1674,53 +1677,19 @@ int main()
                         break;
                     case 'Y':
                     case 'y':
-                        if(SinglyCircularLL.iCountNode_Main != 0)
-                        {
-                            cout<<"Enter the kth position from start : ";
-                            while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                            if(SinglyCircularLL.iCountNode_Main != 0)
                             {
-                                cout<<"Invalid input. Please enter a single integer : ";
-                                cin.clear();
-                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
-                            }
-
-                            while((iNo1 < 1) || (iNo1 > SinglyCircularLL.iCountNode_Main))
-                            {
-                                cout<<"Enter offset between 1 <-> "<<SinglyCircularLL.iCountNode_Main<<" : "<<endl;
+                                cout<<"Enter the kth position from middle : ";
                                 while((!(cin>>iNo1)) || (cin.peek() != '\n'))
                                 {
                                     cout<<"Invalid input. Please enter a single integer : ";
                                     cin.clear();
                                     cin.ignore(numeric_limits<streamsize>::max(),'\n');
                                 }
-                            }
-
-                            cout<<"Kth node from start or end ? >>Press 1 : FOR start [OR] >>Press 2 : FOR end ::: Your choice : ";
-                            while((!(cin>>iNo2)) || (cin.peek() != '\n'))
-                            {
-                                cout<<"Invalid input. Please enter a single integer : ";
-                                cin.clear();
-                                cin.ignore(numeric_limits<streamsize>::max(),'\n');
-                            }
-
-                            if((iNo1 == 1) || (iNo2 == 0))
-                            {
-                                pRet = SinglyCircularLL.FindKthNodeFromMiddle(iNo1,iNo2);
-                                if(iNo2 == 1)
+                                while((iNo1 < 1) || (iNo1 > (SinglyCircularLL.iCountNode_Main/2)))
                                 {
-                                    cout<<"Data in "<<iNo1<<" node from middle to start is : "<<pRet -> iData<<endl;
-                                }
-                                else
-                                {
-                                    cout<<"Data in "<<iNo1<<" node from middle to end is : "<<pRet -> iData<<endl;
-                                }
-                            }
-                            else
-                            {
-                                while((iNo2 != 1) || (iNo2 != 0))
-                                {
-                                    cout<<"Kth node from start or end ? >>Press 1 : FOR start [OR] >>Press 2 : FOR end ::: Your choice : ";
-                                    while((!(cin>>iNo2)) || (cin.peek() != '\n'))
+                                    cout<<"Enter offset between 1 <-> "<<(SinglyCircularLL.iCountNode_Main/2)<<" : "<<endl;
+                                    while((!(cin>>iNo1)) || (cin.peek() != '\n'))
                                     {
                                         cout<<"Invalid input. Please enter a single integer : ";
                                         cin.clear();
@@ -1728,6 +1697,25 @@ int main()
                                     }
                                 }
 
+                                cout<<"Kth node from start or end ? >>Press 1 : FOR start [OR] >>Press 2 : FOR end ::: Your choice : ";
+                                while((!(cin>>iNo2)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
+                                while((iNo2 < 0) || (iNo2 > 1))
+                                {
+                                    cout<<"Enter 0 or 1 : "<<endl;
+                                    while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
+                                }
+
+
                                 pRet = SinglyCircularLL.FindKthNodeFromMiddle(iNo1,iNo2);
                                 if(iNo2 == 1)
                                 {
@@ -1737,12 +1725,13 @@ int main()
                                 {
                                     cout<<"Data in "<<iNo1<<" node from middle to end is : "<<pRet -> iData<<endl;
                                 }
+
+                                break;
                             }
-                        }
-                        else
-                        {
-                            cout<<"!!Linked-List is empty!!"<<endl;
-                        }
+                            else
+                            {
+                                cout<<"!!Linked-List is empty!!"<<endl;
+                            }
 
                         break;
                     case 'Z':
