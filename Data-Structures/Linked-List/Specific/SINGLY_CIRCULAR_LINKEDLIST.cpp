@@ -81,7 +81,7 @@ class SINGLY_CIRCULAR_LINKEDLIST
 //======Added Features Functions======//
 
         //Search and Update functions
-        bool Search(int) const;
+        int Search(int) const;
         bool UpdateNoForNo(int,int);
         void UpdateNoForPosition(int,int);
 
@@ -505,13 +505,13 @@ int SINGLY_CIRCULAR_LINKEDLIST::DeleteAtPosition(int iPosition)
 //Parameters:                                                                                     //
 //1. int : Value to be searched in the linked list .                                              //
 //================================================================================================//
-//Return: boolean                                                                                 //
+//Return: int                                                                                     //
 //================================================================================================//
 //Local variables:                                                                                //
 //1. PsNODE : Temporary pointer to traverse linkedlist .                                          //
 //2. int : Counter variable & Position variable in one .                                          //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool SINGLY_CIRCULAR_LINKEDLIST::Search(int iSearch) const
+int SINGLY_CIRCULAR_LINKEDLIST::Search(int iSearch) const
 {
     PsNODE ptemp = pHead;
     int iPosition = 1;
@@ -520,15 +520,14 @@ bool SINGLY_CIRCULAR_LINKEDLIST::Search(int iSearch) const
     {
         if(ptemp -> iData == iSearch)
         {
-            cout<<"Element "<<iSearch<<" is found at position "<<iPosition<<" in singly circular linked list"<<endl;
-            return true;
+            return iPosition;
         }
 
         ptemp = ptemp -> pNext;
         iPosition++;
     }
 
-    return false;
+    return -1;
 }
 
 
@@ -1350,10 +1349,10 @@ int main()
                                 cin.ignore(numeric_limits<streamsize>::max(),'\n');
                             }
 
-                            bRet = SinglyCircularLL.Search(iNo1);
-                            if(bRet == true)
+                            iRet = SinglyCircularLL.Search(iNo1);
+                            if(iRet != -1)
                             {
-                                cout<<"Element "<<iNo1<<" is found at position "<<iPosition1<<" in singly linear linked list"<<endl;
+                                cout<<"Element "<<iNo1<<" is found at position "<<iRet<<" in singly linear linked list"<<endl;
                             }
                             else
                             {
