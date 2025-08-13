@@ -81,7 +81,7 @@ class DOUBLY_LINEAR_LINKEDLIST
 //======Added Features Functions======//
 
         //Search and Update functions
-        bool Search(int) const;
+        int Search(int) const;
         bool UpdateNoForNo(int,int);
         void UpdateNoForPosition(int,int);
 
@@ -514,29 +514,29 @@ int DOUBLY_LINEAR_LINKEDLIST::DeleteAtPosition(int iPosition)
 //Parameters:                                                                                     //
 //1. int : Value to be searched in the linked list .                                              //
 //================================================================================================//
-//Return: boolean                                                                                 //
+//Return: int                                                                                     //
 //================================================================================================//
 //Local variables:                                                                                //
 //1. PsNODE : temporary pointer to traverse linkedlist.                                           //
 //2. int : Counter variable & Position variable in one .                                          //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool DOUBLY_LINEAR_LINKEDLIST::Search(int iSearch) const
+int DOUBLY_LINEAR_LINKEDLIST::Search(int iSearch) const
 {
-    int iPosition = 1;
     PsNODE ptemp = pHead;
+    int iPosition = 1;
 
     while(iPosition <= iCountNode)
     {
         if(ptemp -> iData == iSearch)
         {
-            return true;
+            return iPosition;
         }
 
         ptemp = ptemp -> pNext;
         iPosition++;
     }
 
-    return false;
+    return -1;
 }
 
 
@@ -1355,10 +1355,10 @@ int main()
                                 cin.ignore(numeric_limits<streamsize>::max(),'\n');
                             }
 
-                            bRet = DoublyLinearLL.Search(iNo1);
-                            if(bRet == true)
+                            iRet = DoublyLinearLL.Search(iNo1);
+                            if(iRet != -1)
                             {
-                                cout<<"Element "<<iNo1<<" is found at position "<<iPosition1<<" in singly linear linked list"<<endl;
+                                cout<<"Element "<<iNo1<<" is found at position "<<iRet<<" in singly linear linked list"<<endl;
                             }
                             else
                             {
