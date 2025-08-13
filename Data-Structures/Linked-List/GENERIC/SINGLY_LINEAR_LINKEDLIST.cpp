@@ -2,7 +2,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //Description: Singly Linear Linked-List is a type of linked-list where each node points to the   //
-//Next node in the sequence while keeping the ends pointing to NULL. This program demonstrates    //
+//Next node in the sequence while keeping the ends pointing to nullptr. This program demonstrates //
 //the implementation of Generic Singly Linear Linked List .                                       //
 //================================================================================================//
 //Language: C++                                                                                   //
@@ -50,10 +50,8 @@ class SINGLY_LINEAR_LINKEDLIST
         struct sNode<Generic> *pHead;//Pointer to the first node of the linked list
         int iCountNode;//Counter for the number of nodes in the linked list
 
-        struct sNode<Generic> *pHead1;
-        struct sNode<Generic> *pHead2;
-
     public:
+        int iCountNode_Main;//Counter for number of nodes in linkedlist for main function which isn't directly used for class functions .
         SINGLY_LINEAR_LINKEDLIST();//Constructor to initialize the singly linear linked list
         ~SINGLY_LINEAR_LINKEDLIST();//Destructor to delete the singly linear linked list
 
@@ -66,13 +64,13 @@ class SINGLY_LINEAR_LINKEDLIST
         void InsertAtPosition(Generic,int);
 
         //Deletion functions
-        void DeleteFirst();
-        void DeleteLast();
-        void DeleteAtPosition(int);
+        Generic DeleteFirst();
+        Generic DeleteLast();
+        Generic DeleteAtPosition(int);
 
         //Traversal functions
-        int Count();
-        void Display();
+        int Count() const;
+        void Display() const;
 
 //~=====Simple Access Functions======//
 
@@ -81,16 +79,15 @@ class SINGLY_LINEAR_LINKEDLIST
 //======Added Features Functions======//
 
         //Search and Update functions
-        bool Search(Generic);
-        void UpdateNoForNo(Generic,Generic);
+        int Search(Generic) const;
+        bool UpdateNoForNo(Generic,Generic);
         void UpdateNoForPosition(Generic,int);
-        void Concat();
 
         //Insert and Delete functions
         void InsertBefore(Generic,int);
         void InsertAfter(Generic,int);
-        void DeleteBefore(int);
-        void DeleteAfter(int);
+        Generic DeleteBefore(int);
+        Generic DeleteAfter(int);
         void DeleteList();
 
         //Sorting and Reversing functions
@@ -98,10 +95,10 @@ class SINGLY_LINEAR_LINKEDLIST
         void Reverse();
 
         //Finding functions
-        struct sNode<Generic> * FindMiddleNode();
-        struct sNode<Generic> * FindKthNodeFromStart();
-        struct sNode<Generic> * FindKthNodeFromMiddle();
-        struct sNode<Generic> * FindKthNodeFromEnd();
+        struct sNode<Generic> * FindMiddleNode() const;
+        struct sNode<Generic> * FindKthNodeFromStart(int) const;
+        struct sNode<Generic> * FindKthNodeFromMiddle(int,int) const;
+        struct sNode<Generic> * FindKthNodeFromEnd(int) const;
 
 //~=====Added Features Functions======//
 
@@ -115,17 +112,16 @@ class SINGLY_LINEAR_LINKEDLIST
 template<class Generic>
 SINGLY_LINEAR_LINKEDLIST<Generic>::SINGLY_LINEAR_LINKEDLIST()
 {
-    pHead = NULL;
+    pHead = nullptr;
     iCountNode = 0;
+    iCountNode_Main = 0;
 }
 
 
 template<class Generic>
 SINGLY_LINEAR_LINKEDLIST<Generic>::~SINGLY_LINEAR_LINKEDLIST()
 {
-    free(pHead);
-    pHead = NULL;
-    iCountNode = 0;
+    DeleteList();
 }
 
 //3===============================================================================================//
@@ -169,29 +165,26 @@ SINGLY_LINEAR_LINKEDLIST<Generic>::~SINGLY_LINEAR_LINKEDLIST()
 //================================================================================================//
 //Local variables:                                                                                //
 //1. struct sNode<Generic> * : Temporary pointer to traverse the linked list .                    //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. Traverse the linked list till the last node and display the data of each node.               //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
-void SINGLY_LINEAR_LINKEDLIST<Generic>::Display()
+void SINGLY_LINEAR_LINKEDLIST<Generic>::Display() const
 {
-    if((iCountNode == 0) && (pHead == NULL))
+    if((iCountNode == 0) && (pHead == nullptr))
     {
         cout<<"Linkedlist is empty"<<endl;
-        cout<<"NULL"<<endl;
+        cout<<"nullptr"<<endl;
         return;
     }
 
     cout<<"Elements from linked list are : "<<endl<<endl;
     struct sNode<Generic> *ptemp = pHead;
 
-    while(ptemp != NULL)
+    while(ptemp != nullptr)
     {
         cout<<"| "<<ptemp -> gData<<" | -> ";
         ptemp = ptemp -> pNext;
     }
-    cout<<"NULL"<<endl;
+    cout<<"nullptr"<<endl;
 }
 
 
@@ -203,12 +196,9 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::Display()
 //Return: integer                                                                                 //
 //================================================================================================//
 //Local variables: None                                                                           //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. Return the value of iCountNode which is updated during insertion and deletion operations.    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
-int SINGLY_LINEAR_LINKEDLIST<Generic>::Count()
+int SINGLY_LINEAR_LINKEDLIST<Generic>::Count() const
 {
     return iCountNode;
 }
@@ -224,27 +214,19 @@ int SINGLY_LINEAR_LINKEDLIST<Generic>::Count()
 //================================================================================================//
 //Local variables:                                                                                //
 //1. struct sNode<Generic> * : Pointer to the new node .                                          //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. Allocate memory for the new node .                                                           //
-//2. Fill the new node with the data .                                                            //
-//3. If the linked list is empty, update the first pointer with the address of the new node .     //
-//4. If the linked list contains at least one node, update the Next pointer of the new node with  //
-//   the address of the first node and update the first pointer with the address of the new node. //
-//5. Increment the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
 void SINGLY_LINEAR_LINKEDLIST<Generic>::InsertFirst(Generic gNo)
 {
     //Initialize a new node
-    struct sNode<Generic> *PsNewNode = NULL;
+    struct sNode<Generic> *PsNewNode = nullptr;
     PsNewNode = new sNode<Generic>;
 
     //Filling the node with data
     PsNewNode -> gData = gNo;
-    PsNewNode -> pNext = NULL;
+    PsNewNode -> pNext = nullptr;
 
-    if((iCountNode == 0) && (pHead == NULL))//If linkedlist is empty(pHead == NULL)
+    if((iCountNode == 0) && (pHead == nullptr))//If linkedlist is empty(pHead == nullptr)
     {
         pHead = PsNewNode;
     }
@@ -255,8 +237,7 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::InsertFirst(Generic gNo)
     }
 
     iCountNode++;
-
-    cout<<"Node with data "<<gNo<<" inserted at the beginning of the singly linear linked list"<<endl;
+    iCountNode_Main++;
 }
 
 
@@ -271,27 +252,19 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::InsertFirst(Generic gNo)
 //Local variables:                                                                                //
 //1. struct sNode<Generic> * : Pointer to the new node .                                          //
 //2. struct sNode<Generic> * : Temporary pointer for traversal                                    //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. Allocate memory for the new node .                                                           //
-//2. Fill the new node with the data .                                                            //
-//3. If the linked list is empty, update the first pointer with the address of the new node .     //
-//4. If the linked list contains at least one node, traverse till the last node and update the    //
-//   Next pointer of the last node with the address of the new node.                              //
-//5. Increment the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
 void SINGLY_LINEAR_LINKEDLIST<Generic>::InsertLast(Generic gNo)
 {
     //Initialize a new node
-    struct sNode<Generic> *PsNewNode = NULL;
+    struct sNode<Generic> *PsNewNode = nullptr;
     PsNewNode = new sNode<Generic>;
 
     //Filling the node with data
     PsNewNode -> gData = gNo;
-    PsNewNode -> pNext = NULL;
+    PsNewNode -> pNext = nullptr;
 
-    if(iCountNode == 1)//If linkedlist is empty((pHead -> pNext) == NULL)
+    if((pHead == nullptr) && (iCountNode == 0))//If linkedlist is empty((pHead -> pNext) == nullptr)
     {
         pHead = PsNewNode;
     }
@@ -299,7 +272,7 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::InsertLast(Generic gNo)
     {
         struct sNode<Generic> *ptemp = pHead;
 
-        while(ptemp -> pNext != NULL)
+        while(ptemp -> pNext != nullptr)
         {
             ptemp = ptemp -> pNext;
         }
@@ -308,8 +281,7 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::InsertLast(Generic gNo)
     }
 
     iCountNode++;
-
-    cout<<"Node with data "<<gNo<<" inserted at the end of the singly linear linked list"<<endl;
+    iCountNode_Main++;
 }
 
 
@@ -326,90 +298,50 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::InsertLast(Generic gNo)
 //Local variables:                                                                                //
 //1. struct sNode<Generic> * : Pointer to the new node .                                          //
 //2. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
-//3. int : Size of the linked list .                                                              //
-//4. int : Counter variable .                                                                     //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty and return .    //
-//2. Count the number of nodes in the linked list .                                               //
-//3. If the position is invalid, display a message that the position is invalid.                  //
-//4. If the position is 1,call the InsertFirst() function to insert the new node at the beginning.//
-//5. If the position is the last,call the InsertLast() function to insert the new node at the end.//
-//6. If the position is random, traverse till the node before the specified position and update   //
-//   the Next pointer of the new node with the address of the Next node and update the Next       //
-//   pointer of the previous node with the address of the new node.                               //
+//3. int                     : Counter variable .                                                 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
 void SINGLY_LINEAR_LINKEDLIST<Generic>::InsertAtPosition(Generic gNo,int iPosition)
 {
     //Initialize a new node
-    struct sNode<Generic> *PsNewNode = NULL;
+    struct sNode<Generic> *PsNewNode = nullptr;
     PsNewNode = new sNode<Generic>;
 
     //Filling the node with data
     PsNewNode -> gData = gNo;
-    PsNewNode -> pNext = NULL;
+    PsNewNode -> pNext = nullptr;
 
-    int iCnt = 0;
-
-    if((iPosition < 1) || (iPosition > (iCountNode + 1)))//If position is invalid
+    if(iPosition == 1)//If position is 1
     {
-        while(iCnt <= 2)
-        {
-            cout<<"Invalid position"<<endl;
-
-            cout<<"Enter valid position : "<<endl;
-            cin>>iPosition;
-
-            if((iPosition >= 1) && (iPosition <= (iCountNode + 1)))
-            {
-                InsertAtPosition(gNo,iPosition);
-                return;
-            }
-
-            iCnt++;
-        }
-
-        cout<<"Wrong input entered 3 times , call function again ."<<endl;
-
+        InsertFirst(gNo);
         return;
-    }
-    else if((iCountNode == 0) && (pHead == NULL))//If linkedlist is empty
-    {
-        pHead = PsNewNode;
-    }
-    else if(iPosition == 1)//If position is 1
-    {
-        PsNewNode -> pNext = pHead;
-        pHead = PsNewNode;
     }
     else if(iPosition == (iCountNode + 1))//If position last
     {
-        struct sNode<Generic> *ptemp = pHead;
-
-        while(ptemp -> pNext != NULL)
-        {
-            ptemp = ptemp -> pNext;
-        }
-
-        ptemp -> pNext = PsNewNode;
+        InsertLast(gNo);
+        return;
     }
     else//Random position
     {
+        struct sNode<Generic> *PsNewNode = nullptr;
+        PsNewNode = new sNode<Generic>;
+
+        PsNewNode -> gData = gNo;
+        PsNewNode -> pNext = nullptr;
+
         struct sNode<Generic> *ptemp = pHead;
 
-        for(iCnt = 1;iCnt < (iPosition - 1);iCnt++)
+        for(int iCnt = 1;iCnt < (iPosition - 1);iCnt++)
         {
             ptemp = ptemp -> pNext;
         }
 
         PsNewNode -> pNext = ptemp -> pNext;
         ptemp -> pNext = PsNewNode;
+
+        iCountNode++;
+        iCountNode_Main++;
     }
-
-    iCountNode++;
-
-    cout<<"Node with data "<<gNo<<" inserted at position "<<iPosition<<" in the singly linear linked list"<<endl;
 }
 
 
@@ -418,45 +350,39 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::InsertAtPosition(Generic gNo,int iPositi
 //================================================================================================//
 //Parameters: None                                                                                //
 //================================================================================================//
-//Return: void                                                                                    //
+//Return: int                                                                                     //
 //================================================================================================//
 //Local variables:                                                                                //
 //1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty and return .    //
-//2. If the linked list contains one node, delete the node and return .                           //
-//3. If the linked list contains more than one node, store the address of the first node in a     //
-//   temporary pointer, update the first pointer with the address of the next node and free the   //
-//   memory of the temporary pointer.                                                             //
-//4. Decrement the count of nodes in the linked list by 1.                                        //
+//2. int    : variable to return the deleted data                                                 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
-void SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteFirst()
+Generic SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteFirst()
 {
-    if((iCountNode == 0) && (pHead == NULL))//If linkedlist is empty
-    {
-        cout<<"Linkedlist is empty"<<endl;
-        return;
-    }
-    else if((iCountNode == 1) && ((pHead) -> pNext == NULL))//If linkedlist contains one node
-    {
-        cout<<"Node with data "<<(pHead) -> gData<<" deleted from the beginning of the singly linear linked list"<<endl;
+    Generic gDeleted = 0;
 
-        free(pHead);
-        pHead = NULL;
+    if(iCountNode == 1)//If linkedlist contains one node
+    {
+        gDeleted = pHead -> gData;
+
+        delete pHead;
+        pHead = nullptr;
     }
     else//If linkedlist contains atleast one node
     {
         struct sNode<Generic> *ptemp = pHead;
         pHead = ptemp -> pNext;
 
-        cout<<"Node with data "<<ptemp -> gData<<" deleted from the beginning of the singly linear linked list"<<endl;
-        free(ptemp);
-        ptemp = NULL;
+        gDeleted = ptemp -> gData;
+
+        delete ptemp;
+        ptemp = nullptr;
     }
 
     iCountNode--;
+    iCountNode_Main--;
+
+    return gDeleted;
 }
 
 
@@ -469,45 +395,37 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteFirst()
 //================================================================================================//
 //Local variables:                                                                                //
 //1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty and return .    //
-//2. If the linked list contains one node, delete the node and return .                           //
-//3. If the linked list contains more than one node, traverse till the second last node and       //
-//   delete the last node.                                                                        //
-//4. Decrement the count of nodes in the linked list by 1.                                        //
+//2. int                     : variable to return the deleted data                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
-void SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteLast()
+Generic SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteLast()
 {
-    if((iCountNode == 0) && (pHead == NULL))//If linkedlist is empty
-    {
-        cout<<"Linkedlist is empty"<<endl;
-        return;
-    }
-    else if((iCountNode == 1) && ((pHead) -> pNext == NULL))//If linkedlist contains one node
-    {
-        cout<<"Node with data "<<(pHead) -> gData<<" deleted from the end of the singly linear linked list"<<endl;
+    Generic gDeleted = 0;
 
-        free(pHead);
-        pHead = NULL;
+    if(iCountNode == 1)//If linkedlist contains one node
+    {
+        gDeleted = pHead -> gData;
+
+        delete pHead;
+        pHead = nullptr;
     }
     else//If linkedlist contains atleast two node
     {
         struct sNode<Generic> *ptemp = pHead;
 
-        while(ptemp -> pNext -> pNext != NULL)
+        while(ptemp -> pNext -> pNext != nullptr)
         {
             ptemp = ptemp -> pNext;
         }
 
-        cout<<"Node with data "<<ptemp -> pNext -> gData<<" deleted from the end of the singly linear linked list"<<endl;
-
-        free(ptemp -> pNext);
-        ptemp -> pNext = NULL;
+        gDeleted = ptemp -> pNext -> gData;
+        delete ptemp -> pNext;
+        ptemp -> pNext = nullptr;
     }
 
     iCountNode--;
+    iCountNode_Main--;
+    return gDeleted;
 }
 
 
@@ -521,89 +439,29 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteLast()
 //Return: void                                                                                    //
 //================================================================================================//
 //Local variables:                                                                                //
-//1. int : Counter variable .                                                                     //
-//2. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
-//3. struct sNode<Generic> * : temporary pointer to delete the node .                             //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty and return .    //
-//2. If the position is invalid, display a message that the position is invalid.                  //
-//3. If the position is 1,call the DeleteFirst() function to delete the first node.               //
-//4. If the position is the last,call the DeleteLast() function to delete the last node.          //
-//5. If the position is random, traverse till the node before the specified position and update   //
-//   the Next pointer of the previous node with the Next pointer of the node to be deleted        //
-//   and free the memory of the node to be deleted.                                               //
-//6. Decrement the count of nodes in the linked list by 1.                                        //
+//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
+//2. struct sNode<Generic> * : temporary pointer to delete the node .                             //
+//3. int                     : Counter variable .                                                 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
-void SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteAtPosition(int iPosition)
+Generic SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteAtPosition(int iPosition)
 {
-    if((iCountNode == 0) && (pHead == NULL))//If linkedlist is empty
-    {
-        cout<<"Linkedlist is empty"<<endl;
-        return;
-    }
-
     int iCnt = 0;
 
-    if((iPosition < 1) || (iPosition > iCountNode))//If position is invalid
+    if(iPosition == 1)//If position is 1
     {
-        while(iCnt <= 2)
-        {
-            cout<<"Invalid position"<<endl;
-
-            cout<<"Enter valid position : "<<endl;
-            cin>>iPosition;
-
-            if((iPosition >= 1) && (iPosition <= iCountNode))
-            {
-                DeleteAtPosition(iPosition);
-                return;
-            }
-
-            iCnt++;
-        }
-
-        cout<<"Wrong input entered 3 times , call function again ."<<endl;
-
-        return;
-    }
-
-    if((iCountNode == 1) && ((pHead) -> pNext == NULL))
-    {
-        cout<<"Node with data "<<(pHead) -> gData<<" deleted from the singly linear linked list"<<endl;
-
-        free(pHead);
-        pHead = NULL;
-    }
-    else if(iPosition == 1)//If position is 1
-    {
-        struct sNode<Generic> *ptempdelete = pHead;
-        pHead = ptempdelete -> pNext;
-
-        cout<<"Node with data "<<ptempdelete -> gData<<" deleted from the beginning of the singly linear linked list"<<endl;
-
-        free(ptempdelete);
-        ptempdelete = NULL;
+        iCnt = DeleteFirst();
+        return iCnt;
     }
     else if(iPosition == iCountNode)//If position last
     {
-        struct sNode<Generic> *ptempdelete = pHead;
-
-        while(ptempdelete -> pNext -> pNext != NULL)
-        {
-            ptempdelete = ptempdelete -> pNext;
-        }
-
-        cout<<"Node with data "<<ptempdelete -> pNext -> gData<<" deleted from the end of the singly linear linked list"<<endl;
-
-        free(ptempdelete -> pNext);
-        ptempdelete -> pNext = NULL;
+        iCnt = DeleteLast();
+        return iCnt;
     }
     else//Random position
     {
         struct sNode<Generic> *ptemp = pHead;
-        struct sNode<Generic> *ptempdelete = NULL;
+        struct sNode<Generic> *ptempdelete = nullptr;
 
         for(iCnt = 1;iCnt < (iPosition - 1);iCnt++)
         {
@@ -613,12 +471,14 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteAtPosition(int iPosition)
         ptempdelete = ptemp -> pNext;
         ptemp -> pNext = ptemp -> pNext -> pNext;
 
-        cout<<"Node with data "<<ptempdelete -> gData<<" deleted from "<<iPosition<<" position from singly linear linked list"<<endl;
+        iCnt = ptempdelete -> gData;
+        delete ptempdelete;
+        ptempdelete = nullptr;
 
-        free(ptempdelete);
+        iCountNode--;
+        iCountNode_Main--;
+        return iCnt;
     }
-
-    iCountNode--;
 }
 
 //4===============================================================================================//
@@ -634,19 +494,18 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteAtPosition(int iPosition)
 //================================================================================================//
 //1. Search() : Searches for a specific value in the list                                         //
 //2. Reverse() : Reverses the order of the list                                                   //
-//3. Concat() : Concatenates two lists                                                            //
-//4. Sort() : Sorts the list in ascending order                                                   //
-//5. UpdateNoforNo() : Updates the value of a specific node in exchange to some value             //
-//6. UpdateNoForPosition() : Updates the value of a specific node at specific position            //
-//7. InsertBefore() : Inserts a new node before a specific node                                   //
-//8. InsertAfter() : Inserts a new node after a specific node                                     //
-//9. DeleteBefore() : Deletes the node before a specific node                                     //
-//10. DeleteAfter() : Deletes the node after a specific node                                      //
-//11. DeleteList() : Deletes the entire list                                                      //
-//12. FindMiddle() : Finds the middle node of the list                                            //
-//13. FindKthNodeFromStart() : Finds the kth node from the start of the list                      //
-//14. FindKthNodeFromMiddle() : Finds the kth node from the middle of the list                    //
-//15. FindKthNodeFromEnd() : Finds the kth node from the end of the list                          //
+//3. Sort() : Sorts the list in ascending order                                                   //
+//4. UpdateNoforNo() : Updates the value of a specific node in exchange to some value             //
+//5. UpdateNoForPosition() : Updates the value of a specific node at specific position            //
+//6. InsertBefore() : Inserts a new node before a specific node                                   //
+//7. InsertAfter() : Inserts a new node after a specific node                                     //
+//8. DeleteBefore() : Deletes the node before a specific node                                     //
+//9. DeleteAfter() : Deletes the node after a specific node                                       //
+//10. DeleteList() : Deletes the entire list                                                      //
+//11. FindMiddle() : Finds the middle node of the list                                            //
+//12. FindKthNodeFromStart() : Finds the kth node from the start of the list                      //
+//13. FindKthNodeFromMiddle() : Finds the kth node from the middle of the list                    //
+//14. FindKthNodeFromEnd() : Finds the kth node from the end of the list                          //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -657,41 +516,30 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteAtPosition(int iPosition)
 //Parameters:                                                                                     //
 //1. Generic : Value to be searched in the linked list .                                          //
 //================================================================================================//
-//Return: boolean                                                                                 //
+//Return: int                                                                                     //
 //================================================================================================//
 //Local variables:                                                                                //
-//1. int : Counter variable & Position variable in one .                                          //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. Traverse the linked list till the last node and compare the data of each node with the       //
-//   specified value. If the value is found, display the position of the node and return true.    //
-//2. If the value is not found, return false.                                                     //
+//1. struct sNode<Generic> * : Temporary pointer to traverse linkedlist .                         //
+//2. int                     : Counter variable & Position variable in one .                      //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
-bool SINGLY_LINEAR_LINKEDLIST<Generic>::Search(Generic gSearch)
+int SINGLY_LINEAR_LINKEDLIST<Generic>::Search(Generic gSearch) const
 {
-    if((iCountNode == 0)  && (pHead == NULL))
-    {
-        cout<<"Linkedlist is empty"<<endl;
-        return false;
-    }
-
+    struct sNode<Generic> *ptemp = pHead;
     int iPosition = 1;
 
     while(iPosition <= iCountNode)
     {
-        if(pHead -> gData == gSearch)
+        if(ptemp -> gData == gSearch)
         {
-            cout<<"Element "<<gSearch<<" is found at position "<<iPosition<<" in singly linear linked list"<<endl;
-            return true;
+            return iPosition;
         }
 
-        pHead = pHead -> pNext;
+        ptemp = ptemp -> pNext;
         iPosition++;
     }
 
-    cout<<"Element "<<gSearch<<" not found in singly circular linked list"<<endl;
-    return false;
+    return -1;
 }
 
 
@@ -703,42 +551,32 @@ bool SINGLY_LINEAR_LINKEDLIST<Generic>::Search(Generic gSearch)
 //1. Generic : Value to be searched in the linked list .                                          //
 //2. Generic : Value to be updated in the linked list .                                           //
 //================================================================================================//
-//Return: void                                                                                    //
+//Return: bool                                                                                    //
 //================================================================================================//
 //Local variables:                                                                                //
-//1. int : Counter variable & Position variable in one .                                          //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. Traverse the linked list till the last node and compare the data of each node with the       //
-//   specified value. If the value is found, update the data of the node with the specified value.//
-//2. If the value is not found, display a message that the value is not found.                    //
+//1. struct sNode<Generic> * : Temporary pointer to traverse linkedlist .                         //
+//2. int                     : Counter variable & Position variable in one .                      //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
-void SINGLY_LINEAR_LINKEDLIST<Generic>::UpdateNoForNo(Generic gSearch,Generic gUpdate)
+bool SINGLY_LINEAR_LINKEDLIST<Generic>::UpdateNoForNo(Generic gSearch,Generic gUpdate)
 {
-    if((iCountNode == 0) && (pHead == NULL))
-    {
-        cout<<"Linkedlist is empty"<<endl;
-        return;
-    }
-
+    struct sNode<Generic> *ptemp = pHead;
     int iPosition = 1;
 
     while(iPosition <= iCountNode)
     {
-        if(pHead -> gData == gSearch)
+        if(ptemp-> gData == gSearch)
         {
-            pHead -> gData = gUpdate;
-            cout<<"Element "<<gSearch<<" has been updated to "<<gUpdate<<" in singly linear linked list"<<endl;
+            ptemp -> gData = gUpdate;
 
-            return;
+            return true;
         }
 
-        pHead = pHead -> pNext;
+        ptemp = ptemp -> pNext;
         iPosition++;
     }
 
-    cout<<"Element "<<gSearch<<" not found in singly linear linked list"<<endl;
+    return false;
 }
 
 
@@ -753,108 +591,27 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::UpdateNoForNo(Generic gSearch,Generic gU
 //Return: void                                                                                    //
 //================================================================================================//
 //Local variables:                                                                                //
-//1. int : Counter variable & Position variable in one .                                          //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. Traverse the linked list till the last node and compare the data of each node with the       //
-//   specified value. If the value is found, update the data of the node with the specified value.//
-//2. If the value is not found, display a message that the value is not found.                    //
+//1. struct sNode<Generic> * : Temporary pointer to traverse linkedlist .                         //
+//2. int                     : Counter variable & Position variable in one .                      //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
 void SINGLY_LINEAR_LINKEDLIST<Generic>::UpdateNoForPosition(Generic gUpdate,int iPosition)
 {
-    if((iCountNode == 0) && (pHead == NULL))
-    {
-        cout<<"Linkedlist is empty"<<endl;
-        return;
-    }
-
-    int iCnt = 0;
-
-    if((iPosition < 1) || (iPosition > (iCountNode + 1)))
-    {
-        for(iCnt = 0;iCnt <= 2;iCnt++)
-        {
-            cout<<"Invalid position"<<endl;
-            cout<<"Enter valid position : "<<endl;
-            cin>>iPosition;
-
-            if((iPosition >= 1) && (iPosition <= (iCountNode + 1)))
-            {
-                UpdateNoForPosition(gUpdate,iPosition);
-                return;
-            }
-        }
-
-        cout<<"Wrong input entered 3 times , call function again ."<<endl;
-
-        return;
-    }
-
-    iCnt = 1;
+    struct sNode<Generic> *ptemp = pHead;
+    int iCnt = 1;
 
     while(iCnt <= iCountNode)
     {
         if(iCnt == iPosition)
         {
-            pHead -> gData = gUpdate;
-            cout<<"Element at position "<<iPosition<<" has been updated to "<<gUpdate<<" in singly linear linked list"<<endl;
+            ptemp -> gData = gUpdate;
 
             return;
         }
 
-        pHead = pHead -> pNext;
+        ptemp = ptemp -> pNext;
         iCnt++;
     }
-}
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-//Concat() Function: Concats two singly linear linked list .                                      //
-//================================================================================================//
-//Parameters:                                                                                     //
-//================================================================================================//
-//Return: void                                                                                    //
-//================================================================================================//
-//Local variables:                                                                                //
-//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If both linked lists are empty, display a message that both linked lists are empty.          //
-//2. If the first linked list is empty, display a message that the first linked list is empty.    //
-//3. If the second linked list is empty, display a message that the second linked list is empty.  //
-//4. Traverse the first linked list till the last node and update thepNext pointer of the last    //
-//   node with the address of the first node of the second linked list and free the second linked //
-//   list.                                                                                        //
-////////////////////////////////////////////////////////////////////////////////////////////////////
-template<class Generic>
-void SINGLY_LINEAR_LINKEDLIST<Generic>::Concat()
-{
-    if((pHead1 == NULL) && (pHead2 == NULL))
-    {
-        cout<<"Both linkedlist are empty"<<endl;
-        return;
-    }
-    else if(pHead1 == NULL)
-    {
-        cout<<"First linkedlist is empty"<<endl;
-        return;
-    }
-    else if(pHead2 == NULL)
-    {
-        cout<<"Second linkedlist is empty"<<endl;
-        return;
-    }
-
-    struct sNode<Generic> *ptemp = pHead1;
-
-    while(ptemp -> pNext != NULL)
-    {
-        ptemp = ptemp -> pNext;
-    }
-
-    ptemp -> pNext = pHead2;
-    pHead2 = NULL;//Freeing the second linked list
 }
 
 
@@ -871,54 +628,17 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::Concat()
 //1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
 //2. struct sNode<Generic> * : Pointer to store the new node                                      //
 //3. int : Counter variable .                                                                     //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. If the position is invalid, display a message that the position is invalid.                  //
-//3. If the position is 1, call the InsertFirst() Function or use its logic .                     //
-//4. If the position is random, traverse till the node before the specified position and update   //
-//   the Next pointer of the new node with the address of the Next node and update the Next       //
-//   pointer of the previous node with the address of the new node.                               //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
 void SINGLY_LINEAR_LINKEDLIST<Generic>::InsertBefore(Generic gNo,int iPosition)
 {
-    if((iCountNode == 0)  && (pHead == NULL))
-    {
-        cout<<"linkedlist are empty\n"<<endl;
-        return;
-    }
-
-    int iCnt = 0;
-
-    if((iPosition < 1) || (iPosition > (iCountNode)))
-    {
-        for(iCnt = 0;iCnt <= 2;iCnt++)
-        {
-            cout<<"Invalid position"<<endl;
-            cout<<"Enter valid position : "<<endl;
-            cin>>iPosition;
-
-            if((iPosition >= 1) && (iPosition <= (iCountNode)))
-            {
-                InsertBefore(gNo,iPosition);
-                return;
-            }
-        }
-
-        cout<<"Wrong input entered 3 times , call function again ."<<endl;
-
-        return;
-    }
-
-
     //Initialize a new node
-    struct sNode<Generic> *PsNewNode = NULL;
+    struct sNode<Generic> *PsNewNode = nullptr;
     PsNewNode = new sNode<Generic>;
 
     //Filling the node with data
     PsNewNode -> gData = gNo;
-    PsNewNode -> pNext = NULL;
+    PsNewNode -> pNext = nullptr;
 
     if(iPosition == 1)
     {
@@ -929,7 +649,7 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::InsertBefore(Generic gNo,int iPosition)
     {
         struct sNode<Generic> *ptemp = pHead;
 
-        for(iCnt = 1;iCnt < (iPosition - 1);iCnt++)
+        for(int iCnt = 1;iCnt < (iPosition - 1);iCnt++)
         {
             ptemp = ptemp -> pNext;
         }
@@ -937,12 +657,11 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::InsertBefore(Generic gNo,int iPosition)
         PsNewNode -> pNext = ptemp -> pNext;
         ptemp -> pNext = PsNewNode;
 
-        ptemp = NULL;//Freeing the temporary pointer
+        ptemp = nullptr;//Freeing the temporary pointer
     }
 
     iCountNode++;
-
-    cout<<"Node with data "<<gNo<<" inserted at the position "<<iPosition<<" of the singly linear linked list"<<endl;
+    iCountNode_Main++;
 }
 
 
@@ -959,56 +678,17 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::InsertBefore(Generic gNo,int iPosition)
 //1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
 //2. struct sNode<Generic> * : Pointer to store the new node                                      //
 //3. int : Counter variable .                                                                     //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. If the position is invalid, display a message that the position is invalid.                  //
-//3. If the position is random, traverse till the node before the specified position and update   //
-//   the Next pointer of the new node with the address of the Next node and update the Next       //
-//   pointer of the previous node with the address of the new node.                               //
-//4. If the position is the last, traverse till the last node and update the Next pointer of      //
-//   the last node with the address of the new node.we can call the InsertFirst() Function or use //
-//   its logic .                                                                                  //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
 void SINGLY_LINEAR_LINKEDLIST<Generic>::InsertAfter(Generic gNo,int iPosition)
 {
-    if((iCountNode == 0) && (pHead == NULL))
-    {
-        cout<<"linkedlist are empty"<<endl;
-        return;
-    }
-
-    int iCnt = 0;
-
-    if((iPosition < 1) || (iPosition > (iCountNode)))
-    {
-        for(iCnt = 0;iCnt <= 2;iCnt++)
-        {
-            cout<<"Invalid position"<<endl;
-            cout<<"Enter valid position : "<<endl;
-            cin>>iPosition;
-
-            if((iPosition >= 1) && (iPosition <= (iCountNode)))
-            {
-                InsertAfter(gNo,iPosition);
-                return;
-            }
-        }
-
-        cout<<"Wrong input entered 3 times , call function again ."<<endl;
-
-        return;
-    }
-
-
     //Initialize a new node
-    struct sNode<Generic> *PsNewNode = NULL;
+    struct sNode<Generic> *PsNewNode = nullptr;
     PsNewNode = new sNode<Generic>;
 
     //Filling the node with data
     PsNewNode -> gData = gNo;
-    PsNewNode -> pNext = NULL;
+    PsNewNode -> pNext = nullptr;
 
     struct sNode<Generic> *ptemp = pHead;
 
@@ -1016,18 +696,18 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::InsertAfter(Generic gNo,int iPosition)
     {
         //InsertLast(pHead,iNo); ---> Can be used
 
-        while(ptemp -> pNext != NULL)
+        while(ptemp -> pNext != nullptr)
         {
             ptemp = ptemp -> pNext;
         }
 
         ptemp -> pNext = PsNewNode;
 
-        ptemp = NULL;;//Freeing the temporary pointer
+        ptemp = nullptr;;//Freeing the temporary pointer
     }
     else
     {
-        for(iCnt = 1;iCnt <= (iPosition - 1);iCnt++)
+        for(int iCnt = 1;iCnt <= (iPosition - 1);iCnt++)
         {
             ptemp = ptemp -> pNext;
         }
@@ -1035,12 +715,11 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::InsertAfter(Generic gNo,int iPosition)
         PsNewNode -> pNext = ptemp -> pNext;
         ptemp -> pNext = PsNewNode;
 
-        ptemp = NULL;
+        ptemp = nullptr;
     }
 
     iCountNode++;
-
-    cout<<"Node with data "<<gNo<<" inserted at the position "<<(iPosition + 1)<<" of the singly linear linked list"<<endl;
+    iCountNode_Main++;
 }
 
 
@@ -1050,68 +729,32 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::InsertAfter(Generic gNo,int iPosition)
 //Parameters:                                                                                     //
 //1. int : Position before which the node is to be deleted .                                      //
 //================================================================================================//
-//Return: void                                                                                    //
+//Return: int                                                                                     //
 //================================================================================================//
 //Local variables:                                                                                //
 //1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
 //2. struct sNode<Generic> * : temporary pointer to delete the node .                             //
 //3. int : Counter variable .                                                                     //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. If the position is invalid, display a message that the position is invalid.                  //
-//3. If the position is 2, store the address of the first node in a temporary pointer and update  //
-//   the first pointer with the Next pointer of the first node and free the memory of the         //
-//   temporary pointer.                                                                           //
-//4. If the position is random, traverse till the node before the specified position and update   //
-//   the Next pointer of the previous node with the Next pointer of the node to be deleted and    //
-//   free the memory of the node to be deleted.                                                   //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
-void SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteBefore(int iPosition)
+Generic SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteBefore(int iPosition)
 {
-    if((iCountNode == 0) && (pHead == NULL))
-    {
-        cout<<"linkedlist are empty"<<endl;
-        return;
-    }
-
-    int iCnt = 0;
-
-    if((iPosition < 2) || (iPosition > (iCountNode)))
-    {
-        for(iCnt = 0;iCnt <= 2;iCnt++)
-        {
-            cout<<"Invalid position"<<endl;
-            cout<<"Enter valid position : "<<endl;
-            cin>>iPosition;
-
-            if((iPosition >= 2) && (iPosition <= (iCountNode)))
-            {
-                DeleteBefore(iPosition);
-                return;
-            }
-        }
-
-        cout<<"Wrong input entered 3 times , call function again ."<<endl;
-
-        return;
-    }
-
     struct sNode<Generic> *ptemp = pHead;
+    Generic gCnt = 0;
 
     if(iPosition == 2)
     {
         pHead = ptemp -> pNext;
-        cout<<"Node with data "<<ptemp -> gData<<" deleted from the singly linear linked list"<<endl;
 
-        free(ptemp);
+        gCnt = ptemp -> gData;
+        delete ptemp;
+        ptemp = nullptr;
     }
     else
     {
-        struct sNode<Generic> *ptempdelete = NULL;
+        struct sNode<Generic> *ptempdelete = nullptr;
 
-        for(iCnt = 1;iCnt < (iPosition - 2);iCnt++)
+        for(gCnt = 1;gCnt < (iPosition - 2);gCnt++)
         {
             ptemp = ptemp -> pNext;
         }
@@ -1119,12 +762,15 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteBefore(int iPosition)
         ptempdelete = ptemp -> pNext;
         ptemp -> pNext = ptemp -> pNext -> pNext;
 
-        cout<<"Node with data "<<ptempdelete -> gData<<" deleted from the singly linear linked list"<<endl;
+        gCnt = ptempdelete -> gData;
 
-        free(ptempdelete);
+        delete ptempdelete;
+        ptempdelete = nullptr;
     }
 
     iCountNode--;
+    iCountNode_Main--;
+    return gCnt;
 }
 
 
@@ -1134,71 +780,36 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteBefore(int iPosition)
 //Parameters:                                                                                     //
 //1. int : Position before which the new node is to be inserted .                                 //
 //================================================================================================//
-//Return: void                                                                                    //
+//Return: int                                                                                     //
 //================================================================================================//
 //Local variables:                                                                                //
 //1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
 //2. struct sNode<Generic> * : temporary pointer to delete the node .                             //
 //3. int : Counter variable .                                                                     //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. If the position is invalid, display a message that the position is invalid.                  //
-//3. If the position is the last, traverse till the second last node and delete the last node.    //
-//4. If the position is random, traverse till the node before the specified position and update   //
-//   the Next pointer of the previous node with the Next pointer of the node to be deleted and    //
-//   free the memory of the node to be deleted.                                                   //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
-void SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteAfter(int iPosition)
+Generic SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteAfter(int iPosition)
 {
-    if((iCountNode == 0) && (pHead == NULL))
-    {
-        cout<<"linkedlist are empty"<<endl;
-        return;
-    }
-
-    int iCnt = 0;
-
-    if((iPosition < 1) || (iPosition > (iCountNode - 1)))
-    {
-        for(iCnt = 0;iCnt <= 2;iCnt++)
-        {
-            cout<<"Invalid position"<<endl;
-            cout<<"Enter valid position : "<<endl;
-            cin>>iPosition;
-
-            if((iPosition >= 1) && (iPosition <= (iCountNode - 1)))
-            {
-                DeleteAfter(iPosition);
-                return;
-            }
-        }
-
-        cout<<"Wrong input entered 3 times , call function again ."<<endl;
-
-        return;
-    }
-
     struct sNode<Generic> *ptemp = pHead;
+    Generic gCnt = 0;
 
     if(iPosition == (iCountNode - 1))
     {
-        while(ptemp -> pNext -> pNext != NULL)
+        while(ptemp -> pNext -> pNext != nullptr)
         {
             ptemp = ptemp -> pNext;
         }
 
-        cout<<"Node with data "<<ptemp -> pNext -> gData<<" deleted from the singly linear linked list"<<endl;
+        gCnt = ptemp -> pNext -> gData;
 
-        free(ptemp -> pNext);
-        ptemp -> pNext = NULL;
+        delete ptemp -> pNext;
+        ptemp -> pNext = nullptr;
     }
     else
     {
-        struct sNode<Generic> *ptempdelete = NULL;
+        struct sNode<Generic> *ptempdelete = nullptr;
 
-        for(iCnt = 1;iCnt < (iPosition);iCnt++)
+        for(gCnt = 1;gCnt < (iPosition);gCnt++)
         {
             ptemp = ptemp -> pNext;
         }
@@ -1206,12 +817,18 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteAfter(int iPosition)
         ptempdelete = ptemp -> pNext;
         ptemp -> pNext = ptemp -> pNext -> pNext;
 
-        cout<<"Node with data "<<ptempdelete -> gData<<" deleted from the singly linear linked list"<<endl;
+        ptempdelete = ptemp -> pNext;
+        ptemp -> pNext = ptemp -> pNext -> pNext;
 
-        free(ptempdelete);
+        gCnt = ptempdelete -> gData;
+        delete ptempdelete;
+        ptempdelete = nullptr;
     }
 
     iCountNode--;
+    iCountNode_Main--;
+
+    return gCnt;
 }
 
 
@@ -1224,39 +841,29 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteAfter(int iPosition)
 //================================================================================================//
 //Local variables:                                                                                //
 //1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. If the linked list is not empty, traverse the linked list and free the memory of each node.  //
-//   Update the first pointer to NULL after freeing the memory of each node.                      //
-//3. Finally, free the memory of the first pointer.                                               //
-//4. Display a message that the linked list has been deleted.                                     //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
 void SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteList()
 {
-    if((iCountNode == 0) && (pHead == NULL))
-    {
-        cout<<"linkedlist is already empty"<<endl;
-        return;
-    }
-
     struct sNode<Generic> *ptempdelete = pHead;
 
-    while(pHead != NULL)
+    while(pHead -> pNext != nullptr)
     {
         ptempdelete = pHead;
         pHead = pHead -> pNext;
 
-        cout<<"Node with data "<<ptempdelete -> gData<<" deleted from the singly linear linked list"<<endl;
+        delete ptempdelete;
+        ptempdelete = nullptr;
 
-        free(ptempdelete);
         iCountNode--;
+        iCountNode_Main--;
     }
 
-    free(pHead);
+    delete pHead;
+    pHead = nullptr;
 
-    cout<<"Singly Linear Linked-List has been deleted"<<endl;
+    iCountNode--;
+    iCountNode_Main--;
 }
 
 
@@ -1271,30 +878,17 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteList()
 //1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
 //2. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
 //3. int : temporary variable to store the data of the node .                                     //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. If the linked list is not empty, traverse the linked list and compare the data of each node  //
-//   with the data of the next node. If the data of the first node is greater than the data of    //
-//   the next node, swap the data of the two nodes. Repeat this process till the last node.       //
-//3. Finally, display a message that the linked list has been sorted in ascending order.          //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
 void SINGLY_LINEAR_LINKEDLIST<Generic>::SortAscending()
 {
-    if((iCountNode == 0) && (pHead == NULL))
-    {
-        cout<<"linkedlist is empty"<<endl;
-        return;
-    }
-
-    Generic gtransfer;
     struct sNode<Generic> *ptemp1 = pHead;
     struct sNode<Generic> *ptemp2 = pHead;
+    Generic gtransfer = 0;
 
-    for(ptemp1 = pHead;ptemp1 -> pNext != NULL;ptemp1 = ptemp1 -> pNext)
+    for(ptemp1 = pHead;ptemp1 -> pNext != nullptr;ptemp1 = ptemp1 -> pNext)
     {
-        for(ptemp2 = ptemp1 -> pNext;ptemp2 != NULL;ptemp2 = ptemp2 -> pNext)
+        for(ptemp2 = ptemp1 -> pNext;ptemp2 != nullptr;ptemp2 = ptemp2 -> pNext)
         {
             if(ptemp1 -> gData > ptemp2 -> gData)
             {
@@ -1304,8 +898,6 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::SortAscending()
             }
         }
     }
-
-    cout<<"Singly Linear Linked-List has been sorted as in ascending order"<<endl;
 }
 
 
@@ -1319,27 +911,14 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::SortAscending()
 //Local variables:                                                                                //
 //1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
 //2. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. If the linked list is not empty, traverse the linked list and compare the data of each node  //
-//   with the data of the next node. If the data of the first node is greater than the data of    //
-//   the next node, swap the data of the two nodes. Repeat this process till the last node.       //
-//3. Finally, display a message that the linked list has been sorted in ascending order.          //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
 void SINGLY_LINEAR_LINKEDLIST<Generic>::Reverse()
 {
-    if((iCountNode == 0) && (pHead == NULL))
-    {
-        cout<<"linkedlist is empty"<<endl;
-        return;
-    }
+    struct sNode<Generic> *ptempNext = nullptr;
+    struct sNode<Generic> *ptempPrev = nullptr;
 
-    struct sNode<Generic> *ptempNext = NULL;
-    struct sNode<Generic> *ptempPrev = NULL;
-
-    while(pHead != NULL)
+    while(pHead != nullptr)
     {
         ptempNext = pHead -> pNext;
         pHead -> pNext = ptempPrev;
@@ -1348,8 +927,6 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::Reverse()
     }
 
     pHead = ptempPrev;
-
-    cout<<"Singly Linear Linked-List's data has been reversed"<<endl;
 }
 
 
@@ -1358,31 +935,18 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::Reverse()
 //================================================================================================//
 //Parameters: None                                                                                //
 //================================================================================================//
-//Return: struct sNode<Generic> *                                                                 //
+//Return: PsNODE                                                                                  //
 //================================================================================================//
 //Local variables:                                                                                //
 //1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
-//2. int : integer to store counter variable .                                                    //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. Count the number of nodes in the linked list .                                               //
-//3. Traverse the linked list till the middle node and return the address of the middle node.     //
+//2. int    : integer to store counter variable .                                                 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
-struct sNode<Generic> *SINGLY_LINEAR_LINKEDLIST<Generic>::FindMiddleNode()
+struct sNode<Generic> * SINGLY_LINEAR_LINKEDLIST<Generic>::FindMiddleNode() const
 {
-    if((iCountNode == 0) && (pHead == NULL))
-    {
-        cout<<"linkedlist is empty"<<endl;
-        return 0;
-    }
-
     struct sNode<Generic> *ptemp = pHead;
 
-    int iCnt = 0;
-
-    for(iCnt = 1;iCnt < ((iCountNode + 1)/2);iCnt++)
+    for(int iCnt = 1;iCnt < ((iCountNode + 1)/2);iCnt++)
     {
         ptemp = ptemp -> pNext;
     }
@@ -1394,60 +958,23 @@ struct sNode<Generic> *SINGLY_LINEAR_LINKEDLIST<Generic>::FindMiddleNode()
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //FindKthNodeFromStart() Function: returns the kth node from start from singly linear linkedlist .//
 //================================================================================================//
-//Parameters: None                                                                                //
+//Parameters:                                                                                     //
+//1. int : integer to store kth position from start .                                             //
 //================================================================================================//
 //Return: struct sNode<Generic> *                                                                 //
 //================================================================================================//
 //Local variables:                                                                                //
 //1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
-//2. int : integer to store kth position from start .                                             //
 //3. int : integer to store counter variable .                                                    //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. If the kth position is invalid, display a message that the kth position is invalid.          //
-//3. Travel the linked list till the kth node from start and return the address of the kth node.  //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
-struct sNode<Generic> *SINGLY_LINEAR_LINKEDLIST<Generic>::FindKthNodeFromStart()
+struct sNode<Generic> * SINGLY_LINEAR_LINKEDLIST<Generic>::FindKthNodeFromStart(int iKth) const
 {
-    if((iCountNode == 0) && (pHead == NULL))
-    {
-        cout<<"linkedlist is empty"<<endl;
-        return 0;
-    }
-
     struct sNode<Generic> *ptemp = pHead;
 
-    int iKth = 0;
-    cout<<"Enter the kth position from start : ";
-    cin>>iKth;
-    cout<<endl;
-    int iCnt = 0;
-
-    if((iKth < 1) || (iKth > iCountNode))
-    {
-        cout<<"Invalid position"<<endl;
-
-        cout<<"Wrong input, call function again ."<<endl;
-
-        return NULL;
-    }
-
-
-    for(iCnt = 1;iCnt < iKth;iCnt++)
+    for(int iCnt = 1;iCnt < iKth;iCnt++)
     {
         ptemp = ptemp -> pNext;
-    }
-
-    if(ptemp == NULL)
-    {
-        cout<<"Invalid position"<<endl;
-        return NULL;
-    }
-    else
-    {
-        cout<<"Data in "<<iKth<<" node from start is : "<<ptemp -> gData<<endl;
     }
 
     return ptemp;
@@ -1458,52 +985,20 @@ struct sNode<Generic> *SINGLY_LINEAR_LINKEDLIST<Generic>::FindKthNodeFromStart()
 //FindKthNodeFromMiddle() Function: returns the kth node from middle from singly linear linked    //
 // list .                                                                                         //
 //================================================================================================//
-//Parameters: None                                                                                //
+//Parameters:                                                                                     //
+//1. int : integer to store kth position from start .                                             //
+//2. int : integer to store direction of kth position from start or end .                         //
 //================================================================================================//
 //Return: struct sNode<Generic> *                                                                 //
 //================================================================================================//
 //Local variables:                                                                                //
 //1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
-//2. int : integer to store kth position from start .                                             //
-//3. int : integer to store counter variable .                                                    //
-//4. int : integer to store direction of kth position from start or end .                         //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. If the kth position is invalid, display a message that the kth position is invalid.          //
-//3. If the kth position is random, traverse the linked list till the kth node from middle and    //
-//   return the address of the kth node.                                                          //
+//2. int : integer to store counter variable .                                                    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
-struct sNode<Generic> *SINGLY_LINEAR_LINKEDLIST<Generic>::FindKthNodeFromMiddle()
+struct sNode<Generic> * SINGLY_LINEAR_LINKEDLIST<Generic>::FindKthNodeFromMiddle(int iKth,int iDirection) const
 {
-    if((iCountNode == 0) && (pHead == NULL))
-    {
-        cout<<"linkedlist is empty"<<endl;
-        return 0;
-    }
-
     struct sNode<Generic> *ptemp = pHead;
-
-    int iKth = 0;
-    cout<<"Enter the kth position from middle : ";
-    cin>>iKth;
-    cout<<endl;
-    int iDirection = 0;
-    cout<<"Kth node from start or end ? >>Press 1 : FOR start [OR] >>Press 2 : FOR end ::: Your choice : ";
-    cin>>iDirection;
-    cout<<endl;
-    int iCnt = 0;
-
-
-    if((iKth < 1) || (iKth >= ((iCountNode + 1)/2)))
-    {
-        cout<<"Invalid position"<<endl;
-
-        cout<<"Wrong input, call function again ."<<endl;
-
-        return NULL;
-    }
 
     if(iDirection == 1)
     {
@@ -1514,26 +1009,9 @@ struct sNode<Generic> *SINGLY_LINEAR_LINKEDLIST<Generic>::FindKthNodeFromMiddle(
         iKth = ((iCountNode + 1)/2) + iKth;
     }
 
-    for(iCnt = 1;iCnt < iKth;iCnt++)
+    for(int iCnt = 1;iCnt < iKth;iCnt++)
     {
         ptemp = ptemp -> pNext;
-    }
-
-    if(ptemp == NULL)
-    {
-        cout<<"Invalid position"<<endl;
-        return NULL;
-    }
-    else
-    {
-        if(iDirection == 1)
-        {
-            cout<<"Data in "<<iKth<<" node from middle to start is : "<<ptemp -> gData<<endl;
-        }
-        else
-        {
-            cout<<"Data in "<<iKth<<" node from middle to end is : "<<ptemp -> gData<<endl;
-        }
     }
 
     return ptemp;
@@ -1543,62 +1021,23 @@ struct sNode<Generic> *SINGLY_LINEAR_LINKEDLIST<Generic>::FindKthNodeFromMiddle(
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //FindKthNodeFromEnd() Function: returns the kth node from end from singly linear linkedlist .    //
 //================================================================================================//
-//Parameters: None                                                                                //
+//Parameters:                                                                                     //
+//1. int : variable as offset from start of list to find .                                        //
 //================================================================================================//
-//Return: struct sNode<Generic> *                                                                 //
+//Return: PsNODE                                                                                  //
 //================================================================================================//
 //Local variables:                                                                                //
-//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
-//2. int : integer to store kth position from start .                                             //
-//3. int : integer to store counter variable .                                                    //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. If the kth position is invalid, display a message that the kth position is invalid.          //
-//3. If the kth position is random, traverse the linked list till the kth node from end and       //
-//   return the address of the kth node.                                                          //
+//1. PsNODE : temporary pointer to traverse the linked list .                                     //
+//2. int    : integer to store counter variable .                                                 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
-struct sNode<Generic> *SINGLY_LINEAR_LINKEDLIST<Generic>::FindKthNodeFromEnd()
+struct sNode<Generic> * SINGLY_LINEAR_LINKEDLIST<Generic>::FindKthNodeFromEnd(int iKth) const
 {
-    if((iCountNode == 0) && (pHead == NULL))
-    {
-        cout<<"linkedlist is empty"<<endl;
-        return 0;
-    }
-
     struct sNode<Generic> *ptemp = pHead;
 
-    int iKth = 0;
-    cout<<"Enter the kth position from end : ";
-    cin>>iKth;
-    cout<<endl;
-    int iCnt = 0;
-
-    if((iKth < 1) || (iKth > iCountNode))
-    {
-        cout<<"Invalid position"<<endl;
-
-        cout<<"Wrong input, call function again ."<<endl;
-
-        return NULL;
-    }
-
-    int iIndex = iCountNode - iKth + 1;
-
-    for(iCnt = 1;iCnt < iIndex;iCnt++)
+    for(int iCnt = 1;iCnt < (iCountNode - iKth + 1);iCnt++)
     {
         ptemp = ptemp -> pNext;
-    }
-
-    if(ptemp == NULL)
-    {
-        cout<<"Invalid position"<<endl;
-        return NULL;
-    }
-    else
-    {
-        cout<<"Data in "<<iKth<<" node from end is : "<<ptemp -> gData<<endl;
     }
 
     return ptemp;
@@ -1615,14 +1054,6 @@ struct sNode<Generic> *SINGLY_LINEAR_LINKEDLIST<Generic>::FindKthNodeFromEnd()
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //Manual() Function: A guide for the usage of singly-linear-linked-list .                         //
-//================================================================================================//
-//Parameters: None                                                                                //
-//================================================================================================//
-//Return: void                                                                                    //
-//================================================================================================//
-//Local variables: None                                                                           //
-//================================================================================================//
-//Algorithm: None                                                                                 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
 void SINGLY_LINEAR_LINKEDLIST<Generic>::Manual()
@@ -1654,7 +1085,6 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::Manual()
     cout<<"SEARCHING AND MERGING"<<endl;
     cout<<"To Search a Specific Value in linkedlist  : press I"<<endl;
     cout<<"To Reverse the linkedList                 : press J"<<endl;
-    cout<<"To Concatenate two linkedlists            : press K"<<endl;
     cout<<"To Sort the linkedlist                    : press M"<<endl<<endl;
 
     cout<<"UPDATING"<<endl;
@@ -1703,7 +1133,7 @@ int main()
 {
     cout<<"Welcome to Rajas's Application of Generic-Singly-Linear-LinkedList"<<endl<<endl;
 
-    char siChoiceMode[] = "0";
+    char siChoiceMode[] = {"\0"};
     char cChoiceFunction = '\0';
 
     int iEntryCount = 0;
@@ -1712,6 +1142,8 @@ int main()
     SINGLY_LINEAR_LINKEDLIST <int>SinglyLinearLL_Integer;
     SINGLY_LINEAR_LINKEDLIST <float>SinglyLinearLL_Float;
 
+    int iPosition1 = 0,iRet = 0;
+    bool bRet = false;
 
     while(1)
     {
@@ -1741,9 +1173,8 @@ int main()
 
             siChoiceMode[0] = '\0';
 
-            int iNo1 = 0,iNo2,iPosition1 = 0,iRet = 0;
-            bool bRet = false;
-            struct sNode<int> *pRet = NULL;
+            int iNo1 = 0,iNo2,iPosition1 = 0;
+            struct sNode<int> *pRet = nullptr;
 
             while(atoi(siChoiceMode) != 4)
             {
@@ -1758,12 +1189,10 @@ int main()
 
                 if(atoi(siChoiceMode) == 1)
                 {
-                    SinglyLinearLL_Integer.Manual();
+                    SinglyLinearLL_Integer.Manual();//Display the manual for the application
                 }
                 else if(atoi(siChoiceMode) == 2)
                 {
-                    siChoiceMode[0] = '\0';
-
                     cout<<"Active Mode : SIMPLE ACCESS"<<endl;
 
                     while(atoi(siChoiceMode) != 1)
@@ -1779,53 +1208,122 @@ int main()
                             case 'A':
                             case 'a':
                                 cout<<"Enter the data to be inserted in the linked list : ";
-                                cin>>iNo1;
-                                cout<<endl;
+                                while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
 
                                 SinglyLinearLL_Integer.InsertFirst(iNo1);
+                                cout<<"Node with data "<<iNo1<<" inserted at the beginning of the singly linear linked list"<<endl;
+
                                 break;
                             case 'B':
                             case 'b':
                                 cout<<"Enter the data to be inserted in the linked list : ";
-                                cin>>iNo1;
-                                cout<<endl;
+                                while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
 
                                 SinglyLinearLL_Integer.InsertLast(iNo1);
+                                cout<<"Node with data "<<iNo1<<" inserted at the end of the singly linear linked list"<<endl;
+
                                 break;
                             case 'C':
                             case 'c':
                                 cout<<"Enter the data to be inserted in the linked list : ";
-                                cin>>iNo1;
-                                cout<<endl;
+                                while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
 
                                 cout<<"Enter the position at which the data is to be inserted : ";
                                 cin>>iPosition1;
                                 cout<<endl;
+                                while((iPosition1 < 1) || (iPosition1 > (SinglyLinearLL_Integer.iCountNode_Main + 1)))
+                                {
+                                    cout<<"Enter the position between 1 <-> "<<(SinglyLinearLL_Integer.iCountNode_Main + 1)<<" : ";
+                                    while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
+                                }
 
                                 SinglyLinearLL_Integer.InsertAtPosition(iNo1,iPosition1);
+                                cout<<"Node with data "<<iNo1<<" inserted at position "<<iPosition1<<" in the singly linear linked list"<<endl;
 
                                 break;
                             case 'D':
                             case 'd':
-                                SinglyLinearLL_Integer.DeleteFirst();
+                                if(SinglyLinearLL_Integer.iCountNode_Main != 0)
+                                {
+                                    iRet = SinglyLinearLL_Integer.DeleteFirst();
+                                    cout<<"Node with data "<<iRet<<" deleted from the beginning of the singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'E':
                             case 'e':
-                                SinglyLinearLL_Integer.DeleteLast();
+                                if(SinglyLinearLL_Integer.iCountNode_Main != 0)
+                                {
+                                    iRet = SinglyLinearLL_Integer.DeleteLast();
+                                    cout<<"Node with data "<<iRet<<" deleted from the end of the singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'F':
                             case 'f':
-                                cout<<"Enter the position at which the data is to be deleted : ";
-                                cin>>iPosition1;
+                                if(SinglyLinearLL_Integer.iCountNode_Main != 0)
+                                {
+                                    cout<<"Enter the position from which the data is to be deleted : ";
+                                    cin>>iPosition1;
+                                    cout<<endl;
+                                    while((iPosition1 < 1) || (iPosition1 > SinglyLinearLL_Integer.iCountNode_Main))
+                                    {
+                                        cout<<"Enter the position between 1 <-> "<<SinglyLinearLL_Integer.iCountNode_Main<<" : ";
+                                        while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
 
-                                SinglyLinearLL_Integer.DeleteAtPosition(iPosition1);
+                                    iRet = SinglyLinearLL_Integer.DeleteAtPosition(iPosition1);
+                                    cout<<"Node with data "<<iRet<<" deleted from the position "<<iPosition1<<" from the singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'G':
                             case 'g':
-                                SinglyLinearLL_Integer.Display();
+                                if(SinglyLinearLL_Integer.iCountNode_Main != 0)
+                                {
+                                    SinglyLinearLL_Integer.Display();
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'H':
@@ -1841,8 +1339,8 @@ int main()
                                 break;
                             case 'Z':
                             case 'z':
-                                siChoiceMode[0] = '1';
                                 cout<<"Exiting SIMPLE ACCESS mode"<<endl;
+                                siChoiceMode[0] = '1';
 
                                 break;
                             default:
@@ -1852,9 +1350,7 @@ int main()
                 }
                 else if(atoi(siChoiceMode) == 3)
                 {
-                    siChoiceMode[0] = '\0';
-
-                    cout<<"Active Mode : ADDED ACCESS"<<endl;
+                    cout<<"Active Mode : ADDED FEATURES"<<endl;
 
                     while(atoi(siChoiceMode) != 1)
                     {
@@ -1873,7 +1369,14 @@ int main()
                                 break;
                             case 'G':
                             case 'g':
-                                SinglyLinearLL_Integer.Display();
+                                if(SinglyLinearLL_Integer.iCountNode_Main != 0)
+                                {
+                                    SinglyLinearLL_Integer.Display();
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'H':
@@ -1884,171 +1387,454 @@ int main()
                                 break;
                             case 'I':
                             case 'i':
-                                cout<<"Enter the value to be searched in the linked list : ";
-                                cin>>iNo1;
+                                if(SinglyLinearLL_Integer.iCountNode_Main != 0)
+                                {
+                                    cout<<"Enter the value to be searched in the linked list : ";
+                                    while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                bRet = SinglyLinearLL_Integer.Search(iNo1);
+                                    iRet = SinglyLinearLL_Integer.Search(iNo1);
+                                    if(iRet != -1)
+                                    {
+                                        cout<<"Element "<<iNo1<<" is found at position "<<iRet<<" in singly linear linked list"<<endl;
+                                    }
+                                    else
+                                    {
+                                        cout<<"Element "<<iNo1<<" wasn't found in singly linear linked list"<<endl;
+                                    }
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'J':
                             case 'j':
-                                SinglyLinearLL_Integer.Reverse();
+                                if(SinglyLinearLL_Integer.iCountNode_Main != 0)
+                                {
+                                    SinglyLinearLL_Integer.Reverse();
+                                    cout<<"!! Linked-List has been Reversed !!"<<endl;
+                                }
 
-                                break;
-                            case 'K':
-                            case 'k':
-                                SinglyLinearLL_Integer.Concat();
-
-                                break;
-                            case 'L':
-                            case 'l':
-                                //SinglyLinearLL.Merge(&pHead1,&pHead1);
+                                cout<<"Linked-List is empty"<<endl;
 
                                 break;
                             case 'M':
                             case 'm':
-                                SinglyLinearLL_Integer.SortAscending();
+                                if(SinglyLinearLL_Integer.iCountNode_Main != 0)
+                                {
+                                    SinglyLinearLL_Integer.SortAscending();
+                                    cout<<"Singly Linear Linked-List has been sorted in ascending order"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'N':
                             case 'n':
-                                cout<<"Enter the value to be updated in the linked list : ";
-                                cin>>iNo1;
-                                cout<<endl;
+                                if(SinglyLinearLL_Integer.iCountNode_Main != 0)
+                                {
+                                    cout<<"Enter the value to be updated in the linked list : ";
+                                    while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                cout<<"Enter the value to be updated with : ";
-                                cin>>iNo2;
+                                    cout<<"Enter the value to be updated with : ";
+                                    while((!(cin>>iNo2)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                SinglyLinearLL_Integer.UpdateNoForNo(iNo1,iNo2);
+                                    bRet = SinglyLinearLL_Integer.UpdateNoForNo(iNo1,iNo2);
+                                    if(bRet == true)
+                                    {
+                                        cout<<"Element "<<iNo1<<" has been updated to "<<iNo2<<" in singly linear linked list"<<endl;
+                                    }
+                                    else
+                                    {
+                                        cout<<"Element "<<iNo1<<" not found in singly linear linked list"<<endl;
+                                    }
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'O':
                             case 'o':
-                                cout<<"Enter the value to be updated at a specific position in the linked list : ";
-                                cin>>iNo1;
-                                cout<<endl;
+                                if(SinglyLinearLL_Integer.iCountNode_Main != 0)
+                                {
+                                    cout<<"Enter the value to be updated at a specific position in the linked list : ";
+                                    while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                cout<<"Enter the position at which the data is to be updated : ";
-                                cin>>iPosition1;
+                                    cout<<"Enter the position at which the data is to be updated : ";
+                                    while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                SinglyLinearLL_Integer.UpdateNoForPosition(iNo1,iPosition1);
+                                    while((iPosition1 < 1) || (iPosition1 > SinglyLinearLL_Integer.iCountNode_Main))
+                                    {
+                                        cout<<"Enter the position between 1 <-> "<<SinglyLinearLL_Integer.iCountNode_Main<<" : ";
+                                        while((!(cin>>iPosition1) || (cin.peek() != '\n')))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+                                    SinglyLinearLL_Integer.UpdateNoForPosition(iNo1,iPosition1);
+                                    cout<<"Element at position "<<iPosition1<<" has been updated to "<<iNo1<<" in singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'P':
                             case 'p':
-                                cout<<"Enter the data to be inserted in the linked list : ";
-                                cin>>iNo1;
-                                cout<<endl;
+                                if(SinglyLinearLL_Integer.iCountNode_Main > 0)
+                                {
+                                    cout<<"Enter the data to be inserted in the linked list : ";
+                                    while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                cout<<"Enter the position before which the data is to be inserted : ";
-                                cin>>iPosition1;
-                                cout<<endl;
+                                    cout<<"Enter the position before which the data is to be inserted : ";
+                                    while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                SinglyLinearLL_Integer.InsertBefore(iNo1,iPosition1);
+                                    while((iPosition1 < 1) || (iPosition1 > SinglyLinearLL_Integer.iCountNode_Main))
+                                    {
+                                        cout<<"Enter the position between 1 <-> "<<SinglyLinearLL_Integer.iCountNode_Main<<" : ";
+                                        while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+                                    SinglyLinearLL_Integer.InsertBefore(iNo1,iPosition1);
+                                    cout<<"Node with data "<<iNo1<<" inserted at the position "<<iPosition1<<" of the singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Not Enough Nodes!!"<<endl;
+                                }
 
                                 break;
                             case 'Q':
                             case 'q':
-                                cout<<"Enter the data to be inserted in the linked list : ";
-                                cin>>iNo1;
-                                cout<<endl;
+                                if(SinglyLinearLL_Integer.iCountNode_Main > 0)
+                                {
+                                    cout<<"Enter the data to be inserted in the linked list : ";
+                                    while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
+                                    cout<<"Enter the position before which the data is to be inserted : ";
+                                    while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
+                                    while((iPosition1 < 1) || (iPosition1 > SinglyLinearLL_Integer.iCountNode_Main))
+                                    {
+                                        cout<<"Enter the position between 1 <-> "<<SinglyLinearLL_Integer.iCountNode_Main<<" : ";
+                                        while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
 
-                                cout<<"Enter the position after which the data is to be inserted : ";
-                                cin>>iPosition1;
-                                cout<<endl;
-
-                                SinglyLinearLL_Integer.InsertAfter(iNo1,iPosition1);
+                                    SinglyLinearLL_Integer.InsertAfter(iNo1,iPosition1);
+                                    cout<<"Node with data "<<iNo1<<" inserted at the position "<<(iPosition1 + 1)<<" of the singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Not Enough Nodes!!"<<endl;
+                                }
 
                                 break;
                             case 'R':
                             case 'r':
-                                cout<<"Enter the position before which the data is to be deleted : ";
-                                cin>>iPosition1;
-                                cout<<endl;
+                                if(SinglyLinearLL_Integer.iCountNode_Main > 1)
+                                {
+                                    cout<<"Enter the position before which the data is to be deleted : ";
+                                    while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                SinglyLinearLL_Integer.DeleteBefore(iPosition1);
+                                    while((iPosition1 < 2) || (iPosition1 > SinglyLinearLL_Integer.iCountNode_Main))
+                                    {
+                                        cout<<"Enter the position between 2 <-> "<<SinglyLinearLL_Integer.iCountNode_Main<<" : ";
+                                        while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+                                    iRet = SinglyLinearLL_Integer.DeleteBefore(iPosition1);
+                                    cout<<"Node with data "<<iRet<<" deleted at the position "<<iPosition1<<" of the singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Not Enough Nodes!!"<<endl;
+                                }
 
                                 break;
                             case 'S':
                             case 's':
-                                cout<<"Enter the position after which the data is to be deleted : ";
-                                cin>>iPosition1;
-                                cout<<endl;
-        
-                                SinglyLinearLL_Integer.DeleteAfter(iPosition1);
+                                if(SinglyLinearLL_Integer.iCountNode_Main > 1)
+                                {
+                                    cout<<"Enter the position before which the data is to be deleted : ";
+                                    while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
+
+                                    while((iPosition1 < 1) || (iPosition1 > (SinglyLinearLL_Integer.iCountNode_Main - 1)))
+                                    {
+                                        cout<<"Enter the position between 2 <-> "<<(SinglyLinearLL_Integer.iCountNode_Main - 1)<<" : ";
+                                        while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+                                    iRet = SinglyLinearLL_Integer.DeleteAfter(iPosition1);
+                                    cout<<"Node with data "<<iRet<<" deleted at the position "<<iPosition1<<" of the singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Not Enough Nodes!!"<<endl;
+                                }
 
                                 break;
                             case 'T':
                             case 't':
-                                SinglyLinearLL_Integer.DeleteList();
-
-                                break;
-                            case 'U':
-                            case 'u':
-                                //SinglyLinearLL_Integer.RemoveDuplicates();
+                                if(SinglyLinearLL_Integer.iCountNode_Main != 0)
+                                {
+                                    SinglyLinearLL_Integer.DeleteList();
+                                    cout<<"Linked-List has been deleted ."<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'V':
                             case 'v':
-                                pRet = SinglyLinearLL_Integer.FindMiddleNode();
-
-                                if(pRet != NULL)
+                                if(SinglyLinearLL_Integer.iCountNode_Main != 0)
                                 {
-                                    cout<<"The data in middle node from the linked list is : "<<pRet -> gData<<endl;
+                                    pRet = SinglyLinearLL_Integer.FindMiddleNode();
+
+                                    if(pRet != nullptr)
+                                    {
+                                        cout<<"The data in middle node from the linked list is : "<<pRet -> gData<<endl;
+                                    }
+                                    else
+                                    {
+                                        cout<<"Invalid position"<<endl;
+                                    }
                                 }
                                 else
                                 {
-                                    cout<<"Invalid position"<<endl;
+                                    cout<<"!!Linked_List is empty!!"<<endl;
                                 }
-
-                                break;
-                            case 'W':
-                            case 'w':
-                                cout<<"Enter the first linked list : ";
-                                cin>>iNo1;
-                                cout<<endl;
-
-                                cout<<"Enter the second linked list : ";
-                                cin>>iNo2;
-
-                                //iReturn = pRet -> iDataFindDifference();
 
                                 break;
                             case 'X':
                             case 'x':
-                                pRet = SinglyLinearLL_Integer.FindKthNodeFromStart();
+                                if(SinglyLinearLL_Integer.iCountNode_Main != 0)
+                                {
+                                    cout<<"Enter the kth position from start : ";
+                                    while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
+
+                                    while((iNo1 < 1) || (iNo1 > SinglyLinearLL_Integer.iCountNode_Main))
+                                    {
+                                        cout<<"Enter offset between 1 <-> "<<SinglyLinearLL_Integer.iCountNode_Main<<" : "<<endl;
+                                        while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+                                    pRet = SinglyLinearLL_Integer.FindKthNodeFromStart(iNo1);
+                                    cout<<"Data in "<<iNo1<<" node from start is : "<<pRet -> gData<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'Y':
                             case 'y':
-                                pRet = SinglyLinearLL_Integer.FindKthNodeFromMiddle();
+                                if(SinglyLinearLL_Integer.iCountNode_Main != 0)
+                                {
+                                    cout<<"Enter the kth position from middle : ";
+                                    while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
+                                    while((iNo1 < 1) || (iNo1 > (SinglyLinearLL_Integer.iCountNode_Main/2)))
+                                    {
+                                        cout<<"Enter offset between 1 <-> "<<(SinglyLinearLL_Integer.iCountNode_Main/2)<<" : "<<endl;
+                                        while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+                                    cout<<"Kth node from start or end ? >>Press 1 : FOR start [OR] >>Press 2 : FOR end ::: Your choice : ";
+                                    while((!(cin>>iNo2)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
+                                    while((iNo2 < 0) || (iNo2 > 1))
+                                    {
+                                        cout<<"Enter 0 or 1 : "<<endl;
+                                        while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+
+                                    pRet = SinglyLinearLL_Integer.FindKthNodeFromMiddle(iNo1,iNo2);
+                                    if(iNo2 == 1)
+                                    {
+                                        cout<<"Data in "<<iNo1<<" node from middle to start is : "<<pRet -> gData<<endl;
+                                    }
+                                    else
+                                    {
+                                        cout<<"Data in "<<iNo1<<" node from middle to end is : "<<pRet -> gData<<endl;
+                                    }
+
+                                    break;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'Z':
                             case 'z':
-                                pRet = SinglyLinearLL_Integer.FindKthNodeFromEnd();
+                                if(SinglyLinearLL_Integer.iCountNode_Main != 0)
+                                {
+                                    cout<<"Enter the kth position from end : ";
+                                    while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
+
+                                    while((iNo1 < 1) || (iNo1 > SinglyLinearLL_Integer.iCountNode_Main))
+                                    {
+                                        cout<<"Enter offset between 1 <-> "<<SinglyLinearLL_Integer.iCountNode_Main<<" : "<<endl;
+                                        while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+                                    pRet = SinglyLinearLL_Integer.FindKthNodeFromEnd(iNo1);
+                                    cout<<"Data in "<<iNo1<<" node from start is : "<<pRet -> gData<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'A':
                             case 'a':
-                                siChoiceMode[0] = '1';
                                 cout<<"Exiting ADDED FEATURES mode"<<endl;
+                                siChoiceMode[0] = '1';
 
                                 break;
                             default:
                                 cout<<"Invalid choice"<<endl;
                         }
                     }
+
+                    continue;
                 }
                 else if(atoi(siChoiceMode) == 4)
                 {
-                    cout<<"Exiting the Integer-Linkedlist"<<endl;
+                    cout<<"Exiting the RAJAS's SINGLY LINEAR LINKEDLIST application"<<endl;
                     break;
                 }
                 else
                 {
-                    cout<<"Invalid Choice"<<endl;
+                    cout<<"Invalid choice"<<endl;
+                    continue;
                 }
             }
         }
@@ -2071,9 +1857,7 @@ int main()
             siChoiceMode[0] = '\0';
 
             float fNo1 = 0,fNo2,fRet = 0;
-            int iPosition1 = 0;
-            bool bRet = false;
-            struct sNode<float> *pRet = NULL;
+            struct sNode<float> *pRet = nullptr;
 
             while(atoi(siChoiceMode) != 4)
             {
@@ -2088,12 +1872,10 @@ int main()
 
                 if(atoi(siChoiceMode) == 1)
                 {
-                    SinglyLinearLL_Float.Manual();
+                    SinglyLinearLL_Float.Manual();//Display the manual for the application
                 }
                 else if(atoi(siChoiceMode) == 2)
                 {
-                    siChoiceMode[0] = '\0';
-
                     cout<<"Active Mode : SIMPLE ACCESS"<<endl;
 
                     while(atoi(siChoiceMode) != 1)
@@ -2109,59 +1891,128 @@ int main()
                             case 'A':
                             case 'a':
                                 cout<<"Enter the data to be inserted in the linked list : ";
-                                cin>>fNo1;
-                                cout<<endl;
+                                while((!(cin>>fNo1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
 
                                 SinglyLinearLL_Float.InsertFirst(fNo1);
+                                cout<<"Node with data "<<fNo1<<" inserted at the beginning of the singly linear linked list"<<endl;
+
                                 break;
                             case 'B':
                             case 'b':
                                 cout<<"Enter the data to be inserted in the linked list : ";
-                                cin>>fNo1;
-                                cout<<endl;
+                                while((!(cin>>fNo1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
 
                                 SinglyLinearLL_Float.InsertLast(fNo1);
+                                cout<<"Node with data "<<fNo1<<" inserted at the end of the singly linear linked list"<<endl;
+
                                 break;
                             case 'C':
                             case 'c':
                                 cout<<"Enter the data to be inserted in the linked list : ";
-                                cin>>fNo1;
-                                cout<<endl;
+                                while((!(cin>>fNo1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
 
                                 cout<<"Enter the position at which the data is to be inserted : ";
                                 cin>>iPosition1;
                                 cout<<endl;
+                                while((iPosition1 < 1) || (iPosition1 > (SinglyLinearLL_Float.iCountNode_Main + 1)))
+                                {
+                                    cout<<"Enter the position between 1 <-> "<<(SinglyLinearLL_Float.iCountNode_Main + 1)<<" : ";
+                                    while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
+                                }
 
                                 SinglyLinearLL_Float.InsertAtPosition(fNo1,iPosition1);
+                                cout<<"Node with data "<<fNo1<<" inserted at position "<<iPosition1<<" in the singly linear linked list"<<endl;
 
                                 break;
                             case 'D':
                             case 'd':
-                                SinglyLinearLL_Float.DeleteFirst();
+                                if(SinglyLinearLL_Float.iCountNode_Main != 0)
+                                {
+                                    fRet = SinglyLinearLL_Float.DeleteFirst();
+                                    cout<<"Node with data "<<fRet<<" deleted from the beginning of the singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'E':
                             case 'e':
-                                SinglyLinearLL_Float.DeleteLast();
+                                if(SinglyLinearLL_Float.iCountNode_Main != 0)
+                                {
+                                    fRet = SinglyLinearLL_Float.DeleteLast();
+                                    cout<<"Node with data "<<fRet<<" deleted from the end of the singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'F':
                             case 'f':
-                                cout<<"Enter the position at which the data is to be deleted : ";
-                                cin>>iPosition1;
+                                if(SinglyLinearLL_Float.iCountNode_Main != 0)
+                                {
+                                    cout<<"Enter the position from which the data is to be deleted : ";
+                                    cin>>iPosition1;
+                                    cout<<endl;
+                                    while((iPosition1 < 1) || (iPosition1 > SinglyLinearLL_Float.iCountNode_Main))
+                                    {
+                                        cout<<"Enter the position between 1 <-> "<<SinglyLinearLL_Float.iCountNode_Main<<" : ";
+                                        while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
 
-                                SinglyLinearLL_Float.DeleteAtPosition(iPosition1);
+                                    fRet = SinglyLinearLL_Float.DeleteAtPosition(iPosition1);
+                                    cout<<"Node with data "<<fRet<<" deleted from the position "<<iPosition1<<" from the singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'G':
                             case 'g':
-                                SinglyLinearLL_Float.Display();
+                                if(SinglyLinearLL_Float.iCountNode_Main != 0)
+                                {
+                                    SinglyLinearLL_Float.Display();
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'H':
                             case 'h':
-                                fRet = SinglyLinearLL_Float.Count();
-                                cout<<"Number of nodes in the linked list are : "<<fRet<<endl;
+                                iRet = SinglyLinearLL_Float.Count();
+                                cout<<"Number of nodes in the linked list are : "<<iRet<<endl;
 
                                 break;
                             case 'Y':
@@ -2171,8 +2022,8 @@ int main()
                                 break;
                             case 'Z':
                             case 'z':
-                                siChoiceMode[0] = '1';
                                 cout<<"Exiting SIMPLE ACCESS mode"<<endl;
+                                siChoiceMode[0] = '1';
 
                                 break;
                             default:
@@ -2182,9 +2033,7 @@ int main()
                 }
                 else if(atoi(siChoiceMode) == 3)
                 {
-                    siChoiceMode[0] = '\0';
-
-                    cout<<"Active Mode : ADDED ACCESS"<<endl;
+                    cout<<"Active Mode : ADDED FEATURES"<<endl;
 
                     while(atoi(siChoiceMode) != 1)
                     {
@@ -2203,181 +2052,470 @@ int main()
                                 break;
                             case 'G':
                             case 'g':
-                                SinglyLinearLL_Float.Display();
+                                if(SinglyLinearLL_Float.iCountNode_Main != 0)
+                                {
+                                    SinglyLinearLL_Float.Display();
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'H':
                             case 'h':
-                                fRet = SinglyLinearLL_Float.Count();
-                                cout<<"Number of nodes in the linked list are : "<<fRet<<endl;
+                                iRet = SinglyLinearLL_Float.Count();
+                                cout<<"Number of nodes in the linked list are : "<<iRet<<endl;
 
                                 break;
                             case 'I':
                             case 'i':
-                                cout<<"Enter the value to be searched in the linked list : ";
-                                cin>>fNo1;
+                                if(SinglyLinearLL_Float.iCountNode_Main != 0)
+                                {
+                                    cout<<"Enter the value to be searched in the linked list : ";
+                                    while((!(cin>>fNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                bRet = SinglyLinearLL_Float.Search(fNo1);
+                                    iRet = SinglyLinearLL_Float.Search(fNo1);
+                                    if(iRet != -1)
+                                    {
+                                        cout<<"Element "<<fNo1<<" is found at position "<<iRet<<" in singly linear linked list"<<endl;
+                                    }
+                                    else
+                                    {
+                                        cout<<"Element "<<fNo1<<" wasn't found in singly linear linked list"<<endl;
+                                    }
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'J':
                             case 'j':
-                                SinglyLinearLL_Float.Reverse();
+                                if(SinglyLinearLL_Float.iCountNode_Main != 0)
+                                {
+                                    SinglyLinearLL_Float.Reverse();
+                                    cout<<"!! Linked-List has been Reversed !!"<<endl;
+                                }
 
-                                break;
-                            case 'K':
-                            case 'k':
-                                SinglyLinearLL_Float.Concat();
-
-                                break;
-                            case 'L':
-                            case 'l':
-                                //SinglyLinearLL_Float.Merge(&pHead1,&pHead1);
+                                cout<<"Linked-List is empty"<<endl;
 
                                 break;
                             case 'M':
                             case 'm':
-                                SinglyLinearLL_Float.SortAscending();
+                                if(SinglyLinearLL_Float.iCountNode_Main != 0)
+                                {
+                                    SinglyLinearLL_Float.SortAscending();
+                                    cout<<"Singly Linear Linked-List has been sorted in ascending order"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'N':
                             case 'n':
-                                cout<<"Enter the value to be updated in the linked list : ";
-                                cin>>fNo1;
-                                cout<<endl;
+                                if(SinglyLinearLL_Float.iCountNode_Main != 0)
+                                {
+                                    cout<<"Enter the value to be updated in the linked list : ";
+                                    while((!(cin>>fNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                cout<<"Enter the value to be updated with : ";
-                                cin>>fNo2;
+                                    cout<<"Enter the value to be updated with : ";
+                                    while((!(cin>>fNo2)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                SinglyLinearLL_Float.UpdateNoForNo(fNo1,fNo2);
+                                    bRet = SinglyLinearLL_Float.UpdateNoForNo(fNo1,fNo2);
+                                    if(bRet == true)
+                                    {
+                                        cout<<"Element "<<fNo1<<" has been updated to "<<fNo2<<" in singly linear linked list"<<endl;
+                                    }
+                                    else
+                                    {
+                                        cout<<"Element "<<fNo1<<" not found in singly linear linked list"<<endl;
+                                    }
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'O':
                             case 'o':
-                                cout<<"Enter the value to be updated at a specific position in the linked list : ";
-                                cin>>fNo1;
-                                cout<<endl;
+                                if(SinglyLinearLL_Float.iCountNode_Main != 0)
+                                {
+                                    cout<<"Enter the value to be updated at a specific position in the linked list : ";
+                                    while((!(cin>>fNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                cout<<"Enter the position at which the data is to be updated : ";
-                                cin>>iPosition1;
+                                    cout<<"Enter the position at which the data is to be updated : ";
+                                    while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                SinglyLinearLL_Float.UpdateNoForPosition(fNo1,iPosition1);
+                                    while((iPosition1 < 1) || (iPosition1 > SinglyLinearLL_Float.iCountNode_Main))
+                                    {
+                                        cout<<"Enter the position between 1 <-> "<<SinglyLinearLL_Float.iCountNode_Main<<" : ";
+                                        while((!(cin>>iPosition1) || (cin.peek() != '\n')))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+                                    SinglyLinearLL_Float.UpdateNoForPosition(fNo1,iPosition1);
+                                    cout<<"Element at position "<<iPosition1<<" has been updated to "<<fNo1<<" in singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'P':
                             case 'p':
-                                cout<<"Enter the data to be inserted in the linked list : ";
-                                cin>>fNo1;
-                                cout<<endl;
+                                if(SinglyLinearLL_Float.iCountNode_Main > 0)
+                                {
+                                    cout<<"Enter the data to be inserted in the linked list : ";
+                                    while((!(cin>>fNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                cout<<"Enter the position before which the data is to be inserted : ";
-                                cin>>iPosition1;
-                                cout<<endl;
+                                    cout<<"Enter the position before which the data is to be inserted : ";
+                                    while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                SinglyLinearLL_Float.InsertBefore(fNo1,iPosition1);
+                                    while((iPosition1 < 1) || (iPosition1 > SinglyLinearLL_Float.iCountNode_Main))
+                                    {
+                                        cout<<"Enter the position between 1 <-> "<<SinglyLinearLL_Float.iCountNode_Main<<" : ";
+                                        while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+                                    SinglyLinearLL_Float.InsertBefore(fNo1,iPosition1);
+                                    cout<<"Node with data "<<fNo1<<" inserted at the position "<<iPosition1<<" of the singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Not Enough Nodes!!"<<endl;
+                                }
 
                                 break;
                             case 'Q':
                             case 'q':
-                                cout<<"Enter the data to be inserted in the linked list : ";
-                                cin>>fNo1;
-                                cout<<endl;
+                                if(SinglyLinearLL_Float.iCountNode_Main > 0)
+                                {
+                                    cout<<"Enter the data to be inserted in the linked list : ";
+                                    while((!(cin>>fNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
+                                    cout<<"Enter the position before which the data is to be inserted : ";
+                                    while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
+                                    while((iPosition1 < 1) || (iPosition1 > SinglyLinearLL_Float.iCountNode_Main))
+                                    {
+                                        cout<<"Enter the position between 1 <-> "<<SinglyLinearLL_Float.iCountNode_Main<<" : ";
+                                        while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
 
-                                cout<<"Enter the position after which the data is to be inserted : ";
-                                cin>>iPosition1;
-                                cout<<endl;
-
-                                SinglyLinearLL_Float.InsertAfter(fNo1,iPosition1);
+                                    SinglyLinearLL_Float.InsertAfter(fNo1,iPosition1);
+                                    cout<<"Node with data "<<fNo1<<" inserted at the position "<<(iPosition1 + 1)<<" of the singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Not Enough Nodes!!"<<endl;
+                                }
 
                                 break;
                             case 'R':
                             case 'r':
-                                cout<<"Enter the position before which the data is to be deleted : ";
-                                cin>>iPosition1;
-                                cout<<endl;
+                                if(SinglyLinearLL_Float.iCountNode_Main > 1)
+                                {
+                                    cout<<"Enter the position before which the data is to be deleted : ";
+                                    while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                SinglyLinearLL_Float.DeleteBefore(iPosition1);
+                                    while((iPosition1 < 2) || (iPosition1 > SinglyLinearLL_Float.iCountNode_Main))
+                                    {
+                                        cout<<"Enter the position between 2 <-> "<<SinglyLinearLL_Float.iCountNode_Main<<" : ";
+                                        while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+                                    fRet = SinglyLinearLL_Float.DeleteBefore(iPosition1);
+                                    cout<<"Node with data "<<fRet<<" deleted at the position "<<iPosition1<<" of the singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Not Enough Nodes!!"<<endl;
+                                }
 
                                 break;
                             case 'S':
                             case 's':
-                                cout<<"Enter the position after which the data is to be deleted : ";
-                                cin>>iPosition1;
-                                cout<<endl;
-        
-                                SinglyLinearLL_Float.DeleteAfter(iPosition1);
+                                if(SinglyLinearLL_Float.iCountNode_Main > 1)
+                                {
+                                    cout<<"Enter the position before which the data is to be deleted : ";
+                                    while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
+
+                                    while((iPosition1 < 1) || (iPosition1 > (SinglyLinearLL_Float.iCountNode_Main - 1)))
+                                    {
+                                        cout<<"Enter the position between 2 <-> "<<(SinglyLinearLL_Float.iCountNode_Main - 1)<<" : ";
+                                        while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+                                    fRet = SinglyLinearLL_Float.DeleteAfter(iPosition1);
+                                    cout<<"Node with data "<<fRet<<" deleted at the position "<<iPosition1<<" of the singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Not Enough Nodes!!"<<endl;
+                                }
 
                                 break;
                             case 'T':
                             case 't':
-                                SinglyLinearLL_Float.DeleteList();
-
-                                break;
-                            case 'U':
-                            case 'u':
-                                //SinglyLinearLL_Float.RemoveDuplicates();
+                                if(SinglyLinearLL_Float.iCountNode_Main != 0)
+                                {
+                                    SinglyLinearLL_Float.DeleteList();
+                                    cout<<"Linked-List has been deleted ."<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'V':
                             case 'v':
-                                pRet = SinglyLinearLL_Float.FindMiddleNode();
-
-                                if(pRet != NULL)
+                                if(SinglyLinearLL_Float.iCountNode_Main != 0)
                                 {
-                                    cout<<"The data in middle node from the linked list is : "<<pRet -> gData<<endl;
+                                    pRet = SinglyLinearLL_Float.FindMiddleNode();
+
+                                    if(pRet != nullptr)
+                                    {
+                                        cout<<"The data in middle node from the linked list is : "<<pRet -> gData<<endl;
+                                    }
+                                    else
+                                    {
+                                        cout<<"Invalid position"<<endl;
+                                    }
                                 }
                                 else
                                 {
-                                    cout<<"Invalid position"<<endl;
+                                    cout<<"!!Linked_List is empty!!"<<endl;
                                 }
-
-                                break;
-                            case 'W':
-                            case 'w':
-                                cout<<"Enter the first linked list : ";
-                                cin>>fNo1;
-                                cout<<endl;
-
-                                cout<<"Enter the second linked list : ";
-                                cin>>fNo2;
-
-                                //iReturn = pRet -> iDataFindDifference();
 
                                 break;
                             case 'X':
                             case 'x':
-                                pRet = SinglyLinearLL_Float.FindKthNodeFromStart();
+                                if(SinglyLinearLL_Float.iCountNode_Main != 0)
+                                {
+                                    cout<<"Enter the kth position from start : ";
+                                    while((!(cin>>fNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
+
+                                    while((fNo1 < 1) || (fNo1 > SinglyLinearLL_Float.iCountNode_Main))
+                                    {
+                                        cout<<"Enter offset between 1 <-> "<<SinglyLinearLL_Float.iCountNode_Main<<" : "<<endl;
+                                        while((!(cin>>fNo1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+                                    pRet = SinglyLinearLL_Float.FindKthNodeFromStart(fNo1);
+                                    cout<<"Data in "<<fNo1<<" node from start is : "<<pRet -> gData<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'Y':
                             case 'y':
-                                pRet = SinglyLinearLL_Float.FindKthNodeFromMiddle();
+                                if(SinglyLinearLL_Float.iCountNode_Main != 0)
+                                {
+                                    cout<<"Enter the kth position from middle : ";
+                                    while((!(cin>>fNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
+                                    while((fNo1 < 1) || (fNo1 > (SinglyLinearLL_Float.iCountNode_Main/2)))
+                                    {
+                                        cout<<"Enter offset between 1 <-> "<<(SinglyLinearLL_Float.iCountNode_Main/2)<<" : "<<endl;
+                                        while((!(cin>>fNo1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+                                    cout<<"Kth node from start or end ? >>Press 1 : FOR start [OR] >>Press 0 : FOR end ::: Your choice : ";
+                                    while((!(cin>>fNo2)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
+                                    while((fNo2 < 0) || (fNo2 > 1))
+                                    {
+                                        cout<<"Enter 0 or 1 : "<<endl;
+                                        while((!(cin>>fNo2)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+
+                                    pRet = SinglyLinearLL_Float.FindKthNodeFromMiddle(fNo1,fNo2);
+                                    if(fNo2 == 1)
+                                    {
+                                        cout<<"Data in "<<fNo1<<" node from middle to start is : "<<pRet -> gData<<endl;
+                                    }
+                                    else
+                                    {
+                                        cout<<"Data in "<<fNo1<<" node from middle to end is : "<<pRet -> gData<<endl;
+                                    }
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'Z':
                             case 'z':
-                                pRet = SinglyLinearLL_Float.FindKthNodeFromEnd();
+                                if(SinglyLinearLL_Float.iCountNode_Main != 0)
+                                {
+                                    cout<<"Enter the kth position from end : ";
+                                    while((!(cin>>fNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
+
+                                    while((fNo1 < 1) || (fNo1 > SinglyLinearLL_Float.iCountNode_Main))
+                                    {
+                                        cout<<"Enter offset between 1 <-> "<<SinglyLinearLL_Float.iCountNode_Main<<" : "<<endl;
+                                        while((!(cin>>fNo1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+                                    pRet = SinglyLinearLL_Float.FindKthNodeFromEnd(fNo1);
+                                    cout<<"Data in "<<fNo1<<" node from start is : "<<pRet -> gData<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'A':
                             case 'a':
-                                siChoiceMode[0] = '1';
                                 cout<<"Exiting ADDED FEATURES mode"<<endl;
+                                siChoiceMode[0] = '1';
 
                                 break;
                             default:
                                 cout<<"Invalid choice"<<endl;
                         }
                     }
+
+                    continue;
                 }
                 else if(atoi(siChoiceMode) == 4)
                 {
-                    cout<<"Exiting the Decimal-Linkedlist"<<endl;
+                    cout<<"Exiting the RAJAS's SINGLY LINEAR LINKEDLIST application"<<endl;
+                    break;
                 }
                 else
                 {
-                    cout<<"Invalid Choice"<<endl;
+                    cout<<"Invalid choice"<<endl;
+                    continue;
                 }
             }
         }
