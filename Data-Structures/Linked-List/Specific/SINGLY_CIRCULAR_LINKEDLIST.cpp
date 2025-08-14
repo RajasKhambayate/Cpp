@@ -222,18 +222,18 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertFirst(int iNo)
     PsNewNode -> iData = iNo;
     PsNewNode -> pNext = nullptr;
 
-    if((pHead == nullptr) && (iCountNode == 0))//If linkedlist is empty((pHead == NULL) && (pTail == NULL))
+    if((iCountNode == 0) && (pHead == nullptr) && (iCountNode == 0))//If linkedlist is empty((pHead == NULL) && (pTail == NULL))
     {
         pHead = PsNewNode;
         pTail = PsNewNode;
-        pTail -> pNext = pHead;
     }
     else//If linkedlist contains atleast one node
     {
         PsNewNode -> pNext = pHead;
         pHead = PsNewNode;
-        pTail -> pNext = pHead;
     }
+
+    pTail -> pNext = pHead;
 
     iCountNode++;
     iCountNode_Main++;
@@ -261,7 +261,7 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertLast(int iNo)
     PsNewNode -> iData = iNo;
     PsNewNode -> pNext = nullptr;
 
-    if((pHead == nullptr) && (iCountNode == 0))//If linkedlist is empty((pHead == NULL) && (pTail == NULL))
+    if((iCountNode == 0) && (pHead == nullptr) && (iCountNode == 0))//If linkedlist is empty((pHead == NULL) && (pTail == NULL))
     {
         pHead = PsNewNode;
         pTail = PsNewNode;
@@ -272,6 +272,8 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertLast(int iNo)
         PsNewNode -> pNext = pHead;
         pTail = PsNewNode;
     }
+
+    pTail -> pNext = pHead;
 
     iCountNode++;
     iCountNode_Main++;
@@ -326,6 +328,8 @@ void SINGLY_CIRCULAR_LINKEDLIST::InsertAtPosition(int iNo,int iPosition)
         ptemp -> pNext = PsNewNode;
         pTail -> pNext = PsNewNode;
     }
+
+    pTail -> pNext = pHead;
 
     iCountNode++;
     iCountNode_Main++;
@@ -756,7 +760,7 @@ int SINGLY_CIRCULAR_LINKEDLIST::DeleteBefore(int iPosition)
 //DeleteAfter() Function: Remove a node after a specified node from singly circular linked list . //
 //================================================================================================//
 //Parameters:                                                                                     //
-//1. int : Position before which the new node is to be inserted .                                 //
+//1. int : Position before which the new node is to be deleted .                                  //
 //================================================================================================//
 //Return: int                                                                                     //
 //================================================================================================//
