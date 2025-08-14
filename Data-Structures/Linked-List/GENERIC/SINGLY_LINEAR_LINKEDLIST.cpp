@@ -1,4 +1,4 @@
-//1===============================================================================================//
+//1========================al=======================================================================//
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //Description: Singly Linear Linked-List is a type of linked-list where each node points to the   //
@@ -303,14 +303,6 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::InsertLast(Generic gNo)
 template<class Generic>
 void SINGLY_LINEAR_LINKEDLIST<Generic>::InsertAtPosition(Generic gNo,int iPosition)
 {
-    //Initialize a new node
-    struct sNode<Generic> *PsNewNode = nullptr;
-    PsNewNode = new sNode<Generic>;
-
-    //Filling the node with data
-    PsNewNode -> gData = gNo;
-    PsNewNode -> pNext = nullptr;
-
     if(iPosition == 1)//If position is 1
     {
         InsertFirst(gNo);
@@ -354,7 +346,7 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::InsertAtPosition(Generic gNo,int iPositi
 //================================================================================================//
 //Local variables:                                                                                //
 //1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
-//2. int    : variable to return the deleted data                                                 //
+//2. Generic                 : variable to return the deleted data                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
 Generic SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteFirst()
@@ -395,7 +387,7 @@ Generic SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteFirst()
 //================================================================================================//
 //Local variables:                                                                                //
 //1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
-//2. int                     : variable to return the deleted data                                //
+//2. Generic                 : variable to return the deleted data                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
 Generic SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteLast()
@@ -434,36 +426,36 @@ Generic SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteLast()
 // linked list .                                                                                  //
 //================================================================================================//
 //Parameters:                                                                                     //
-//1. int : Position at which the new node is to be inserted .                                     //
+//1. int : Position at which the new node is to be deleted .                                      //
 //================================================================================================//
 //Return: void                                                                                    //
 //================================================================================================//
 //Local variables:                                                                                //
 //1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
 //2. struct sNode<Generic> * : temporary pointer to delete the node .                             //
-//3. int                     : Counter variable .                                                 //
+//3. Generic                 : Counter variable .                                                 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
 Generic SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteAtPosition(int iPosition)
 {
-    int iCnt = 0;
+    Generic gCnt = 0;
 
     if(iPosition == 1)//If position is 1
     {
-        iCnt = DeleteFirst();
-        return iCnt;
+        gCnt = DeleteFirst();
+        return gCnt;
     }
     else if(iPosition == iCountNode)//If position last
     {
-        iCnt = DeleteLast();
-        return iCnt;
+        gCnt = DeleteLast();
+        return gCnt;
     }
     else//Random position
     {
         struct sNode<Generic> *ptemp = pHead;
         struct sNode<Generic> *ptempdelete = nullptr;
 
-        for(iCnt = 1;iCnt < (iPosition - 1);iCnt++)
+        for(gCnt = 1;gCnt < (iPosition - 1);gCnt++)
         {
             ptemp = ptemp -> pNext;
         }
@@ -471,13 +463,13 @@ Generic SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteAtPosition(int iPosition)
         ptempdelete = ptemp -> pNext;
         ptemp -> pNext = ptemp -> pNext -> pNext;
 
-        iCnt = ptempdelete -> gData;
+        gCnt = ptempdelete -> gData;
         delete ptempdelete;
         ptempdelete = nullptr;
 
         iCountNode--;
         iCountNode_Main--;
-        return iCnt;
+        return gCnt;
     }
 }
 
@@ -734,7 +726,7 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::InsertAfter(Generic gNo,int iPosition)
 //Local variables:                                                                                //
 //1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
 //2. struct sNode<Generic> * : temporary pointer to delete the node .                             //
-//3. int : Counter variable .                                                                     //
+//3. Generic                 : Counter variable .                                                 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
 Generic SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteBefore(int iPosition)
@@ -778,14 +770,14 @@ Generic SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteBefore(int iPosition)
 //DeleteAfter() Function: Remove a node after a specified node from singly linear linked list .   //
 //================================================================================================//
 //Parameters:                                                                                     //
-//1. int : Position before which the new node is to be inserted .                                 //
+//1. int : Position before which the new node is to be deleted .                                  //
 //================================================================================================//
 //Return: int                                                                                     //
 //================================================================================================//
 //Local variables:                                                                                //
 //1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
 //2. struct sNode<Generic> * : temporary pointer to delete the node .                             //
-//3. int : Counter variable .                                                                     //
+//3. Generic                 : Counter variable .                                                 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
 Generic SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteAfter(int iPosition)
