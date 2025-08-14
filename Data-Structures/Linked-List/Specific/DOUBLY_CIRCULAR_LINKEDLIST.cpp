@@ -441,7 +441,7 @@ int DOUBLY_CIRCULAR_LINKEDLIST::DeleteLast()
 // linked list .                                                                                  //
 //================================================================================================//
 //Parameters:                                                                                     //
-//1. int : Position at which the new node is to be inserted .                                     //
+//1. int : Position at which the new node is to be deleted .                                      //
 //================================================================================================//
 //Return: int                                                                                     //
 //================================================================================================//
@@ -787,7 +787,7 @@ int DOUBLY_CIRCULAR_LINKEDLIST::DeleteBefore(int iPosition)
 //DeleteAfter() Function: Remove a node after a specified node from doubly circular linked list . //
 //================================================================================================//
 //Parameters:                                                                                     //
-//1. int : Position before which the new node is to be inserted .                                 //
+//1. int : Position before which the new node is to be deleted .                                  //
 //================================================================================================//
 //Return: int                                                                                     //
 //================================================================================================//
