@@ -335,6 +335,7 @@ void DOUBLY_LINEAR_LINKEDLIST::InsertAtPosition(int iNo,int iPosition)
         //Filling the node with data
         PsNewNode -> iData = iNo;
         PsNewNode -> pNext = nullptr;
+        PsNewNode -> pPrev = nullptr;
 
         PsNODE ptemp = pHead;
 
@@ -777,7 +778,7 @@ int DOUBLY_LINEAR_LINKEDLIST::DeleteBefore(int iPosition)
 //DeleteAfter() Function: Remove a node after a specified node from doubly linear linked list .   //
 //================================================================================================//
 //Parameters:                                                                                     //
-//1. int : Position before which the new node is to be inserted .                                 //
+//1. int : Position before which the new node is to be deleted .                                  //
 //================================================================================================//
 //Return: int                                                                                     //
 //================================================================================================//
@@ -976,7 +977,7 @@ PsNODE DOUBLY_LINEAR_LINKEDLIST::FindKthNodeFromStart(int iKth) const
 // list .                                                                                         //
 //================================================================================================//
 //Parameters:                                                                                     //
-//1. int : variable as offset from start of list to find .                                        //
+//1. int : variable as offset from middle of list to find .                                       //
 //2. int : variable to store direction from middle .                                              //
 //================================================================================================//
 //Return: PsNODE                                                                                  //
@@ -1011,7 +1012,7 @@ PsNODE DOUBLY_LINEAR_LINKEDLIST::FindKthNodeFromMiddle(int iKth,int iDirection) 
 //FindKthNodeFromEnd() Function: returns the kth node from end from singly linear linkedlist .    //
 //================================================================================================//
 //Parameters:                                                                                     //
-//1. int : variable as offset from start of list to find .                                        //
+//1. int : variable as offset from end of list to find .                                         //
 //================================================================================================//
 //Return: PsNODE                                                                                  //
 //================================================================================================//
