@@ -863,7 +863,7 @@ void SINGLY_CIRCULAR_LINKEDLIST<Generic>::DeleteList()
 //Local variables:                                                                                //
 //1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
 //2. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
-//3. int : temporary variable to store the data of the node .                                     //
+//3. Generic                 : temporary variable to store the data of the node .                 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
 void SINGLY_CIRCULAR_LINKEDLIST<Generic>::SortAscending()
@@ -982,7 +982,7 @@ struct sNode<Generic> *SINGLY_CIRCULAR_LINKEDLIST<Generic>::FindKthNodeFromStart
 // list .                                                                                         //
 //================================================================================================//
 //Parameters:                                                                                     //
-//1. int : integer to store kth position from start .                                             //
+//1. int : integer to store kth position from middle .                                            //
 //2. int : integer to store direction of kth position from start or end .                         //
 //================================================================================================//
 //Return: struct sNode<Generic> *                                                                 //
@@ -1018,7 +1018,7 @@ struct sNode<Generic> *SINGLY_CIRCULAR_LINKEDLIST<Generic>::FindKthNodeFromMiddl
 //FindKthNodeFromEnd() Function: returns the kth node from end from singly circular linkedlist .  //
 //================================================================================================//
 //Parameters:                                                                                     //
-//1. int : integer to store kth position from start .                                             //
+//1. int : integer to store kth position from end   .                                             //
 //================================================================================================//
 //Return: struct sNode<Generic> *                                                                 //
 //================================================================================================//
@@ -1050,14 +1050,6 @@ struct sNode<Generic> *SINGLY_CIRCULAR_LINKEDLIST<Generic>::FindKthNodeFromEnd(i
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //Manual() Function: A guide for the usage of singly-circular-linked-list .                       //
-//================================================================================================//
-//Parameters: None                                                                                //
-//================================================================================================//
-//Return: void                                                                                    //
-//================================================================================================//
-//Local variables: None                                                                           //
-//================================================================================================//
-//Algorithm: None                                                                                 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
 void SINGLY_CIRCULAR_LINKEDLIST<Generic>::Manual()
