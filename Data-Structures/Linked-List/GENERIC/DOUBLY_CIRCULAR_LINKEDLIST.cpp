@@ -98,9 +98,9 @@ class DOUBLY_CIRCULAR_LINKEDLIST
 
         //Finding functions
         struct sNode<Generic> * FindMiddleNode() const;
-        struct sNode<Generic> * FindKthNodeFromStart() const;
-        struct sNode<Generic> * FindKthNodeFromMiddle() const;
-        struct sNode<Generic> * FindKthNodeFromEnd() const;
+        struct sNode<Generic> * FindKthNodeFromStart(int) const;
+        struct sNode<Generic> * FindKthNodeFromMiddle(int,int) const;
+        struct sNode<Generic> * FindKthNodeFromEnd(int) const;
 
 //~=====Added Features Functions======//
 
@@ -168,22 +168,13 @@ DOUBLY_CIRCULAR_LINKEDLIST<Generic>::~DOUBLY_CIRCULAR_LINKEDLIST()
 //================================================================================================//
 //Local variables:                                                                                //
 //1. struct sNode<Generic> * : Temporary pointer to traverse the linked list .                    //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. Traverse the linked list till the last node and display the data of each node.               //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
-void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::Display()
+void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::Display() const
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
-    {
-        cout<<"Linkedlist is empty"<<endl;
-        cout<<"NULL"<<endl;
-        return;
-    }
-
     struct sNode<Generic> *ptemp = pHead;
-    cout<<"Elements from linked list are : "<<endl<<endl;
+
+    cout<<"Elements from linked list are : "<<endl;
 
     ///////////////////////Display in serial order//////////////////////
 
@@ -210,7 +201,7 @@ void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::Display()
     }while(ptemp != pTail);
 
     cout<<endl;
-    ptemp = NULL;//Set the pointer to NULL to avoid dangling pointer
+    ptemp = nullptr;//Set the pointer to nullptr to avoid dangling pointer
 }
 
 
@@ -222,12 +213,9 @@ void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::Display()
 //Return: integer                                                                                 //
 //================================================================================================//
 //Local variables: None                                                                           //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. Return the value of iCountNode which is updated during insertion and deletion operations.    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
-int DOUBLY_CIRCULAR_LINKEDLIST<Generic>::Count()
+int DOUBLY_CIRCULAR_LINKEDLIST<Generic>::Count() const
 {
     return iCountNode;
 }
@@ -243,28 +231,20 @@ int DOUBLY_CIRCULAR_LINKEDLIST<Generic>::Count()
 //================================================================================================//
 //Local variables:                                                                                //
 //1. struct sNode<Generic> * : Pointer to the new node .                                          //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. Allocate memory for the new node .                                                           //
-//2. Fill the new node with the data .                                                            //
-//3. If the linked list is empty, update the first pointer with the address of the new node .     //
-//4. If the linked list contains at least one node, update the Next pointer of the new node with  //
-//   the address of the first node and update the first pointer with the address of the new node. //
-//5. Increment the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
 void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::InsertFirst(Generic gNo)
 {
     //Initialize a new node
-    struct sNode<Generic> *PsNewNode = NULL;
+    struct sNode<Generic> *PsNewNode = nullptr;
     PsNewNode = new sNode<Generic>;
 
     //Filling the node with data
     PsNewNode -> gData = gNo;
-    PsNewNode -> pNext = NULL;
-    PsNewNode -> pPrev = NULL;
+    PsNewNode -> pNext = nullptr;
+    PsNewNode -> pPrev = nullptr;
 
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))//If linkedlist is empty(pHead == NULL) && (pTail == NULL)
+    if((iCountNode == 0) && (pHead == nullptr) && (pTail == nullptr))//If linkedlist is empty(pHead == nullptr) && (pTail == nullptr)
     {
         pHead = PsNewNode;
         pTail = PsNewNode;
@@ -280,8 +260,7 @@ void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::InsertFirst(Generic gNo)
     pHead -> pPrev = pTail;
 
     iCountNode++;
-
-    cout<<"Node with data "<<gNo<<" inserted at the beginning of the doubly circular linked list"<<endl;
+    iCountNode_Main++;
 }
 
 
@@ -295,29 +274,20 @@ void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::InsertFirst(Generic gNo)
 //================================================================================================//
 //Local variables:                                                                                //
 //1. struct sNode<Generic> * : Pointer to the new node .                                          //
-//2. struct sNode<Generic> * : Temporary pointer for traversal                                    //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. Allocate memory for the new node .                                                           //
-//2. Fill the new node with the data .                                                            //
-//3. If the linked list is empty, update the first pointer with the address of the new node .     //
-//4. If the linked list contains at least one node, traverse till the last node and update the    //
-//   Next pointer of the last node with the address of the new node.                              //
-//5. Increment the count of nodes in the linked list by 1.                                        //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
 void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::InsertLast(Generic gNo)
 {
     //Initialize a new node
-    struct sNode<Generic> *PsNewNode = NULL;
+    struct sNode<Generic> *PsNewNode = nullptr;
     PsNewNode = new sNode<Generic>;
 
     //Filling the node with data
     PsNewNode -> gData = gNo;
-    PsNewNode -> pNext = NULL;
-    PsNewNode -> pPrev = NULL;
+    PsNewNode -> pNext = nullptr;
+    PsNewNode -> pPrev = nullptr;
 
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))//If linkedlist is empty(pHead == NULL) && (pTail == NULL)
+    if((iCountNode == 0) && (pHead == nullptr) && (pTail == nullptr))//If linkedlist is empty(pHead == nullptr) && (pTail == nullptr)
     {
         pHead = PsNewNode;
         pTail = PsNewNode;
@@ -332,9 +302,11 @@ void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::InsertLast(Generic gNo)
     pHead -> pPrev = pTail;
     pTail -> pNext = pHead;
 
-    iCountNode++;
+    pHead -> pPrev = pTail;
+    pTail -> pNext = pHead;
 
-    cout<<"Node with data "<<gNo<<" inserted at the end of the doubly circular linked list"<<endl;
+    iCountNode++;
+    iCountNode_Main++;
 }
 
 
@@ -351,76 +323,34 @@ void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::InsertLast(Generic gNo)
 //Local variables:                                                                                //
 //1. struct sNode<Generic> * : Pointer to the new node .                                          //
 //2. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
-//3. int : Size of the linked list .                                                              //
-//4. int : Counter variable .                                                                     //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty and return .    //
-//2. Count the number of nodes in the linked list .                                               //
-//3. If the position is invalid, display a message that the position is invalid.                  //
-//4. If the position is 1,call the InsertFirst() function to insert the new node at the beginning.//
-//5. If the position is the last,call the InsertLast() function to insert the new node at the end.//
-//6. If the position is random, traverse till the node before the specified position and update   //
-//   the Next pointer of the new node with the address of the Next node and update the Next       //
-//   pointer of the previous node with the address of the new node.                               //
+//3. int : Counter variable .                                                                     //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
 void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::InsertAtPosition(Generic gNo,int iPosition)
 {
-    //Initialize a new node
-    struct sNode<Generic> *PsNewNode = NULL;
-    PsNewNode = new sNode<Generic>;
-
-    //Filling the node with data
-    PsNewNode -> gData = gNo;
-    PsNewNode -> pNext = NULL;
-    PsNewNode -> pPrev = NULL;
-
-    int iCnt = 0;
-
-    if((iPosition < 1) || (iPosition > (iCountNode + 1)))//If position is invalid
+    if(iPosition == 1)//If position is 1
     {
-        while(iCnt <= 2)
-        {
-            cout<<"Invalid position"<<endl;
-
-            cout<<"Enter valid position : "<<endl;
-            cin>>iPosition;
-
-            if((iPosition >= 1) && (iPosition <= (iCountNode + 1)))
-            {
-                InsertAtPosition(gNo,iPosition);
-                return;
-            }
-
-            iCnt++;
-        }
-
-        cout<<"Wrong input entered 3 times , call function again ."<<endl;
-
+        InsertFirst(gNo);
         return;
-    }
-    else if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))//If linkedlist is empty
-    {
-        pHead = PsNewNode;
-        pTail = PsNewNode;
-    }    else if(iPosition == 1)//If position is 1
-    {
-        PsNewNode -> pNext = pHead;
-        pHead -> pPrev = PsNewNode;
-        pHead = PsNewNode;
     }
     else if(iPosition == (iCountNode + 1))//If position last
     {
-        pTail -> pNext = PsNewNode;
-        PsNewNode -> pPrev = pTail;
-        pTail = PsNewNode;
+        InsertLast(gNo);
+        return;
     }
     else//Random position
     {
+        //Initialize a new node
+        struct sNode<Generic> *PsNewNode = nullptr;
+        PsNewNode = new sNode<Generic>;
+
+        //Filling the node with data
+        PsNewNode -> gData = gNo;
+        PsNewNode -> pNext = nullptr;
+
         struct sNode<Generic> *ptemp = pHead;
 
-        for(iCnt = 1;iCnt < (iPosition - 1);iCnt++)
+        for(int iCnt = 1;iCnt < (iPosition - 1);iCnt++)
         {
             ptemp = ptemp -> pNext;
         }
@@ -435,8 +365,7 @@ void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::InsertAtPosition(Generic gNo,int iPosi
     pTail -> pNext = pHead;
 
     iCountNode++;
-
-    cout<<"Node with data "<<gNo<<" inserted at position "<<iPosition<<" in the doubly circular linked list"<<endl;
+    iCountNode_Main++;
 }
 
 
@@ -448,45 +377,33 @@ void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::InsertAtPosition(Generic gNo,int iPosi
 //Return: void                                                                                    //
 //================================================================================================//
 //Local variables:                                                                                //
-//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty and return .    //
-//2. If the linked list contains one node, delete the node and return .                           //
-//3. If the linked list contains more than one node, store the address of the first node in a     //
-//   temporary pointer, update the first pointer with the address of the next node and free the   //
-//   memory of the temporary pointer.                                                             //
-//4. Decrement the count of nodes in the linked list by 1.                                        //
+//1. Generic : variable to return the deleted data                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
-void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::DeleteFirst()
+Generic DOUBLY_CIRCULAR_LINKEDLIST<Generic>::DeleteFirst()
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))//If linkedlist is empty
-    {
-        cout<<"Linkedlist is empty"<<endl;
-        return;
-    }
-    else if((iCountNode == 1) && (pHead == pTail))//If linkedlist contains one node
-    {
-        pTail = NULL;
+    Generic gDeleted = 0;
 
-        cout<<"Node with data "<<(pHead) -> gData<<" deleted from the beginning of the doubly circular linked list"<<endl;
-
-        free(pHead);
-        pHead = NULL;
+    if((iCountNode == 1) && (pHead == pTail))//If linkedlist contains one node
+    {
+        gDeleted = pHead -> gData;
+        delete pHead;
+        pHead = nullptr;;
+        pTail = nullptr;
     }
     else//If linkedlist contains atleast one node
     {
         pHead = pHead -> pNext;
-
-        cout<<"Node with data "<<pTail -> pNext -> gData<<" deleted from the beginning of the doubly circular linked list"<<endl;
-        free(pTail -> pNext);
-
+        gDeleted = pTail -> pNext -> gData;
+        delete pTail -> pNext;
         pHead -> pPrev = pTail;
         pTail -> pNext = pHead;
     }
 
     iCountNode--;
+    iCountNode_Main--;
+
+    return gDeleted;
 }
 
 
@@ -498,45 +415,35 @@ void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::DeleteFirst()
 //Return: void                                                                                    //
 //================================================================================================//
 //Local variables:                                                                                //
-//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty and return .    //
-//2. If the linked list contains one node, delete the node and return .                           //
-//3. If the linked list contains more than one node, traverse till the second last node and       //
-//   delete the last node.                                                                        //
-//4. Decrement the count of nodes in the linked list by 1.                                        //
+//1. Generic : variable to return the deleted data                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
-void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::DeleteLast()
+Generic DOUBLY_CIRCULAR_LINKEDLIST<Generic>::DeleteLast()
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))//If linkedlist is empty
-    {
-        cout<<"Linkedlist is empty"<<endl;
-        return;
-    }
-    else if((iCountNode == 1) && (pHead == pTail))//If linkedlist contains one node
-    {
-        cout<<"Node with data "<<(pHead) -> gData<<" deleted from the end of the doubly circular linked list"<<endl;
+    Generic gDeleted = 0;
 
-        free(pHead);
-        pHead = NULL;
-        free(pTail);
-        pTail = NULL;
+    if((iCountNode == 1) && (pHead == pTail))//If linkedlist contains one node
+    {
+        gDeleted = pHead -> gData;
+        delete pHead;
+        pHead = nullptr;
+        pTail = nullptr;
     }
     else//If linkedlist contains atleast two node
     {
         pTail = pTail -> pPrev;
 
-        cout<<"Node with data "<<pHead -> pPrev -> gData<<" deleted from the end of the doubly circular linked list"<<endl;
-
-        free(pHead -> pPrev);
+        gDeleted = pHead -> pPrev -> gData;
+        delete pHead -> pPrev;
 
         pHead -> pPrev = pTail;
         pTail -> pNext = pHead;
     }
 
     iCountNode--;
+    iCountNode_Main--;
+
+    return gDeleted;
 }
 
 
@@ -547,114 +454,49 @@ void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::DeleteLast()
 //Parameters:                                                                                     //
 //1. int : Position at which the new node is to be inserted .                                     //
 //================================================================================================//
-//Return: void                                                                                    //
+//Return: Generic                                                                                 //
 //================================================================================================//
 //Local variables:                                                                                //
-//1. int : Counter variable .                                                                     //
-//2. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
-//3. struct sNode<Generic> * : temporary pointer to delete the node .                             //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty and return .    //
-//2. If the position is invalid, display a message that the position is invalid.                  //
-//3. If the position is 1,call the DeleteFirst() function to delete the first node.               //
-//4. If the position is the last,call the DeleteLast() function to delete the last node.          //
-//5. If the position is random, traverse till the node before the specified position and update   //
-//   the Next pointer of the previous node with the Next pointer of the node to be deleted        //
-//   and free the memory of the node to be deleted.                                               //
-//6. Decrement the count of nodes in the linked list by 1.                                        //
+//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
+//2. struct sNode<Generic> * : temporary pointer to delete the node .                             //
+//3. int : Counter variable .                                                                     //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
-void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::DeleteAtPosition(int iPosition)
+Generic DOUBLY_CIRCULAR_LINKEDLIST<Generic>::DeleteAtPosition(int iPosition)
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))//If linkedlist is empty
+    Generic gCnt = 0;
+
+    if(iPosition == 1)//If position is 1
     {
-        cout<<"Linkedlist is empty"<<endl;
-        return;
-    }
-
-    int iCnt = 0;
-
-    if((iPosition < 1) || (iPosition > iCountNode))//If position is invalid
-    {
-        while(iCnt <= 2)
-        {
-            cout<<"Invalid position"<<endl;
-
-            cout<<"Enter valid position : "<<endl;
-            cin>>iPosition;
-
-            if((iPosition >= 1) && (iPosition <= iCountNode))
-            {
-                DeleteAtPosition(iPosition);
-                return;
-            }
-
-            iCnt++;
-        }
-
-        cout<<"Wrong input entered 3 times , call function again ."<<endl;
-
-        return;
-    }
-
-    if((iCountNode == 1) && (pHead == pTail))
-    {
-        cout<<"Node with data "<<(pHead) -> gData<<" deleted from the doubly circular linked list"<<endl;
-
-        free(pHead);
-        pHead = NULL;
-        free(pTail);
-        pTail = NULL;
-    }
-    else if(iPosition == 1)//If position is 1
-    {
-        pHead = pHead -> pNext;
-
-        cout<<"Node with data "<<pTail -> pNext -> gData<<" deleted from the beginning of the doubly circular linked list"<<endl;
-
-        free(pTail -> pNext);
-
-        pTail -> pNext = pHead;
-        pHead -> pPrev = pTail;
+        gCnt = DeleteFirst();
+        return gCnt;
     }
     else if(iPosition == iCountNode)//If position last
     {
-        struct sNode<Generic> *ptempdelete = pHead;
-
-        while(ptempdelete -> pNext != pTail)
-        {
-            ptempdelete = ptempdelete -> pNext;
-        }
-
-        cout<<"Node with data "<<ptempdelete -> pNext -> gData<<" deleted from the end of the doubly circular linked list"<<endl;
-
-        free(ptempdelete -> pNext);
-        pTail = ptempdelete;
-
-        pTail -> pNext = pHead;
-        pHead -> pPrev = pTail;
+        gCnt = DeleteLast();
+        return gCnt;
     }
     else//Random position
     {
-        struct sNode<Generic> *ptempdelete = NULL;
-        struct sNode<Generic> *ptemp = NULL;
+        struct sNode<Generic> *ptemp = pHead;
+        struct sNode<Generic> *ptempdelete = nullptr;
 
-        for(iCnt = 1;iCnt < (iPosition - 1);iCnt++)
+        for(gCnt = 1;gCnt < (iPosition - 1);gCnt++)
         {
-            ptempdelete = ptempdelete -> pNext;
+            ptemp = ptemp -> pNext;
         }
 
         ptempdelete = ptemp -> pNext;
         ptemp -> pNext = ptemp -> pNext -> pNext;
 
-        cout<<"Node with data "<<ptempdelete -> gData<<" deleted from "<<iPosition<<" position from doubly circular linked list"<<endl;
+        gCnt = ptempdelete -> gData;
+        delete ptempdelete;
+        ptempdelete = nullptr;
 
-        free(ptempdelete);
-        ptempdelete = NULL;
+        iCountNode--;
+        iCountNode_Main--;
+        return gCnt;
     }
-
-    iCountNode--;
 }
 
 //4===============================================================================================//
@@ -693,41 +535,30 @@ void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::DeleteAtPosition(int iPosition)
 //Parameters:                                                                                     //
 //1. Generic : Value to be searched in the linked list .                                          //
 //================================================================================================//
-//Return: boolean                                                                                 //
+//Return: int                                                                                     //
 //================================================================================================//
 //Local variables:                                                                                //
-//1. int : Counter variable & Position variable in one .                                          //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. Traverse the linked list till the last node and compare the data of each node with the       //
-//   specified value. If the value is found, display the position of the node and return true.    //
-//2. If the value is not found, return false.                                                     //
+//1. struct sNode<Generic> * : Temporary pointer to traverse linkedlist .                         //
+//2. int                     : Counter variable & Position variable in one .                      //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
-bool DOUBLY_CIRCULAR_LINKEDLIST<Generic>::Search(Generic gSearch)
+int DOUBLY_CIRCULAR_LINKEDLIST<Generic>::Search(Generic gSearch) const
 {
-    if((iCountNode == 0)  && (pHead == NULL) && (pTail == NULL))
-    {
-        cout<<"Linkedlist is empty"<<endl;
-        return false;
-    }
-
+    struct sNode<Generic> *ptemp = pHead;
     int iPosition = 1;
 
     while(iPosition <= iCountNode)
     {
-        if(pHead -> gData == gSearch)
+        if(ptemp -> gData == gSearch)
         {
-            cout<<"Element "<<gSearch<<" is found at position "<<iPosition<<" in doubly circular linked list"<<endl;
-            return true;
+            return iPosition;
         }
 
-        pHead = pHead -> pNext;
+        ptemp = ptemp -> pNext;
         iPosition++;
     }
 
-    cout<<"Element "<<gSearch<<" not found in doubly circular linked list"<<endl;
-    return false;
+    return -1;
 }
 
 
@@ -739,42 +570,31 @@ bool DOUBLY_CIRCULAR_LINKEDLIST<Generic>::Search(Generic gSearch)
 //1. Generic : Value to be searched in the linked list .                                          //
 //2. Generic : Value to be updated in the linked list .                                           //
 //================================================================================================//
-//Return: void                                                                                    //
+//Return: bool                                                                                    //
 //================================================================================================//
 //Local variables:                                                                                //
-//1. int : Counter variable & Position variable in one .                                          //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. Traverse the linked list till the last node and compare the data of each node with the       //
-//   specified value. If the value is found, update the data of the node with the specified value.//
-//2. If the value is not found, display a message that the value is not found.                    //
+//1. struct sNode<Generic> * : Temporary pointer to traverse linkedlist .                         //
+//2. int                     : Counter variable & Position variable in one .                      //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
-void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::UpdateNoForNo(Generic gSearch,Generic gUpdate)
+bool DOUBLY_CIRCULAR_LINKEDLIST<Generic>::UpdateNoForNo(Generic gSearch,Generic gUpdate)
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
-    {
-        cout<<"Linkedlist is empty"<<endl;
-        return;
-    }
-
+    struct sNode<Generic> *ptemp = pHead;
     int iPosition = 1;
 
     while(iPosition <= iCountNode)
     {
-        if(pHead -> gData == gSearch)
+        if(ptemp -> gData == gSearch)
         {
-            pHead -> gData = gUpdate;
-            cout<<"Element "<<gSearch<<" has been updated to "<<gUpdate<<" in doubly circular linked list"<<endl;
-
-            return;
+            ptemp -> gData = gUpdate;
+            return true;
         }
 
-        pHead = pHead -> pNext;
+        ptemp = ptemp -> pNext;
         iPosition++;
     }
 
-    cout<<"Element "<<gSearch<<" not found in doubly circular linked list"<<endl;
+    return false;
 }
 
 
@@ -789,109 +609,27 @@ void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::UpdateNoForNo(Generic gSearch,Generic 
 //Return: void                                                                                    //
 //================================================================================================//
 //Local variables:                                                                                //
-//1. int : Counter variable & Position variable in one .                                          //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. Traverse the linked list till the last node and compare the data of each node with the       //
-//   specified value. If the value is found, update the data of the node with the specified value.//
-//2. If the value is not found, display a message that the value is not found.                    //
+//1. struct sNode<Generic> * : Temporary pointer to traverse linkedlist .                         //
+//2. int                     : Counter variable & Position variable in one .                      //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
 void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::UpdateNoForPosition(Generic gUpdate,int iPosition)
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
-    {
-        cout<<"Linkedlist is empty"<<endl;
-        return;
-    }
-
-    int iCnt = 0;
-
-    if((iPosition < 1) || (iPosition > (iCountNode + 1)))
-    {
-        for(iCnt = 0;iCnt <= 2;iCnt++)
-        {
-            cout<<"Invalid position"<<endl;
-            cout<<"Enter valid position : "<<endl;
-            cin>>iPosition;
-
-            if((iPosition >= 1) && (iPosition <= (iCountNode + 1)))
-            {
-                UpdateNoForPosition(gUpdate,iPosition);
-                return;
-            }
-        }
-
-        cout<<"Wrong input entered 3 times , call function again ."<<endl;
-
-        return;
-    }
-
-    iCnt = 1;
+    struct sNode<Generic> *ptemp = pHead;
+    int iCnt = 1;
 
     while(iCnt <= iCountNode)
     {
         if(iCnt == iPosition)
         {
-            pHead -> gData = gUpdate;
-            cout<<"Element at position "<<iPosition<<" has been updated to "<<gUpdate<<" in doubly circular linked list"<<endl;
+            ptemp -> gData = gUpdate;
 
             return;
         }
 
-        pHead = pHead -> pNext;
+        ptemp = ptemp -> pNext;
         iCnt++;
     }
-}
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-//Concat() Function: Concats two doubly circular linked list .                                    //
-//================================================================================================//
-//Parameters:                                                                                     //
-//================================================================================================//
-//Return: void                                                                                    //
-//================================================================================================//
-//Local variables:                                                                                //
-//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If both linked lists are empty, display a message that both linked lists are empty.          //
-//2. If the first linked list is empty, display a message that the first linked list is empty.    //
-//3. If the second linked list is empty, display a message that the second linked list is empty.  //
-//4. Traverse the first linked list till the last node and update thepNext pointer of the last    //
-//   node with the address of the first node of the second linked list and free the second linked //
-//   list.                                                                                        //
-////////////////////////////////////////////////////////////////////////////////////////////////////
-template<class Generic>
-void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::Concat()
-{
-    if((pHead1 == NULL) && (pHead2 == NULL) && (pTail1 == 0) && (pTail2 == NULL))
-    {
-        cout<<"Both linkedlist are empty"<<endl;
-        return;
-    }
-    else if((pHead1 == NULL) && (pTail1))
-    {
-        cout<<"First linkedlist is empty"<<endl;
-        return;
-    }
-    else if((pHead2 == NULL) && (pTail2 == NULL))
-    {
-        cout<<"Second linkedlist is empty"<<endl;
-        return;
-    }
-
-    pTail1 -> pNext = pHead2; // Update the Next pointer of the last node of the first linked list
-    pHead2 -> pPrev = pTail1; // Update the previous pointer of the
-
-    pTail1 = pTail2; // Update the tail pointer of the first linked list to the tail of the second linked list
-
-    pTail1 -> pNext = pHead1;
-    pHead1 -> pPrev = pTail1; // Update the previous pointer of the first node of the second linked list
-
-    pHead2 = NULL; // Set the first pointer of the second linked list to NULL
-    pTail2 = NULL; // Set the tail pointer of the second linked list to NULL
 }
 
 
@@ -908,55 +646,18 @@ void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::Concat()
 //1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
 //2. struct sNode<Generic> * : Pointer to store the new node                                      //
 //3. int : Counter variable .                                                                     //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. If the position is invalid, display a message that the position is invalid.                  //
-//3. If the position is 1, call the InsertFirst() Function or use its logic .                     //
-//4. If the position is random, traverse till the node before the specified position and update   //
-//   the Next pointer of the new node with the address of the Next node and update the Next       //
-//   pointer of the previous node with the address of the new node.                               //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
 void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::InsertBefore(Generic gNo,int iPosition)
 {
-    if((iCountNode == 0)  && (pHead == NULL) && (pTail == NULL))
-    {
-        cout<<"linkedlist are empty\n"<<endl;
-        return;
-    }
-
-    int iCnt = 0;
-
-    if((iPosition < 1) || (iPosition > (iCountNode)))
-    {
-        for(iCnt = 0;iCnt <= 2;iCnt++)
-        {
-            cout<<"Invalid position"<<endl;
-            cout<<"Enter valid position : "<<endl;
-            cin>>iPosition;
-
-            if((iPosition >= 1) && (iPosition <= (iCountNode)))
-            {
-                InsertBefore(gNo,iPosition);
-                return;
-            }
-        }
-
-        cout<<"Wrong input entered 3 times , call function again ."<<endl;
-
-        return;
-    }
-
-
     //Initialize a new node
-    struct sNode<Generic> *PsNewNode = NULL;
+    struct sNode<Generic> * PsNewNode = nullptr;
     PsNewNode = new sNode<Generic>;
 
     //Filling the node with data
     PsNewNode -> gData = gNo;
-    PsNewNode -> pNext = NULL;
-    PsNewNode -> pPrev = NULL;
+    PsNewNode -> pNext = nullptr;
+    PsNewNode -> pPrev = nullptr;
 
     if(iPosition == 1)
     {
@@ -966,9 +667,9 @@ void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::InsertBefore(Generic gNo,int iPosition
     }
     else
     {
-        struct sNode<Generic> *ptemp = pHead;
+        struct sNode<Generic> * ptemp = pHead;
 
-        for(iCnt = 1;iCnt < (iPosition - 1);iCnt++)
+        for(int iCnt = 1;iCnt < (iPosition - 1);iCnt++)
         {
             ptemp = ptemp -> pNext;
         }
@@ -978,14 +679,14 @@ void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::InsertBefore(Generic gNo,int iPosition
         ptemp -> pNext = PsNewNode;
         PsNewNode -> pNext -> pPrev = PsNewNode;
 
-        ptemp = NULL;//Freeing the temporary pointer
+        ptemp = nullptr;//Freeing the temporary pointer
     }
 
+    pHead -> pPrev = pTail;
     pTail -> pNext = pHead;
 
     iCountNode++;
-
-    cout<<"Node with data "<<gNo<<" inserted at the position "<<iPosition<<" of the doubly circular linked list"<<endl;
+    iCountNode_Main++;
 }
 
 
@@ -1002,69 +703,30 @@ void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::InsertBefore(Generic gNo,int iPosition
 //1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
 //2. struct sNode<Generic> * : Pointer to store the new node                                      //
 //3. int : Counter variable .                                                                     //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. If the position is invalid, display a message that the position is invalid.                  //
-//3. If the position is random, traverse till the node before the specified position and update   //
-//   the Next pointer of the new node with the address of the Next node and update the Next       //
-//   pointer of the previous node with the address of the new node.                               //
-//4. If the position is the last, traverse till the last node and update the Next pointer of      //
-//   the last node with the address of the new node.we can call the InsertFirst() Function or use //
-//   its logic .                                                                                  //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
 void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::InsertAfter(Generic gNo,int iPosition)
 {
-    if((iCountNode == 0) && (pHead == NULL))
-    {
-        cout<<"linkedlist are empty"<<endl;
-        return;
-    }
-
-    int iCnt = 0;
-
-    if((iPosition < 1) || (iPosition > (iCountNode)))
-    {
-        for(iCnt = 0;iCnt <= 2;iCnt++)
-        {
-            cout<<"Invalid position"<<endl;
-            cout<<"Enter valid position : "<<endl;
-            cin>>iPosition;
-
-            if((iPosition >= 1) && (iPosition <= (iCountNode)))
-            {
-                InsertAfter(gNo,iPosition);
-                return;
-            }
-        }
-
-        cout<<"Wrong input entered 3 times , call function again ."<<endl;
-
-        return;
-    }
-
-
     //Initialize a new node
-    struct sNode<Generic> *PsNewNode = NULL;
+    struct sNode<Generic> * PsNewNode = nullptr;
     PsNewNode = new sNode<Generic>;
 
     //Filling the node with data
     PsNewNode -> gData = gNo;
-    PsNewNode -> pNext = NULL;
-    PsNewNode -> pPrev = NULL;
+    PsNewNode -> pNext = nullptr;
+    PsNewNode -> pPrev = nullptr;
 
     if(iPosition == iCountNode)
     {
-        PsNewNode -> pNext = pHead;
         pTail -> pNext = PsNewNode;
+        PsNewNode -> pPrev = pTail;
         pTail = PsNewNode;
     }
     else
     {
-        struct sNode<Generic> *ptemp = pHead;
+        struct sNode<Generic> * ptemp = pHead;
 
-        for(iCnt = 1;iCnt <= (iPosition - 1);iCnt++)
+        for(int iCnt = 1;iCnt <= (iPosition - 1);iCnt++)
         {
             ptemp = ptemp -> pNext;
         }
@@ -1074,15 +736,14 @@ void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::InsertAfter(Generic gNo,int iPosition)
         PsNewNode -> pPrev = ptemp;
         ptemp -> pNext = PsNewNode;
 
-        ptemp = NULL;
+        ptemp = nullptr;
     }
 
     pHead -> pPrev = pTail;
     pTail -> pNext = pHead;
 
     iCountNode++;
-
-    cout<<"Node with data "<<gNo<<" inserted at the position "<<(iPosition + 1)<<" of the doubly circular linked list"<<endl;
+    iCountNode_Main++;
 }
 
 
@@ -1092,68 +753,33 @@ void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::InsertAfter(Generic gNo,int iPosition)
 //Parameters:                                                                                     //
 //1. int : Position before which the node is to be deleted .                                      //
 //================================================================================================//
-//Return: void                                                                                    //
+//Return: Generic                                                                                 //
 //================================================================================================//
 //Local variables:                                                                                //
 //1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
 //2. struct sNode<Generic> * : temporary pointer to delete the node .                             //
 //3. int : Counter variable .                                                                     //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. If the position is invalid, display a message that the position is invalid.                  //
-//3. If the position is 2, store the address of the first node in a temporary pointer and update  //
-//   the first pointer with the Next pointer of the first node and free the memory of the         //
-//   temporary pointer.                                                                           //
-//4. If the position is random, traverse till the node before the specified position and update   //
-//   the Next pointer of the previous node with the Next pointer of the node to be deleted and    //
-//   free the memory of the node to be deleted.                                                   //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
-void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::DeleteBefore(int iPosition)
+Generic DOUBLY_CIRCULAR_LINKEDLIST<Generic>::DeleteBefore(int iPosition)
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
-    {
-        cout<<"linkedlist are empty"<<endl;
-        return;
-    }
-
-    int iCnt = 0;
-
-    if((iPosition < 2) || (iPosition > (iCountNode)))
-    {
-        for(iCnt = 0;iCnt <= 2;iCnt++)
-        {
-            cout<<"Invalid position"<<endl;
-            cout<<"Enter valid position : "<<endl;
-            cin>>iPosition;
-
-            if((iPosition >= 2) && (iPosition <= (iCountNode)))
-            {
-                DeleteBefore(iPosition);
-                return;
-            }
-        }
-
-        cout<<"Wrong input entered 3 times , call function again ."<<endl;
-
-        return;
-    }
+    struct sNode<Generic> *ptemp = pHead;
+    Generic gCnt = 0;
 
     if(iPosition == 2)
     {
         pHead = pHead -> pNext;
+        gCnt = pHead -> pPrev -> gData;
 
-        cout<<"Node with data "<<pHead -> pPrev -> gData<<" deleted from the beginning of the doubly circular linked list"<<endl;
-
-        free(pHead -> pPrev);
+        gCnt = ptemp -> gData;
+        delete pHead -> pPrev;
+        ptemp = nullptr;
     }
     else
     {
-        struct sNode<Generic> *ptempdelete = NULL;
-        struct sNode<Generic> *ptemp = pHead;
+        struct sNode<Generic> *ptempdelete = nullptr;
 
-        for(iCnt = 1;iCnt < (iPosition - 2);iCnt++)
+        for(gCnt = 1;gCnt < (iPosition - 2);gCnt++)
         {
             ptemp = ptemp -> pNext;
         }
@@ -1162,12 +788,18 @@ void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::DeleteBefore(int iPosition)
         ptemp -> pNext = ptemp -> pNext -> pNext;
         ptempdelete -> pNext -> pPrev = ptemp;
 
-        cout<<"Node with data "<<ptempdelete -> gData<<" deleted from the doubly circular linked list"<<endl;
-
-        free(ptempdelete);
+        gCnt = ptempdelete -> gData;
+        delete ptempdelete;
+        ptempdelete = nullptr;
     }
 
+    pHead -> pPrev = pTail;
+    pTail -> pNext = pHead;
+
     iCountNode--;
+    iCountNode_Main--;
+
+    return gCnt;
 }
 
 
@@ -1177,63 +809,32 @@ void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::DeleteBefore(int iPosition)
 //Parameters:                                                                                     //
 //1. int : Position before which the new node is to be inserted .                                 //
 //================================================================================================//
-//Return: void                                                                                    //
+//Return: Generic                                                                                 //
 //================================================================================================//
 //Local variables:                                                                                //
 //1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
 //2. struct sNode<Generic> * : temporary pointer to delete the node .                             //
 //3. int : Counter variable .                                                                     //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. If the position is invalid, display a message that the position is invalid.                  //
-//3. If the position is the last, traverse till the second last node and delete the last node.    //
-//4. If the position is random, traverse till the node before the specified position and update   //
-//   the Next pointer of the previous node with the Next pointer of the node to be deleted and    //
-//   free the memory of the node to be deleted.                                                   //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
-void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::DeleteAfter(int iPosition)
+Generic DOUBLY_CIRCULAR_LINKEDLIST<Generic>::DeleteAfter(int iPosition)
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
-    {
-        cout<<"linkedlist are empty"<<endl;
-        return;
-    }
-
-    int iCnt = 0;
-
-    if((iPosition < 1) || (iPosition > (iCountNode - 1)))
-    {
-        for(iCnt = 0;iCnt <= 2;iCnt++)
-        {
-            cout<<"Invalid position"<<endl;
-            cout<<"Enter valid position : "<<endl;
-            cin>>iPosition;
-
-            if((iPosition >= 1) && (iPosition <= (iCountNode - 1)))
-            {
-                DeleteAfter(iPosition);
-                return;
-            }
-        }
-
-        cout<<"Wrong input entered 3 times , call function again ."<<endl;
-
-        return;
-    }
+    Generic gCnt = 0;
 
     if(iPosition == (iCountNode - 1))
     {
         pTail = pTail -> pPrev;
-        free(pTail -> pNext);
+        gCnt = pTail -> pNext -> gData;
+
+        delete pTail -> pNext;
+        pTail -> pNext = nullptr;
     }
     else
     {
-        struct sNode<Generic> *ptemp = pHead;
-        struct sNode<Generic> *ptempdelete = NULL;
+        struct sNode<Generic> * ptemp = pHead;
+        struct sNode<Generic> * ptempdelete = nullptr;
 
-        for(iCnt = 1;iCnt < (iPosition);iCnt++)
+        for(gCnt = 1;gCnt < (iPosition);gCnt++)
         {
             ptemp = ptemp -> pNext;
         }
@@ -1242,15 +843,18 @@ void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::DeleteAfter(int iPosition)
         ptemp -> pNext = ptemp -> pNext -> pNext;
         ptempdelete -> pNext -> pPrev = ptemp;
 
-        cout<<"Node with data "<<ptempdelete -> gData<<" deleted from the doubly circular linked list"<<endl;
-
-        free(ptempdelete);
+        gCnt = ptempdelete -> gData;
+        delete ptempdelete;
+        ptempdelete = nullptr;
     }
 
     pHead -> pPrev = pTail;
     pTail -> pNext = pHead;
 
     iCountNode--;
+    iCountNode_Main--;
+
+    return gCnt;
 }
 
 
@@ -1261,67 +865,50 @@ void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::DeleteAfter(int iPosition)
 //================================================================================================//
 //Return: void                                                                                    //
 //================================================================================================//
-//Local variables:                                                                                //
-//1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. If the linked list is not empty, traverse the linked list and free the memory of each node.  //
-//   Update the first pointer to NULL after freeing the memory of each node.                      //
-//3. Finally, free the memory of the first pointer.                                               //
-//4. Display a message that the linked list has been deleted.                                     //
+//Local variables: None                                                                           //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
 void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::DeleteList()
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
-    {
-        cout<<"linkedlist is already empty"<<endl;
-        return;
-    }
-
     while(iCountNode != 0)
     {
-        if((pHead != NULL) && (pHead != pTail))
+        if((pHead != nullptr) && (pHead != pTail))
         {
             pHead = pHead -> pNext;
 
-            cout<<"Node with data "<<pHead -> pPrev -> gData<<" deleted from doubly circular linked list"<<endl;
-
-            free(pHead -> pPrev);
-            pHead -> pPrev = NULL;
+            delete pHead -> pPrev;
+            pHead -> pPrev = nullptr;
 
             pHead -> pPrev = pTail;
             pTail -> pNext = pHead;
 
             iCountNode--;
+            iCountNode_Main--;
         }
 
         if((pHead == pTail) && (iCountNode == 1))
         {
-            cout<<"Node with data "<<pHead -> gData<<" deleted from doubly circular linked list"<<endl;
-
-            pTail = NULL;
-            free(pHead);
-            pHead = NULL;
+            delete pHead;
+            pTail = nullptr;
+            pHead = nullptr;
 
             iCountNode--;
-            cout<<"Doubly Circular linked list has been deleted"<<endl;
+            iCountNode_Main--;
+
             return;
         }
 
-        if((pTail != NULL) && (pHead != pTail))
+        if((pTail != nullptr) && (pHead != pTail))
         {
             pTail = pTail -> pPrev;
-            cout<<"Node with data "<<pTail -> pNext -> gData<<" deleted from doubly circular linked list"<<endl;
-
-            free(pTail -> pNext);
-            pTail -> pNext = NULL;
+            delete pTail -> pNext;
+            pTail -> pNext = nullptr;
 
             pHead -> pPrev = pTail;
             pTail -> pNext = pHead;
 
             iCountNode--;
+            iCountNode_Main--;
         }
     }
 }
@@ -1338,26 +925,13 @@ void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::DeleteList()
 //1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
 //2. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
 //3. int : temporary variable to store the data of the node .                                     //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. If the linked list is not empty, traverse the linked list and compare the data of each node  //
-//   with the data of the next node. If the data of the first node is greater than the data of    //
-//   the next node, swap the data of the two nodes. Repeat this process till the last node.       //
-//3. Finally, display a message that the linked list has been sorted in ascending order.          //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
 void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::SortAscending()
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
-    {
-        cout<<"linkedlist is empty"<<endl;
-        return;
-    }
-
-    Generic gtransfer = 0;
     struct sNode<Generic> *ptemp1 = pHead;
     struct sNode<Generic> *ptemp2 = pHead;
+    Generic gtransfer = 0;
 
     do
     {
@@ -1375,8 +949,6 @@ void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::SortAscending()
 
         ptemp1 = ptemp1 -> pNext;
     }while(ptemp1 != pHead);
-
-    cout<<"Doubly Circular Linked-List has been sorted as in ascending order"<<endl;
 }
 
 
@@ -1390,25 +962,12 @@ void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::SortAscending()
 //Local variables:                                                                                //
 //1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
 //2. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. If the linked list is not empty, traverse the linked list and compare the data of each node  //
-//   with the data of the next node. If the data of the first node is greater than the data of    //
-//   the next node, swap the data of the two nodes. Repeat this process till the last node.       //
-//3. Finally, display a message that the linked list has been sorted in ascending order.          //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
 void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::Reverse()
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
-    {
-        cout<<"linkedlist is empty"<<endl;
-        return;
-    }
-
     struct sNode<Generic> *pCurrent = pHead;
-    struct sNode<Generic> *ptemp = NULL;
+    struct sNode<Generic> *ptemp = nullptr;
 
     do
     {
@@ -1424,8 +983,6 @@ void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::Reverse()
 
     pTail = pHead -> pPrev;
     pHead = pTail -> pNext;
-
-    cout<<"Doubly Circular Linked-List's data has been reversed"<<endl;
 }
 
 
@@ -1439,26 +996,13 @@ void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::Reverse()
 //Local variables:                                                                                //
 //1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
 //2. int : integer to store counter variable .                                                    //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. Count the number of nodes in the linked list .                                               //
-//3. Traverse the linked list till the middle node and return the address of the middle node.     //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
-struct sNode<Generic> *DOUBLY_CIRCULAR_LINKEDLIST<Generic>::FindMiddleNode()
+struct sNode<Generic> * DOUBLY_CIRCULAR_LINKEDLIST<Generic>::FindMiddleNode() const
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
-    {
-        cout<<"linkedlist is empty"<<endl;
-        return 0;
-    }
-
     struct sNode<Generic> *ptemp = pHead;
 
-    int iCnt = 0;
-
-    for(iCnt = 1;iCnt < ((iCountNode + 1)/2);iCnt++)
+    for(int iCnt = 1;iCnt < ((iCountNode + 1)/2);iCnt++)
     {
         ptemp = ptemp -> pNext;
     }
@@ -1470,60 +1014,23 @@ struct sNode<Generic> *DOUBLY_CIRCULAR_LINKEDLIST<Generic>::FindMiddleNode()
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //FindKthNodeFromStart() Function: returns the kth node from start from doubly circular linkedlist//
 //================================================================================================//
-//Parameters: None                                                                                //
+//Parameters:                                                                                     //
+//1. int : integer to store kth position from start .                                             //
 //================================================================================================//
 //Return: struct sNode<Generic> *                                                                 //
 //================================================================================================//
 //Local variables:                                                                                //
 //1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
-//2. int : integer to store kth position from start .                                             //
-//3. int : integer to store counter variable .                                                    //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. If the kth position is invalid, display a message that the kth position is invalid.          //
-//3. Travel the linked list till the kth node from start and return the address of the kth node.  //
+//2. int : integer to store counter variable .                                                    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
-struct sNode<Generic> *DOUBLY_CIRCULAR_LINKEDLIST<Generic>::FindKthNodeFromStart()
+struct sNode<Generic> * DOUBLY_CIRCULAR_LINKEDLIST<Generic>::FindKthNodeFromStart(int iKth) const
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
-    {
-        cout<<"linkedlist is empty"<<endl;
-        return 0;
-    }
-
     struct sNode<Generic> *ptemp = pHead;
 
-    int iKth = 0;
-    cout<<"Enter the kth position from start : ";
-    cin>>iKth;
-    cout<<endl;
-    int iCnt = 0;
-
-    if((iKth < 1) || (iKth > iCountNode))
-    {
-        cout<<"Invalid position"<<endl;
-
-        cout<<"Wrong input, call function again ."<<endl;
-
-        return NULL;
-    }
-
-
-    for(iCnt = 1;iCnt < iKth;iCnt++)
+    for(int iCnt = 1;iCnt < iKth;iCnt++)
     {
         ptemp = ptemp -> pNext;
-    }
-
-    if(ptemp == NULL)
-    {
-        cout<<"Invalid position"<<endl;
-        return NULL;
-    }
-    else
-    {
-        cout<<"Data in "<<iKth<<" node from start is : "<<ptemp -> gData<<endl;
     }
 
     return ptemp;
@@ -1534,52 +1041,20 @@ struct sNode<Generic> *DOUBLY_CIRCULAR_LINKEDLIST<Generic>::FindKthNodeFromStart
 //FindKthNodeFromMiddle() Function: returns the kth node from middle from doubly circular linked  //
 // list .                                                                                         //
 //================================================================================================//
-//Parameters: None                                                                                //
+//Parameters:                                                                                     //
+//1. int : integer to store kth position from middle .                                            //
+//2. int : integer to store direction of kth position from start or end .                         //
 //================================================================================================//
 //Return: struct sNode<Generic> *                                                                 //
 //================================================================================================//
 //Local variables:                                                                                //
 //1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
-//2. int : integer to store kth position from start .                                             //
-//3. int : integer to store counter variable .                                                    //
-//4. int : integer to store direction of kth position from start or end .                         //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. If the kth position is invalid, display a message that the kth position is invalid.          //
-//3. If the kth position is random, traverse the linked list till the kth node from middle and    //
-//   return the address of the kth node.                                                          //
+//2. int : integer to store counter variable .                                                    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
-struct sNode<Generic> *DOUBLY_CIRCULAR_LINKEDLIST<Generic>::FindKthNodeFromMiddle()
+struct sNode<Generic> * DOUBLY_CIRCULAR_LINKEDLIST<Generic>::FindKthNodeFromMiddle(int iKth,int iDirection) const
 {
-    if((iCountNode == 0) && (pHead == NULL))
-    {
-        cout<<"linkedlist is empty"<<endl;
-        return 0;
-    }
-
     struct sNode<Generic> *ptemp = pHead;
-
-    int iKth = 0;
-    cout<<"Enter the kth position from middle : ";
-    cin>>iKth;
-    cout<<endl;
-    int iDirection = 0;
-    cout<<"Kth node from start or end ? >>Press 1 : FOR start [OR] >>Press 2 : FOR end ::: Your choice : ";
-    cin>>iDirection;
-    cout<<endl;
-    int iCnt = 0;
-
-
-    if((iKth < 1) || (iKth >= ((iCountNode + 1)/2)))
-    {
-        cout<<"Invalid position"<<endl;
-
-        cout<<"Wrong input, call function again ."<<endl;
-
-        return NULL;
-    }
 
     if(iDirection == 1)
     {
@@ -1590,26 +1065,9 @@ struct sNode<Generic> *DOUBLY_CIRCULAR_LINKEDLIST<Generic>::FindKthNodeFromMiddl
         iKth = ((iCountNode + 1)/2) + iKth;
     }
 
-    for(iCnt = 1;iCnt < iKth;iCnt++)
+    for(int iCnt = 1;iCnt < iKth;iCnt++)
     {
         ptemp = ptemp -> pNext;
-    }
-
-    if(ptemp == NULL)
-    {
-        cout<<"Invalid position"<<endl;
-        return NULL;
-    }
-    else
-    {
-        if(iDirection == 1)
-        {
-            cout<<"Data in "<<iKth<<" node from middle to start is : "<<ptemp -> gData<<endl;
-        }
-        else
-        {
-            cout<<"Data in "<<iKth<<" node from middle to end is : "<<ptemp -> gData<<endl;
-        }
     }
 
     return ptemp;
@@ -1619,62 +1077,23 @@ struct sNode<Generic> *DOUBLY_CIRCULAR_LINKEDLIST<Generic>::FindKthNodeFromMiddl
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //FindKthNodeFromEnd() Function: returns the kth node from end from doubly circular linkedlist .  //
 //================================================================================================//
-//Parameters: None                                                                                //
+//Parameters:                                                                                     //
+//1. int : integer to store kth position from end   .                                             //
 //================================================================================================//
 //Return: struct sNode<Generic> *                                                                 //
 //================================================================================================//
 //Local variables:                                                                                //
 //1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
-//2. int : integer to store kth position from start .                                             //
-//3. int : integer to store counter variable .                                                    //
-//================================================================================================//
-//Algorithm:                                                                                      //
-//1. If the linked list is empty, display a message that the linked list is empty.                //
-//2. If the kth position is invalid, display a message that the kth position is invalid.          //
-//3. If the kth position is random, traverse the linked list till the kth node from end and       //
-//   return the address of the kth node.                                                          //
+//2. int : integer to store counter variable .                                                    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
-struct sNode<Generic> *DOUBLY_CIRCULAR_LINKEDLIST<Generic>::FindKthNodeFromEnd()
+struct sNode<Generic> * DOUBLY_CIRCULAR_LINKEDLIST<Generic>::FindKthNodeFromEnd(int iKth) const
 {
-    if((iCountNode == 0) && (pHead == NULL) && (pTail == NULL))
-    {
-        cout<<"linkedlist is empty"<<endl;
-        return 0;
-    }
-
     struct sNode<Generic> *ptemp = pHead;
 
-    int iKth = 0;
-    cout<<"Enter the kth position from end : ";
-    cin>>iKth;
-    cout<<endl;
-    int iCnt = 0;
-
-    if((iKth < 1) || (iKth > iCountNode))
-    {
-        cout<<"Invalid position"<<endl;
-
-        cout<<"Wrong input, call function again ."<<endl;
-
-        return NULL;
-    }
-
-    int iIndex = iCountNode - iKth + 1;
-
-    for(iCnt = 1;iCnt < iIndex;iCnt++)
+    for(int iCnt = 1;iCnt < (iCountNode - iKth + 1);iCnt++)
     {
         ptemp = ptemp -> pNext;
-    }
-
-    if(ptemp == NULL)
-    {
-        cout<<"Invalid position"<<endl;
-        return NULL;
-    }
-    else
-    {
-        cout<<"Data in "<<iKth<<" node from end is : "<<ptemp -> gData<<endl;
     }
 
     return ptemp;
@@ -1691,14 +1110,6 @@ struct sNode<Generic> *DOUBLY_CIRCULAR_LINKEDLIST<Generic>::FindKthNodeFromEnd()
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //Manual() Function: A guide for the usage of doubly-circular-linked-list .                       //
-//================================================================================================//
-//Parameters: None                                                                                //
-//================================================================================================//
-//Return: void                                                                                    //
-//================================================================================================//
-//Local variables: None                                                                           //
-//================================================================================================//
-//Algorithm: None                                                                                 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
 void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::Manual()
@@ -1777,9 +1188,9 @@ void DOUBLY_CIRCULAR_LINKEDLIST<Generic>::Manual()
 
 int main()
 {
-    cout<<"Welcome to Rajas's Application of Generic-Doubly-Circular-LinkedList"<<endl<<endl;
+    cout<<"Welcome to Rajas's Application of Generic-Singly-Linear-LinkedList"<<endl<<endl;
 
-    char siChoiceMode[] = "0";
+    char siChoiceMode[] = {"\0"};
     char cChoiceFunction = '\0';
 
     int iEntryCount = 0;
@@ -1788,6 +1199,8 @@ int main()
     DOUBLY_CIRCULAR_LINKEDLIST <int>DoublyCircularLL_Integer;
     DOUBLY_CIRCULAR_LINKEDLIST <float>DoublyCircularLL_Float;
 
+    int iPosition1 = 0,iRet = 0;
+    bool bRet = false;
 
     while(1)
     {
@@ -1817,9 +1230,8 @@ int main()
 
             siChoiceMode[0] = '\0';
 
-            int iNo1 = 0,iNo2,iPosition1 = 0,iRet = 0;
-            bool bRet = false;
-            struct sNode<int> *pRet = NULL;
+            int iNo1 = 0,iNo2,iPosition1 = 0;
+            struct sNode<int> *pRet = nullptr;
 
             while(atoi(siChoiceMode) != 4)
             {
@@ -1834,12 +1246,10 @@ int main()
 
                 if(atoi(siChoiceMode) == 1)
                 {
-                    DoublyCircularLL_Integer.Manual();
+                    DoublyCircularLL_Integer.Manual();//Display the manual for the application
                 }
                 else if(atoi(siChoiceMode) == 2)
                 {
-                    siChoiceMode[0] = '\0';
-
                     cout<<"Active Mode : SIMPLE ACCESS"<<endl;
 
                     while(atoi(siChoiceMode) != 1)
@@ -1855,53 +1265,122 @@ int main()
                             case 'A':
                             case 'a':
                                 cout<<"Enter the data to be inserted in the linked list : ";
-                                cin>>iNo1;
-                                cout<<endl;
+                                while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
 
                                 DoublyCircularLL_Integer.InsertFirst(iNo1);
+                                cout<<"Node with data "<<iNo1<<" inserted at the beginning of the singly linear linked list"<<endl;
+
                                 break;
                             case 'B':
                             case 'b':
                                 cout<<"Enter the data to be inserted in the linked list : ";
-                                cin>>iNo1;
-                                cout<<endl;
+                                while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
 
                                 DoublyCircularLL_Integer.InsertLast(iNo1);
+                                cout<<"Node with data "<<iNo1<<" inserted at the end of the singly linear linked list"<<endl;
+
                                 break;
                             case 'C':
                             case 'c':
                                 cout<<"Enter the data to be inserted in the linked list : ";
-                                cin>>iNo1;
-                                cout<<endl;
+                                while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
 
                                 cout<<"Enter the position at which the data is to be inserted : ";
                                 cin>>iPosition1;
                                 cout<<endl;
+                                while((iPosition1 < 1) || (iPosition1 > (DoublyCircularLL_Integer.iCountNode_Main + 1)))
+                                {
+                                    cout<<"Enter the position between 1 <-> "<<(DoublyCircularLL_Integer.iCountNode_Main + 1)<<" : ";
+                                    while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
+                                }
 
                                 DoublyCircularLL_Integer.InsertAtPosition(iNo1,iPosition1);
+                                cout<<"Node with data "<<iNo1<<" inserted at position "<<iPosition1<<" in the singly linear linked list"<<endl;
 
                                 break;
                             case 'D':
                             case 'd':
-                                DoublyCircularLL_Integer.DeleteFirst();
+                                if(DoublyCircularLL_Integer.iCountNode_Main != 0)
+                                {
+                                    iRet = DoublyCircularLL_Integer.DeleteFirst();
+                                    cout<<"Node with data "<<iRet<<" deleted from the beginning of the singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'E':
                             case 'e':
-                                DoublyCircularLL_Integer.DeleteLast();
+                                if(DoublyCircularLL_Integer.iCountNode_Main != 0)
+                                {
+                                    iRet = DoublyCircularLL_Integer.DeleteLast();
+                                    cout<<"Node with data "<<iRet<<" deleted from the end of the singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'F':
                             case 'f':
-                                cout<<"Enter the position at which the data is to be deleted : ";
-                                cin>>iPosition1;
+                                if(DoublyCircularLL_Integer.iCountNode_Main != 0)
+                                {
+                                    cout<<"Enter the position from which the data is to be deleted : ";
+                                    cin>>iPosition1;
+                                    cout<<endl;
+                                    while((iPosition1 < 1) || (iPosition1 > DoublyCircularLL_Integer.iCountNode_Main))
+                                    {
+                                        cout<<"Enter the position between 1 <-> "<<DoublyCircularLL_Integer.iCountNode_Main<<" : ";
+                                        while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
 
-                                DoublyCircularLL_Integer.DeleteAtPosition(iPosition1);
+                                    iRet = DoublyCircularLL_Integer.DeleteAtPosition(iPosition1);
+                                    cout<<"Node with data "<<iRet<<" deleted from the position "<<iPosition1<<" from the singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'G':
                             case 'g':
-                                DoublyCircularLL_Integer.Display();
+                                if(DoublyCircularLL_Integer.iCountNode_Main != 0)
+                                {
+                                    DoublyCircularLL_Integer.Display();
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'H':
@@ -1917,8 +1396,8 @@ int main()
                                 break;
                             case 'Z':
                             case 'z':
-                                siChoiceMode[0] = '1';
                                 cout<<"Exiting SIMPLE ACCESS mode"<<endl;
+                                siChoiceMode[0] = '1';
 
                                 break;
                             default:
@@ -1928,9 +1407,7 @@ int main()
                 }
                 else if(atoi(siChoiceMode) == 3)
                 {
-                    siChoiceMode[0] = '\0';
-
-                    cout<<"Active Mode : ADDED ACCESS"<<endl;
+                    cout<<"Active Mode : ADDED FEATURES"<<endl;
 
                     while(atoi(siChoiceMode) != 1)
                     {
@@ -1949,7 +1426,14 @@ int main()
                                 break;
                             case 'G':
                             case 'g':
-                                DoublyCircularLL_Integer.Display();
+                                if(DoublyCircularLL_Integer.iCountNode_Main != 0)
+                                {
+                                    DoublyCircularLL_Integer.Display();
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'H':
@@ -1960,171 +1444,454 @@ int main()
                                 break;
                             case 'I':
                             case 'i':
-                                cout<<"Enter the value to be searched in the linked list : ";
-                                cin>>iNo1;
+                                if(DoublyCircularLL_Integer.iCountNode_Main != 0)
+                                {
+                                    cout<<"Enter the value to be searched in the linked list : ";
+                                    while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                bRet = DoublyCircularLL_Integer.Search(iNo1);
+                                    iRet = DoublyCircularLL_Integer.Search(iNo1);
+                                    if(iRet != -1)
+                                    {
+                                        cout<<"Element "<<iNo1<<" is found at position "<<iRet<<" in singly linear linked list"<<endl;
+                                    }
+                                    else
+                                    {
+                                        cout<<"Element "<<iNo1<<" wasn't found in singly linear linked list"<<endl;
+                                    }
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'J':
                             case 'j':
-                                DoublyCircularLL_Integer.Reverse();
+                                if(DoublyCircularLL_Integer.iCountNode_Main != 0)
+                                {
+                                    DoublyCircularLL_Integer.Reverse();
+                                    cout<<"!! Linked-List has been Reversed !!"<<endl;
+                                }
 
-                                break;
-                            case 'K':
-                            case 'k':
-                                DoublyCircularLL_Integer.Concat();
-
-                                break;
-                            case 'L':
-                            case 'l':
-                                //DoublyCircularLL.Merge(&pHead1,&pHead1);
+                                cout<<"Linked-List is empty"<<endl;
 
                                 break;
                             case 'M':
                             case 'm':
-                                DoublyCircularLL_Integer.SortAscending();
+                                if(DoublyCircularLL_Integer.iCountNode_Main != 0)
+                                {
+                                    DoublyCircularLL_Integer.SortAscending();
+                                    cout<<"Singly Linear Linked-List has been sorted in ascending order"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'N':
                             case 'n':
-                                cout<<"Enter the value to be updated in the linked list : ";
-                                cin>>iNo1;
-                                cout<<endl;
+                                if(DoublyCircularLL_Integer.iCountNode_Main != 0)
+                                {
+                                    cout<<"Enter the value to be updated in the linked list : ";
+                                    while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                cout<<"Enter the value to be updated with : ";
-                                cin>>iNo2;
+                                    cout<<"Enter the value to be updated with : ";
+                                    while((!(cin>>iNo2)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                DoublyCircularLL_Integer.UpdateNoForNo(iNo1,iNo2);
+                                    bRet = DoublyCircularLL_Integer.UpdateNoForNo(iNo1,iNo2);
+                                    if(bRet == true)
+                                    {
+                                        cout<<"Element "<<iNo1<<" has been updated to "<<iNo2<<" in singly linear linked list"<<endl;
+                                    }
+                                    else
+                                    {
+                                        cout<<"Element "<<iNo1<<" not found in singly linear linked list"<<endl;
+                                    }
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'O':
                             case 'o':
-                                cout<<"Enter the value to be updated at a specific position in the linked list : ";
-                                cin>>iNo1;
-                                cout<<endl;
+                                if(DoublyCircularLL_Integer.iCountNode_Main != 0)
+                                {
+                                    cout<<"Enter the value to be updated at a specific position in the linked list : ";
+                                    while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                cout<<"Enter the position at which the data is to be updated : ";
-                                cin>>iPosition1;
+                                    cout<<"Enter the position at which the data is to be updated : ";
+                                    while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                DoublyCircularLL_Integer.UpdateNoForPosition(iNo1,iPosition1);
+                                    while((iPosition1 < 1) || (iPosition1 > DoublyCircularLL_Integer.iCountNode_Main))
+                                    {
+                                        cout<<"Enter the position between 1 <-> "<<DoublyCircularLL_Integer.iCountNode_Main<<" : ";
+                                        while((!(cin>>iPosition1) || (cin.peek() != '\n')))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+                                    DoublyCircularLL_Integer.UpdateNoForPosition(iNo1,iPosition1);
+                                    cout<<"Element at position "<<iPosition1<<" has been updated to "<<iNo1<<" in singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'P':
                             case 'p':
-                                cout<<"Enter the data to be inserted in the linked list : ";
-                                cin>>iNo1;
-                                cout<<endl;
+                                if(DoublyCircularLL_Integer.iCountNode_Main > 0)
+                                {
+                                    cout<<"Enter the data to be inserted in the linked list : ";
+                                    while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                cout<<"Enter the position before which the data is to be inserted : ";
-                                cin>>iPosition1;
-                                cout<<endl;
+                                    cout<<"Enter the position before which the data is to be inserted : ";
+                                    while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                DoublyCircularLL_Integer.InsertBefore(iNo1,iPosition1);
+                                    while((iPosition1 < 1) || (iPosition1 > DoublyCircularLL_Integer.iCountNode_Main))
+                                    {
+                                        cout<<"Enter the position between 1 <-> "<<DoublyCircularLL_Integer.iCountNode_Main<<" : ";
+                                        while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+                                    DoublyCircularLL_Integer.InsertBefore(iNo1,iPosition1);
+                                    cout<<"Node with data "<<iNo1<<" inserted at the position "<<iPosition1<<" of the singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Not Enough Nodes!!"<<endl;
+                                }
 
                                 break;
                             case 'Q':
                             case 'q':
-                                cout<<"Enter the data to be inserted in the linked list : ";
-                                cin>>iNo1;
-                                cout<<endl;
+                                if(DoublyCircularLL_Integer.iCountNode_Main > 0)
+                                {
+                                    cout<<"Enter the data to be inserted in the linked list : ";
+                                    while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
+                                    cout<<"Enter the position before which the data is to be inserted : ";
+                                    while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
+                                    while((iPosition1 < 1) || (iPosition1 > DoublyCircularLL_Integer.iCountNode_Main))
+                                    {
+                                        cout<<"Enter the position between 1 <-> "<<DoublyCircularLL_Integer.iCountNode_Main<<" : ";
+                                        while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
 
-                                cout<<"Enter the position after which the data is to be inserted : ";
-                                cin>>iPosition1;
-                                cout<<endl;
-
-                                DoublyCircularLL_Integer.InsertAfter(iNo1,iPosition1);
+                                    DoublyCircularLL_Integer.InsertAfter(iNo1,iPosition1);
+                                    cout<<"Node with data "<<iNo1<<" inserted at the position "<<(iPosition1 + 1)<<" of the singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Not Enough Nodes!!"<<endl;
+                                }
 
                                 break;
                             case 'R':
                             case 'r':
-                                cout<<"Enter the position before which the data is to be deleted : ";
-                                cin>>iPosition1;
-                                cout<<endl;
+                                if(DoublyCircularLL_Integer.iCountNode_Main > 1)
+                                {
+                                    cout<<"Enter the position before which the data is to be deleted : ";
+                                    while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                DoublyCircularLL_Integer.DeleteBefore(iPosition1);
+                                    while((iPosition1 < 2) || (iPosition1 > DoublyCircularLL_Integer.iCountNode_Main))
+                                    {
+                                        cout<<"Enter the position between 2 <-> "<<DoublyCircularLL_Integer.iCountNode_Main<<" : ";
+                                        while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+                                    iRet = DoublyCircularLL_Integer.DeleteBefore(iPosition1);
+                                    cout<<"Node with data "<<iRet<<" deleted at the position "<<iPosition1<<" of the singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Not Enough Nodes!!"<<endl;
+                                }
 
                                 break;
                             case 'S':
                             case 's':
-                                cout<<"Enter the position after which the data is to be deleted : ";
-                                cin>>iPosition1;
-                                cout<<endl;
-        
-                                DoublyCircularLL_Integer.DeleteAfter(iPosition1);
+                                if(DoublyCircularLL_Integer.iCountNode_Main > 1)
+                                {
+                                    cout<<"Enter the position before which the data is to be deleted : ";
+                                    while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
+
+                                    while((iPosition1 < 1) || (iPosition1 > (DoublyCircularLL_Integer.iCountNode_Main - 1)))
+                                    {
+                                        cout<<"Enter the position between 2 <-> "<<(DoublyCircularLL_Integer.iCountNode_Main - 1)<<" : ";
+                                        while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+                                    iRet = DoublyCircularLL_Integer.DeleteAfter(iPosition1);
+                                    cout<<"Node with data "<<iRet<<" deleted at the position "<<iPosition1<<" of the singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Not Enough Nodes!!"<<endl;
+                                }
 
                                 break;
                             case 'T':
                             case 't':
-                                DoublyCircularLL_Integer.DeleteList();
-
-                                break;
-                            case 'U':
-                            case 'u':
-                                //DoublyCircularLL_Integer.RemoveDuplicates();
+                                if(DoublyCircularLL_Integer.iCountNode_Main != 0)
+                                {
+                                    DoublyCircularLL_Integer.DeleteList();
+                                    cout<<"Linked-List has been deleted ."<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'V':
                             case 'v':
-                                pRet = DoublyCircularLL_Integer.FindMiddleNode();
-
-                                if(pRet != NULL)
+                                if(DoublyCircularLL_Integer.iCountNode_Main != 0)
                                 {
-                                    cout<<"The data in middle node from the linked list is : "<<pRet -> gData<<endl;
+                                    pRet = DoublyCircularLL_Integer.FindMiddleNode();
+
+                                    if(pRet != nullptr)
+                                    {
+                                        cout<<"The data in middle node from the linked list is : "<<pRet -> gData<<endl;
+                                    }
+                                    else
+                                    {
+                                        cout<<"Invalid position"<<endl;
+                                    }
                                 }
                                 else
                                 {
-                                    cout<<"Invalid position"<<endl;
+                                    cout<<"!!Linked_List is empty!!"<<endl;
                                 }
-
-                                break;
-                            case 'W':
-                            case 'w':
-                                cout<<"Enter the first linked list : ";
-                                cin>>iNo1;
-                                cout<<endl;
-
-                                cout<<"Enter the second linked list : ";
-                                cin>>iNo2;
-
-                                //iReturn = pRet -> iDataFindDifference();
 
                                 break;
                             case 'X':
                             case 'x':
-                                pRet = DoublyCircularLL_Integer.FindKthNodeFromStart();
+                                if(DoublyCircularLL_Integer.iCountNode_Main != 0)
+                                {
+                                    cout<<"Enter the kth position from start : ";
+                                    while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
+
+                                    while((iNo1 < 1) || (iNo1 > DoublyCircularLL_Integer.iCountNode_Main))
+                                    {
+                                        cout<<"Enter offset between 1 <-> "<<DoublyCircularLL_Integer.iCountNode_Main<<" : "<<endl;
+                                        while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+                                    pRet = DoublyCircularLL_Integer.FindKthNodeFromStart(iNo1);
+                                    cout<<"Data in "<<iNo1<<" node from start is : "<<pRet -> gData<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'Y':
                             case 'y':
-                                pRet = DoublyCircularLL_Integer.FindKthNodeFromMiddle();
+                                if(DoublyCircularLL_Integer.iCountNode_Main != 0)
+                                {
+                                    cout<<"Enter the kth position from middle : ";
+                                    while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
+                                    while((iNo1 < 1) || (iNo1 > (DoublyCircularLL_Integer.iCountNode_Main/2)))
+                                    {
+                                        cout<<"Enter offset between 1 <-> "<<(DoublyCircularLL_Integer.iCountNode_Main/2)<<" : "<<endl;
+                                        while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+                                    cout<<"Kth node from start or end ? >>Press 1 : FOR start [OR] >>Press 2 : FOR end ::: Your choice : ";
+                                    while((!(cin>>iNo2)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
+                                    while((iNo2 < 0) || (iNo2 > 1))
+                                    {
+                                        cout<<"Enter 0 or 1 : "<<endl;
+                                        while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+
+                                    pRet = DoublyCircularLL_Integer.FindKthNodeFromMiddle(iNo1,iNo2);
+                                    if(iNo2 == 1)
+                                    {
+                                        cout<<"Data in "<<iNo1<<" node from middle to start is : "<<pRet -> gData<<endl;
+                                    }
+                                    else
+                                    {
+                                        cout<<"Data in "<<iNo1<<" node from middle to end is : "<<pRet -> gData<<endl;
+                                    }
+
+                                    break;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'Z':
                             case 'z':
-                                pRet = DoublyCircularLL_Integer.FindKthNodeFromEnd();
+                                if(DoublyCircularLL_Integer.iCountNode_Main != 0)
+                                {
+                                    cout<<"Enter the kth position from end : ";
+                                    while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
+
+                                    while((iNo1 < 1) || (iNo1 > DoublyCircularLL_Integer.iCountNode_Main))
+                                    {
+                                        cout<<"Enter offset between 1 <-> "<<DoublyCircularLL_Integer.iCountNode_Main<<" : "<<endl;
+                                        while((!(cin>>iNo1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+                                    pRet = DoublyCircularLL_Integer.FindKthNodeFromEnd(iNo1);
+                                    cout<<"Data in "<<iNo1<<" node from start is : "<<pRet -> gData<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'A':
                             case 'a':
-                                siChoiceMode[0] = '1';
                                 cout<<"Exiting ADDED FEATURES mode"<<endl;
+                                siChoiceMode[0] = '1';
 
                                 break;
                             default:
                                 cout<<"Invalid choice"<<endl;
                         }
                     }
+
+                    continue;
                 }
                 else if(atoi(siChoiceMode) == 4)
                 {
-                    cout<<"Exiting the Integer-Linkedlist"<<endl;
+                    cout<<"Exiting the RAJAS's SINGLY LINEAR LINKEDLIST application"<<endl;
                     break;
                 }
                 else
                 {
-                    cout<<"Invalid Choice"<<endl;
+                    cout<<"Invalid choice"<<endl;
+                    continue;
                 }
             }
         }
@@ -2147,9 +1914,7 @@ int main()
             siChoiceMode[0] = '\0';
 
             float fNo1 = 0,fNo2,fRet = 0;
-            int iPosition1 = 0;
-            bool bRet = false;
-            struct sNode<float> *pRet = NULL;
+            struct sNode<float> *pRet = nullptr;
 
             while(atoi(siChoiceMode) != 4)
             {
@@ -2164,12 +1929,10 @@ int main()
 
                 if(atoi(siChoiceMode) == 1)
                 {
-                    DoublyCircularLL_Float.Manual();
+                    DoublyCircularLL_Float.Manual();//Display the manual for the application
                 }
                 else if(atoi(siChoiceMode) == 2)
                 {
-                    siChoiceMode[0] = '\0';
-
                     cout<<"Active Mode : SIMPLE ACCESS"<<endl;
 
                     while(atoi(siChoiceMode) != 1)
@@ -2185,59 +1948,128 @@ int main()
                             case 'A':
                             case 'a':
                                 cout<<"Enter the data to be inserted in the linked list : ";
-                                cin>>fNo1;
-                                cout<<endl;
+                                while((!(cin>>fNo1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
 
                                 DoublyCircularLL_Float.InsertFirst(fNo1);
+                                cout<<"Node with data "<<fNo1<<" inserted at the beginning of the singly linear linked list"<<endl;
+
                                 break;
                             case 'B':
                             case 'b':
                                 cout<<"Enter the data to be inserted in the linked list : ";
-                                cin>>fNo1;
-                                cout<<endl;
+                                while((!(cin>>fNo1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
 
                                 DoublyCircularLL_Float.InsertLast(fNo1);
+                                cout<<"Node with data "<<fNo1<<" inserted at the end of the singly linear linked list"<<endl;
+
                                 break;
                             case 'C':
                             case 'c':
                                 cout<<"Enter the data to be inserted in the linked list : ";
-                                cin>>fNo1;
-                                cout<<endl;
+                                while((!(cin>>fNo1)) || (cin.peek() != '\n'))
+                                {
+                                    cout<<"Invalid input. Please enter a single integer : ";
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                }
 
                                 cout<<"Enter the position at which the data is to be inserted : ";
                                 cin>>iPosition1;
                                 cout<<endl;
+                                while((iPosition1 < 1) || (iPosition1 > (DoublyCircularLL_Float.iCountNode_Main + 1)))
+                                {
+                                    cout<<"Enter the position between 1 <-> "<<(DoublyCircularLL_Float.iCountNode_Main + 1)<<" : ";
+                                    while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
+                                }
 
                                 DoublyCircularLL_Float.InsertAtPosition(fNo1,iPosition1);
+                                cout<<"Node with data "<<fNo1<<" inserted at position "<<iPosition1<<" in the singly linear linked list"<<endl;
 
                                 break;
                             case 'D':
                             case 'd':
-                                DoublyCircularLL_Float.DeleteFirst();
+                                if(DoublyCircularLL_Float.iCountNode_Main != 0)
+                                {
+                                    fRet = DoublyCircularLL_Float.DeleteFirst();
+                                    cout<<"Node with data "<<fRet<<" deleted from the beginning of the singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'E':
                             case 'e':
-                                DoublyCircularLL_Float.DeleteLast();
+                                if(DoublyCircularLL_Float.iCountNode_Main != 0)
+                                {
+                                    fRet = DoublyCircularLL_Float.DeleteLast();
+                                    cout<<"Node with data "<<fRet<<" deleted from the end of the singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'F':
                             case 'f':
-                                cout<<"Enter the position at which the data is to be deleted : ";
-                                cin>>iPosition1;
+                                if(DoublyCircularLL_Float.iCountNode_Main != 0)
+                                {
+                                    cout<<"Enter the position from which the data is to be deleted : ";
+                                    cin>>iPosition1;
+                                    cout<<endl;
+                                    while((iPosition1 < 1) || (iPosition1 > DoublyCircularLL_Float.iCountNode_Main))
+                                    {
+                                        cout<<"Enter the position between 1 <-> "<<DoublyCircularLL_Float.iCountNode_Main<<" : ";
+                                        while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
 
-                                DoublyCircularLL_Float.DeleteAtPosition(iPosition1);
+                                    fRet = DoublyCircularLL_Float.DeleteAtPosition(iPosition1);
+                                    cout<<"Node with data "<<fRet<<" deleted from the position "<<iPosition1<<" from the singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'G':
                             case 'g':
-                                DoublyCircularLL_Float.Display();
+                                if(DoublyCircularLL_Float.iCountNode_Main != 0)
+                                {
+                                    DoublyCircularLL_Float.Display();
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'H':
                             case 'h':
-                                fRet = DoublyCircularLL_Float.Count();
-                                cout<<"Number of nodes in the linked list are : "<<fRet<<endl;
+                                iRet = DoublyCircularLL_Float.Count();
+                                cout<<"Number of nodes in the linked list are : "<<iRet<<endl;
 
                                 break;
                             case 'Y':
@@ -2247,8 +2079,8 @@ int main()
                                 break;
                             case 'Z':
                             case 'z':
-                                siChoiceMode[0] = '1';
                                 cout<<"Exiting SIMPLE ACCESS mode"<<endl;
+                                siChoiceMode[0] = '1';
 
                                 break;
                             default:
@@ -2258,9 +2090,7 @@ int main()
                 }
                 else if(atoi(siChoiceMode) == 3)
                 {
-                    siChoiceMode[0] = '\0';
-
-                    cout<<"Active Mode : ADDED ACCESS"<<endl;
+                    cout<<"Active Mode : ADDED FEATURES"<<endl;
 
                     while(atoi(siChoiceMode) != 1)
                     {
@@ -2279,187 +2109,476 @@ int main()
                                 break;
                             case 'G':
                             case 'g':
-                                DoublyCircularLL_Float.Display();
+                                if(DoublyCircularLL_Float.iCountNode_Main != 0)
+                                {
+                                    DoublyCircularLL_Float.Display();
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'H':
                             case 'h':
-                                fRet = DoublyCircularLL_Float.Count();
-                                cout<<"Number of nodes in the linked list are : "<<fRet<<endl;
+                                iRet = DoublyCircularLL_Float.Count();
+                                cout<<"Number of nodes in the linked list are : "<<iRet<<endl;
 
                                 break;
                             case 'I':
                             case 'i':
-                                cout<<"Enter the value to be searched in the linked list : ";
-                                cin>>fNo1;
+                                if(DoublyCircularLL_Float.iCountNode_Main != 0)
+                                {
+                                    cout<<"Enter the value to be searched in the linked list : ";
+                                    while((!(cin>>fNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                bRet = DoublyCircularLL_Float.Search(fNo1);
+                                    iRet = DoublyCircularLL_Float.Search(fNo1);
+                                    if(iRet != -1)
+                                    {
+                                        cout<<"Element "<<fNo1<<" is found at position "<<iRet<<" in singly linear linked list"<<endl;
+                                    }
+                                    else
+                                    {
+                                        cout<<"Element "<<fNo1<<" wasn't found in singly linear linked list"<<endl;
+                                    }
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'J':
                             case 'j':
-                                DoublyCircularLL_Float.Reverse();
+                                if(DoublyCircularLL_Float.iCountNode_Main != 0)
+                                {
+                                    DoublyCircularLL_Float.Reverse();
+                                    cout<<"!! Linked-List has been Reversed !!"<<endl;
+                                }
 
-                                break;
-                            case 'K':
-                            case 'k':
-                                DoublyCircularLL_Float.Concat();
-
-                                break;
-                            case 'L':
-                            case 'l':
-                                //DoublyCircularLL_Float.Merge(&pHead1,&pHead1);
+                                cout<<"Linked-List is empty"<<endl;
 
                                 break;
                             case 'M':
                             case 'm':
-                                DoublyCircularLL_Float.SortAscending();
+                                if(DoublyCircularLL_Float.iCountNode_Main != 0)
+                                {
+                                    DoublyCircularLL_Float.SortAscending();
+                                    cout<<"Singly Linear Linked-List has been sorted in ascending order"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'N':
                             case 'n':
-                                cout<<"Enter the value to be updated in the linked list : ";
-                                cin>>fNo1;
-                                cout<<endl;
+                                if(DoublyCircularLL_Float.iCountNode_Main != 0)
+                                {
+                                    cout<<"Enter the value to be updated in the linked list : ";
+                                    while((!(cin>>fNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                cout<<"Enter the value to be updated with : ";
-                                cin>>fNo2;
+                                    cout<<"Enter the value to be updated with : ";
+                                    while((!(cin>>fNo2)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                DoublyCircularLL_Float.UpdateNoForNo(fNo1,fNo2);
+                                    bRet = DoublyCircularLL_Float.UpdateNoForNo(fNo1,fNo2);
+                                    if(bRet == true)
+                                    {
+                                        cout<<"Element "<<fNo1<<" has been updated to "<<fNo2<<" in singly linear linked list"<<endl;
+                                    }
+                                    else
+                                    {
+                                        cout<<"Element "<<fNo1<<" not found in singly linear linked list"<<endl;
+                                    }
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'O':
                             case 'o':
-                                cout<<"Enter the value to be updated at a specific position in the linked list : ";
-                                cin>>fNo1;
-                                cout<<endl;
+                                if(DoublyCircularLL_Float.iCountNode_Main != 0)
+                                {
+                                    cout<<"Enter the value to be updated at a specific position in the linked list : ";
+                                    while((!(cin>>fNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                cout<<"Enter the position at which the data is to be updated : ";
-                                cin>>iPosition1;
+                                    cout<<"Enter the position at which the data is to be updated : ";
+                                    while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                DoublyCircularLL_Float.UpdateNoForPosition(fNo1,iPosition1);
+                                    while((iPosition1 < 1) || (iPosition1 > DoublyCircularLL_Float.iCountNode_Main))
+                                    {
+                                        cout<<"Enter the position between 1 <-> "<<DoublyCircularLL_Float.iCountNode_Main<<" : ";
+                                        while((!(cin>>iPosition1) || (cin.peek() != '\n')))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+                                    DoublyCircularLL_Float.UpdateNoForPosition(fNo1,iPosition1);
+                                    cout<<"Element at position "<<iPosition1<<" has been updated to "<<fNo1<<" in singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'P':
                             case 'p':
-                                cout<<"Enter the data to be inserted in the linked list : ";
-                                cin>>fNo1;
-                                cout<<endl;
+                                if(DoublyCircularLL_Float.iCountNode_Main > 0)
+                                {
+                                    cout<<"Enter the data to be inserted in the linked list : ";
+                                    while((!(cin>>fNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                cout<<"Enter the position before which the data is to be inserted : ";
-                                cin>>iPosition1;
-                                cout<<endl;
+                                    cout<<"Enter the position before which the data is to be inserted : ";
+                                    while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                DoublyCircularLL_Float.InsertBefore(fNo1,iPosition1);
+                                    while((iPosition1 < 1) || (iPosition1 > DoublyCircularLL_Float.iCountNode_Main))
+                                    {
+                                        cout<<"Enter the position between 1 <-> "<<DoublyCircularLL_Float.iCountNode_Main<<" : ";
+                                        while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+                                    DoublyCircularLL_Float.InsertBefore(fNo1,iPosition1);
+                                    cout<<"Node with data "<<fNo1<<" inserted at the position "<<iPosition1<<" of the singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Not Enough Nodes!!"<<endl;
+                                }
 
                                 break;
                             case 'Q':
                             case 'q':
-                                cout<<"Enter the data to be inserted in the linked list : ";
-                                cin>>fNo1;
-                                cout<<endl;
+                                if(DoublyCircularLL_Float.iCountNode_Main > 0)
+                                {
+                                    cout<<"Enter the data to be inserted in the linked list : ";
+                                    while((!(cin>>fNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
+                                    cout<<"Enter the position before which the data is to be inserted : ";
+                                    while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
+                                    while((iPosition1 < 1) || (iPosition1 > DoublyCircularLL_Float.iCountNode_Main))
+                                    {
+                                        cout<<"Enter the position between 1 <-> "<<DoublyCircularLL_Float.iCountNode_Main<<" : ";
+                                        while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
 
-                                cout<<"Enter the position after which the data is to be inserted : ";
-                                cin>>iPosition1;
-                                cout<<endl;
-
-                                DoublyCircularLL_Float.InsertAfter(fNo1,iPosition1);
+                                    DoublyCircularLL_Float.InsertAfter(fNo1,iPosition1);
+                                    cout<<"Node with data "<<fNo1<<" inserted at the position "<<(iPosition1 + 1)<<" of the singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Not Enough Nodes!!"<<endl;
+                                }
 
                                 break;
                             case 'R':
                             case 'r':
-                                cout<<"Enter the position before which the data is to be deleted : ";
-                                cin>>iPosition1;
-                                cout<<endl;
+                                if(DoublyCircularLL_Float.iCountNode_Main > 1)
+                                {
+                                    cout<<"Enter the position before which the data is to be deleted : ";
+                                    while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
 
-                                DoublyCircularLL_Float.DeleteBefore(iPosition1);
+                                    while((iPosition1 < 2) || (iPosition1 > DoublyCircularLL_Float.iCountNode_Main))
+                                    {
+                                        cout<<"Enter the position between 2 <-> "<<DoublyCircularLL_Float.iCountNode_Main<<" : ";
+                                        while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+                                    fRet = DoublyCircularLL_Float.DeleteBefore(iPosition1);
+                                    cout<<"Node with data "<<fRet<<" deleted at the position "<<iPosition1<<" of the singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Not Enough Nodes!!"<<endl;
+                                }
 
                                 break;
                             case 'S':
                             case 's':
-                                cout<<"Enter the position after which the data is to be deleted : ";
-                                cin>>iPosition1;
-                                cout<<endl;
-        
-                                DoublyCircularLL_Float.DeleteAfter(iPosition1);
+                                if(DoublyCircularLL_Float.iCountNode_Main > 1)
+                                {
+                                    cout<<"Enter the position before which the data is to be deleted : ";
+                                    while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
+
+                                    while((iPosition1 < 1) || (iPosition1 > (DoublyCircularLL_Float.iCountNode_Main - 1)))
+                                    {
+                                        cout<<"Enter the position between 2 <-> "<<(DoublyCircularLL_Float.iCountNode_Main - 1)<<" : ";
+                                        while((!(cin>>iPosition1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+                                    fRet = DoublyCircularLL_Float.DeleteAfter(iPosition1);
+                                    cout<<"Node with data "<<fRet<<" deleted at the position "<<iPosition1<<" of the singly linear linked list"<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Not Enough Nodes!!"<<endl;
+                                }
 
                                 break;
                             case 'T':
                             case 't':
-                                DoublyCircularLL_Float.DeleteList();
-
-                                break;
-                            case 'U':
-                            case 'u':
-                                //DoublyCircularLL_Float.RemoveDuplicates();
+                                if(DoublyCircularLL_Float.iCountNode_Main != 0)
+                                {
+                                    DoublyCircularLL_Float.DeleteList();
+                                    cout<<"Linked-List has been deleted ."<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'V':
                             case 'v':
-                                pRet = DoublyCircularLL_Float.FindMiddleNode();
-
-                                if(pRet != NULL)
+                                if(DoublyCircularLL_Float.iCountNode_Main != 0)
                                 {
-                                    cout<<"The data in middle node from the linked list is : "<<pRet -> gData<<endl;
+                                    pRet = DoublyCircularLL_Float.FindMiddleNode();
+
+                                    if(pRet != nullptr)
+                                    {
+                                        cout<<"The data in middle node from the linked list is : "<<pRet -> gData<<endl;
+                                    }
+                                    else
+                                    {
+                                        cout<<"Invalid position"<<endl;
+                                    }
                                 }
                                 else
                                 {
-                                    cout<<"Invalid position"<<endl;
+                                    cout<<"!!Linked_List is empty!!"<<endl;
                                 }
-
-                                break;
-                            case 'W':
-                            case 'w':
-                                cout<<"Enter the first linked list : ";
-                                cin>>fNo1;
-                                cout<<endl;
-
-                                cout<<"Enter the second linked list : ";
-                                cin>>fNo2;
-
-                                //iReturn = pRet -> iDataFindDifference();
 
                                 break;
                             case 'X':
                             case 'x':
-                                pRet = DoublyCircularLL_Float.FindKthNodeFromStart();
+                                if(DoublyCircularLL_Float.iCountNode_Main != 0)
+                                {
+                                    cout<<"Enter the kth position from start : ";
+                                    while((!(cin>>fNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
+
+                                    while((fNo1 < 1) || (fNo1 > DoublyCircularLL_Float.iCountNode_Main))
+                                    {
+                                        cout<<"Enter offset between 1 <-> "<<DoublyCircularLL_Float.iCountNode_Main<<" : "<<endl;
+                                        while((!(cin>>fNo1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+                                    pRet = DoublyCircularLL_Float.FindKthNodeFromStart(fNo1);
+                                    cout<<"Data in "<<fNo1<<" node from start is : "<<pRet -> gData<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'Y':
                             case 'y':
-                                pRet = DoublyCircularLL_Float.FindKthNodeFromMiddle();
+                                if(DoublyCircularLL_Float.iCountNode_Main != 0)
+                                {
+                                    cout<<"Enter the kth position from middle : ";
+                                    while((!(cin>>fNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
+                                    while((fNo1 < 1) || (fNo1 > (DoublyCircularLL_Float.iCountNode_Main/2)))
+                                    {
+                                        cout<<"Enter offset between 1 <-> "<<(DoublyCircularLL_Float.iCountNode_Main/2)<<" : "<<endl;
+                                        while((!(cin>>fNo1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+                                    cout<<"Kth node from start or end ? >>Press 1 : FOR start [OR] >>Press 0 : FOR end ::: Your choice : ";
+                                    while((!(cin>>fNo2)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
+                                    while((fNo2 < 0) || (fNo2 > 1))
+                                    {
+                                        cout<<"Enter 0 or 1 : "<<endl;
+                                        while((!(cin>>fNo2)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+
+                                    pRet = DoublyCircularLL_Float.FindKthNodeFromMiddle(fNo1,fNo2);
+                                    if(fNo2 == 1)
+                                    {
+                                        cout<<"Data in "<<fNo1<<" node from middle to start is : "<<pRet -> gData<<endl;
+                                    }
+                                    else
+                                    {
+                                        cout<<"Data in "<<fNo1<<" node from middle to end is : "<<pRet -> gData<<endl;
+                                    }
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'Z':
                             case 'z':
-                                pRet = DoublyCircularLL_Float.FindKthNodeFromEnd();
+                                if(DoublyCircularLL_Float.iCountNode_Main != 0)
+                                {
+                                    cout<<"Enter the kth position from end : ";
+                                    while((!(cin>>fNo1)) || (cin.peek() != '\n'))
+                                    {
+                                        cout<<"Invalid input. Please enter a single integer : ";
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                    }
+
+                                    while((fNo1 < 1) || (fNo1 > DoublyCircularLL_Float.iCountNode_Main))
+                                    {
+                                        cout<<"Enter offset between 1 <-> "<<DoublyCircularLL_Float.iCountNode_Main<<" : "<<endl;
+                                        while((!(cin>>fNo1)) || (cin.peek() != '\n'))
+                                        {
+                                            cout<<"Invalid input. Please enter a single integer : ";
+                                            cin.clear();
+                                            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                                        }
+                                    }
+
+                                    pRet = DoublyCircularLL_Float.FindKthNodeFromEnd(fNo1);
+                                    cout<<"Data in "<<fNo1<<" node from start is : "<<pRet -> gData<<endl;
+                                }
+                                else
+                                {
+                                    cout<<"!!Linked-List is empty!!"<<endl;
+                                }
 
                                 break;
                             case 'A':
                             case 'a':
-                                siChoiceMode[0] = '1';
                                 cout<<"Exiting ADDED FEATURES mode"<<endl;
+                                siChoiceMode[0] = '1';
 
                                 break;
                             default:
                                 cout<<"Invalid choice"<<endl;
                         }
                     }
+
+                    continue;
                 }
                 else if(atoi(siChoiceMode) == 4)
                 {
-                    cout<<"Exiting the Decimal-Linkedlist"<<endl;
+                    cout<<"Exiting the RAJAS's SINGLY LINEAR LINKEDLIST application"<<endl;
+                    break;
                 }
                 else
                 {
-                    cout<<"Invalid Choice"<<endl;
+                    cout<<"Invalid choice"<<endl;
+                    continue;
                 }
             }
         }
         else if(atoi(siChoiceMode) == 3)
         {
-            cout<<"GoodBye's from the Rajas's Application of Generic-Doubly-Circular-LinkedList"<<endl<<endl;
+            cout<<"GoodBye's from the Rajas's Application of Generic-Singly-Linear-LinkedList"<<endl<<endl;
             break;
         }
         else
