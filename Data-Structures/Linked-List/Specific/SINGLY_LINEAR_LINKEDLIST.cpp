@@ -945,7 +945,7 @@ PsNODE SINGLY_LINEAR_LINKEDLIST::FindKthNodeFromStart(int iKth) const
 // list .                                                                                         //
 //================================================================================================//
 //Parameters:                                                                                     //
-//1. int : variable as offset from start of list to find .                                        //
+//1. int : variable as offset from middle of list to find .                                       //
 //2. int : variable to store direction from middle .                                              //
 //================================================================================================//
 //Return: PsNODE                                                                                  //
@@ -980,7 +980,7 @@ PsNODE SINGLY_LINEAR_LINKEDLIST::FindKthNodeFromMiddle(int iKth,int iDirection) 
 //FindKthNodeFromEnd() Function: returns the kth node from end from singly linear linkedlist .    //
 //================================================================================================//
 //Parameters:                                                                                     //
-//1. int : variable as offset from start of list to find .                                        //
+//1. int : variable as offset from end of list to find .                                          //
 //================================================================================================//
 //Return: PsNODE                                                                                  //
 //================================================================================================//
