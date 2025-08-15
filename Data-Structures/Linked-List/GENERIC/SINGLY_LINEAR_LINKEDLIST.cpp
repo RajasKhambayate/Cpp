@@ -869,7 +869,7 @@ void SINGLY_LINEAR_LINKEDLIST<Generic>::DeleteList()
 //Local variables:                                                                                //
 //1. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
 //2. struct sNode<Generic> * : temporary pointer to traverse the linked list .                    //
-//3. int : temporary variable to store the data of the node .                                     //
+//3. Generic : temporary variable to store the data of the node .                                 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 template<class Generic>
 void SINGLY_LINEAR_LINKEDLIST<Generic>::SortAscending()
@@ -978,7 +978,7 @@ struct sNode<Generic> * SINGLY_LINEAR_LINKEDLIST<Generic>::FindKthNodeFromStart(
 // list .                                                                                         //
 //================================================================================================//
 //Parameters:                                                                                     //
-//1. int : integer to store kth position from start .                                             //
+//1. int : integer to store kth position from middle .                                            //
 //2. int : integer to store direction of kth position from start or end .                         //
 //================================================================================================//
 //Return: struct sNode<Generic> *                                                                 //
@@ -1014,7 +1014,7 @@ struct sNode<Generic> * SINGLY_LINEAR_LINKEDLIST<Generic>::FindKthNodeFromMiddle
 //FindKthNodeFromEnd() Function: returns the kth node from end from singly linear linkedlist .    //
 //================================================================================================//
 //Parameters:                                                                                     //
-//1. int : variable as offset from start of list to find .                                        //
+//1. int : variable as offset from end of list to find .                                          //
 //================================================================================================//
 //Return: PsNODE                                                                                  //
 //================================================================================================//
