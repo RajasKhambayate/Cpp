@@ -967,7 +967,7 @@ PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindKthNodeFromStart(int iKth) const
 // list .                                                                                         //
 //================================================================================================//
 //Parameters:                                                                                     //
-//1. int : integer to store kth position from start .                                             //
+//1. int : integer to store kth position from middle .                                            //
 //2. int : integer to store direction of kth position from start or end .                         //
 //================================================================================================//
 //Return: PsNODE                                                                                  //
@@ -1002,7 +1002,7 @@ PsNODE SINGLY_CIRCULAR_LINKEDLIST::FindKthNodeFromMiddle(int iKth,int iDirection
 //FindKthNodeFromEnd() Function: returns the kth node from end from singly linear linkedlist .    //
 //================================================================================================//
 //Parameters:                                                                                     //
-//1. int : integer to store kth position from start .                                             //
+//1. int : integer to store kth position from end .                                               //
 //================================================================================================//
 //Return: PsNODE                                                                                  //
 //================================================================================================//
