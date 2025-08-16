@@ -356,8 +356,6 @@ int SINGLY_CIRCULAR_LINKEDLIST::DeleteFirst()
 
         delete pHead;
         pHead = nullptr;
-
-        delete pTail;
         pTail = nullptr;
     }
     else//If linkedlist contains atleast one node
@@ -396,8 +394,6 @@ int SINGLY_CIRCULAR_LINKEDLIST::DeleteLast()
 
         delete pHead;
         pHead = nullptr;
-
-        delete pTail;
         pTail = nullptr;
     }
     else//If linkedlist contains atleast two node
@@ -824,21 +820,22 @@ int SINGLY_CIRCULAR_LINKEDLIST::DeleteAfter(int iPosition)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void SINGLY_CIRCULAR_LINKEDLIST::DeleteList()
 {
-    PsNODE ptempdelete = pHead;
-
-    while(pHead != nullptr)
+    do
     {
-        ptempdelete = pHead;
         pHead = pHead -> pNext;
-
-        delete ptempdelete;
-        ptempdelete = nullptr;
+        delete pTail -> pNext;
+        pTail -> pNext = pHead;
 
         iCountNode--;
         iCountNode_Main--;
-    }
+    }while(pHead != pTail);
 
+    delete pHead;
+    pHead = nullptr;
     pTail = nullptr;
+
+    iCountNode--;
+    iCountNode_Main--;
 }
 
 
