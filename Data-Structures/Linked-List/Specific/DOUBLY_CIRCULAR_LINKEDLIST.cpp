@@ -377,6 +377,7 @@ int DOUBLY_CIRCULAR_LINKEDLIST::DeleteFirst()
     if((iCountNode == 1) && (pHead == pTail))//If linkedlist contains one node
     {
         iDeleted = pHead -> iData;
+
         delete pHead;
         pHead = nullptr;;
         pTail = nullptr;
@@ -414,6 +415,7 @@ int DOUBLY_CIRCULAR_LINKEDLIST::DeleteLast()
     if((iCountNode == 1) && (pHead == pTail))//If linkedlist contains one node
     {
         iDeleted = pHead -> iData;
+
         delete pHead;
         pHead = nullptr;
         pTail = nullptr;
