@@ -693,7 +693,7 @@ void DOUBLY_LINEAR_LINKEDLIST::InsertAfter(int iNo,int iPosition)
     {
         //InsertLast(pHead,iNo); ---> Can be used
 
-        while(ptemp ->pNext != nullptr)
+        while(ptemp -> pNext != nullptr)
         {
             ptemp = ptemp ->pNext;
         }
