@@ -835,21 +835,22 @@ Generic SINGLY_CIRCULAR_LINKEDLIST<Generic>::DeleteAfter(int iPosition)
 template<class Generic>
 void SINGLY_CIRCULAR_LINKEDLIST<Generic>::DeleteList()
 {
-    struct sNode<Generic>  *ptempdelete = pHead;
-
-    while(pHead != nullptr)
+    do
     {
-        ptempdelete = pHead;
         pHead = pHead -> pNext;
-
-        delete ptempdelete;
-        ptempdelete = nullptr;
+        delete pTail -> pNext;
+        pTail -> pNext = pHead;
 
         iCountNode--;
         iCountNode_Main--;
-    }
+    }while(pHead != pTail);
 
+    delete pHead;
+    pHead = nullptr;
     pTail = nullptr;
+
+    iCountNode--;
+    iCountNode_Main--;
 }
 
 
