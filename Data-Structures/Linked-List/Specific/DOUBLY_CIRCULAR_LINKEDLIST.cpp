@@ -1744,7 +1744,7 @@ int main()
                                     }
                                 }
 
-                                cout<<"Kth node from start or end ? >>Press 1 : FOR start [OR] >>Press 2 : FOR end ::: Your choice : ";
+                                cout<<"Kth node from start or end ? >>Press 1: FOR start [OR] >>Press 0 : FOR end ::: Your choice : ";
                                 while((!(cin>>iNo2)) || (cin.peek() != '\n'))
                                 {
                                     cout<<"Invalid input. Please enter a single integer : ";
